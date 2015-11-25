@@ -1,0 +1,37 @@
+{
+    "variables": {
+        "tag": "{{ env `PACKER_RELEASE_TAG` }}",
+        "packer_user": "{{ env `LOGNAME` }}"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "...",
+            "secret_key": "...",
+            "region": "us-east-1",
+            "source_ami": "ami-de0d9eb7",
+            "instance_type": "t1.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "Anatma Knight (Go) {{timestamp}}",
+            "enhanced_networking": "true",
+            "ami_name": "anatma_knight_go_ubuntu-14.04",
+            "tags": {
+                "OS_Version": "Ubuntu Trusty",
+                "Release": "{{ user `tag` }}"
+            }
+        },
+        {
+
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "ulimits.sh",
+                "networking.sh",
+                "golang.sh",
+            ]
+        }
+    ]
+}
