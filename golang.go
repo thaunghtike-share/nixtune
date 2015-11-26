@@ -1,28 +1,40 @@
+/*
+ * Anatma Knight - Kernel Autotuning
+ *
+ * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package main
 
-func golangConfig(k *KnightAgent) (sc *SystemConfig) {
-	sc = &SystemConfig{
-		Sysctl: make(map[string]string),
-		Env:    make(map[string]string),
-		Files:  make(map[string]FileChange),
-	}
+type GolangConfig struct{}
+
+func NewGolangConfig() *GolangConfig {
+	return &GolangConfig{}
+}
+
+func (c *GolangConfig) GetEnv() map[string]string {
+	env := make(map[string]string)
 
 	// Set the value of GOGC to be really high.
 
 	// TODO: Consider how this is being used as part of a bigger
 	// setting. Based on RAM etc.
-	sc.Env["GOGC"] = "2000"
 
-	golangNetworkSysctl(sc.Sysctl)
+	env["GOGC"] = "2000"
 
-	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
-	sc.Sysctl["fs.file-max"] = "2097152"
-	sc.Files["/etc/security/limits.d/00_anatma_knight_limits.conf"] = FileChange{
-		Content: "* - nofile unlimited",
-		Append:  true,
-	}
-
-	return
+	return env
 }
 
 // Many of these settings were from the following places:
@@ -33,7 +45,10 @@ func golangConfig(k *KnightAgent) (sc *SystemConfig) {
 // can adapt as the system is being used. We don't have to set them to
 // the values but we can migrate and change as we learn more about the
 // system and tune it appropriately.
-func golangNetworkSysctl(sysctl map[string]string) {
+
+func (c *GolangConfig) GetSysctl() map[string]string {
+	sysctl := make(map[string]string)
+
 	// tcp_fin_timeout - INTEGER
 	//         Time to hold socket in state FIN-WAIT-2, if it was closed
 	//         by our side. Peer can be broken and never close its side,
@@ -75,4 +90,21 @@ func golangNetworkSysctl(sysctl map[string]string) {
 	// Amount of memory to keep free. Don't want to make this too high as
 	// Linux will spend more time trying to reclaim memory.
 	sysctl["vm.min_free_kbytes"] = "65536"
+
+	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
+	sysctl["fs.file-max"] = "2097152"
+
+	return sysctl
+}
+
+func (c *GolangConfig) GetFiles() map[string]FileChange {
+	files := make(map[string]FileChange)
+
+	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
+	files["/etc/security/limits.d/00_anatma_knight_limits.conf"] = FileChange{
+		Content: "* - nofile unlimited",
+		Append:  true,
+	}
+
+	return files
 }
