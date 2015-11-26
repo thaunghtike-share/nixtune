@@ -5,3 +5,4 @@ package main
 // guessServerProfile()
 // numberOfLogins()
 // mainProcess()
+// getNetworkSettings()
