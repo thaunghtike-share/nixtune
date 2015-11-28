@@ -18,51 +18,19 @@
  */
 package main
 
-import (
-	"time"
-)
-
-type ServerType int
-
-const (
-	GolangServer ServerType = iota
-	NodejsServer
-	ApacheServer
-	NginxServer
-	JavaServer
-)
-
-func getServerType() ServerType {
-	ss := &ServerSignature{}
-
-	return ss.GuessServerType()
-}
-
-const (
-	Low = iota
-	Medium
-	High
-)
-
-type ServerSignature struct {
-	NetworkSample int
-	IOType        int
-
-	Started  time.Time
-	Finished time.Time
-}
-
-func (s *ServerSignature) GuessServerType() ServerType {
-	return GolangServer
-}
-
 /*
 
- The best way to figure ot what processes are there is a way to look
- for certain process names.
+Network Access ALgorithm for Anatma Knight
 
- - Also can look at the file itself to see how it is constructed.
- - Can usually tell based on interpreter
- - Have to learn to guess executables.
+To be able to do a profile on network throughput we need to first take
+a metric of teh connection.
 
+ - Need to look at network connections over a period of time.
+ - See if the connections are to the same pid of different ones.
+ - See how many timeouts there are.
+ - Look at how many connections there are that are open and how tey are operating.
+ - See if there is an increase see the throughput as it grows over time.
+ - Need to profile the machine over time. Over a long period of time.
 */
+
+// getNetworkSettings()

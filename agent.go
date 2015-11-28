@@ -30,6 +30,7 @@ func NewKnightAgent() *KnightAgent {
 }
 
 func (k *KnightAgent) ParseArgs(args []string) {
+	// role
 	// profile-hints
 	// service-name
 	// fake run
