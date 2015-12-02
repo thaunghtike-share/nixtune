@@ -19,17 +19,29 @@
 package main
 
 import (
+	"flag"
+	"os"
 	"time"
+
+	sig "github.com/anatma/knight/signatures"
 )
 
-type KnightAgent struct{}
-
-func NewKnightAgent() *KnightAgent {
-
-	return &KnightAgent{}
+type Agent struct {
+	Role string
 }
 
-func (k *KnightAgent) ParseArgs(args []string) {
+func NewAgent() *Agent {
+	return &Agent{}
+}
+
+func (k *Agent) ParseArgs(args []string) {
+	flags := flag.NewFlagSet(nameSubcmd("agent"), flag.ContinueOnError)
+	flags.StringVar(&k.Role, "role", "", "The role of the server.")
+
+	if err := flags.Parse(args); err != nil {
+		os.Exit(-1)
+	}
+
 	// role
 	// profile-hints
 	// service-name
@@ -38,19 +50,31 @@ func (k *KnightAgent) ParseArgs(args []string) {
 	// interval time between runs. Default is 1 hour.
 }
 
-func (k *KnightAgent) Run() {
+func (k *Agent) Run() {
 	var (
-		sc     *SystemConfig
-		config SystemConfiger
+		sc           *SystemConfig
+		configs      []sig.SystemConfiger
+		networkLevel sig.NetworkLevel
 	)
 
 	for {
-		switch getServerType() {
+		switch serverSignature() {
 		case GolangServer:
-			config = NewGolangConfig()
+			networkLevel = sig.HighNetworkLevel
+			configs = append(configs, sig.NewGolangConfig())
+		case NodejsServer:
+			networkLevel = sig.HighNetworkLevel
+			configs = append(configs, sig.NewGolangConfig())
+		case NginxServer:
+			networkLevel = sig.HighNetworkLevel
+			configs = append(configs, sig.NewGolangConfig())
+		case ApacheServer:
+
 		}
 
-		sc.Update(config)
+		configs = append(configs, sig.NewNetworkConfig(networkLevel))
+
+		sc.Update(configs)
 
 		time.Sleep(1000)
 	}

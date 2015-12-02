@@ -32,7 +32,7 @@ const (
 	JavaServer
 )
 
-func getServerType() ServerType {
+func serverSignature() ServerType {
 	ss := &ServerSignature{}
 
 	return ss.GuessServerType()

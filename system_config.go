@@ -24,18 +24,9 @@ package main
 
 import (
 	"fmt"
+
+	sig "github.com/anatma/knight/signatures"
 )
-
-type SystemConfiger interface {
-	GetEnv() map[string]string
-	GetSysctl() map[string]string
-	GetFiles() map[string]FileChange
-}
-
-type FileChange struct {
-	Content string
-	Append  bool
-}
 
 type SystemConfig struct{}
 
@@ -43,7 +34,7 @@ const (
 	EnvFileName = "/etc/profile.d/99_anatma_knight.sh"
 )
 
-func (sc *SystemConfig) updateEnv(config SystemConfiger) {
+func (sc *SystemConfig) updateEnv(config sig.SystemConfiger) {
 	var (
 		fileContent string
 	)
@@ -61,7 +52,7 @@ func (sc *SystemConfig) updateEnv(config SystemConfiger) {
 // TODO: Need to save the server state. Need
 // to be able to update server state if config
 // is bad.
-func (sc *SystemConfig) updateSysctl(config SystemConfiger) {
+func (sc *SystemConfig) updateSysctl(config sig.SystemConfiger) {
 	for k, v := range config.GetSysctl() {
 		sysVal := fmt.Sprintf("%s='%v'", k, v)
 		logMe("INFO", sysVal)
@@ -71,14 +62,16 @@ func (sc *SystemConfig) updateSysctl(config SystemConfiger) {
 }
 
 // TODO
-func (sc *SystemConfig) updateFiles(config SystemConfiger) {
+func (sc *SystemConfig) updateFiles(config sig.SystemConfiger) {
 	// for k, v := range sc.config.GetFiles() {
 
 	// }
 }
 
-func (sc *SystemConfig) Update(config SystemConfiger) {
-	sc.updateEnv(config)
-	sc.updateSysctl(config)
-	sc.updateFiles(config)
+func (sc *SystemConfig) Update(configs []sig.SystemConfiger) {
+	for _, config := range configs {
+		sc.updateEnv(config)
+		sc.updateSysctl(config)
+		sc.updateFiles(config)
+	}
 }

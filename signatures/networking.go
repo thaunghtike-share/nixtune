@@ -16,25 +16,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main
+package signatures
 
-type GolangConfig struct{}
+/*
 
-func NewGolangConfig() *GolangConfig {
-	return &GolangConfig{}
+Network Access ALgorithm for Anatma Knight
+
+To be able to do a profile on network throughput we need to first take
+a metric of teh connection.
+
+ - Need to look at network connections over a period of time.
+ - See if the connections are to the same pid of different ones.
+ - See how many timeouts there are.
+ - Look at how many connections there are that are open and how tey are operating.
+ - See if there is an increase see the throughput as it grows over time.
+ - Need to profile the machine over time. Over a long period of time.
+*/
+
+// getNetworkSettings()
+
+type NetworkConfig struct {
+	networkLevel NetworkLevel
 }
 
-func (c *GolangConfig) GetEnv() map[string]string {
-	env := make(map[string]string)
+type NetworkLevel uint
 
-	// Set the value of GOGC to be really high.
+const (
+	HighNetworkLevel NetworkLevel = iota
+	MediumNetworkLevel
+	LowNetworkLevel
+)
 
-	// TODO: Consider how this is being used as part of a bigger
-	// setting. Based on RAM etc.
+func NewNetworkConfig(networkLevel NetworkLevel) *NetworkConfig {
+	return &NetworkConfig{
+		networkLevel: networkLevel,
+	}
+}
 
-	env["GOGC"] = "2000"
+func (c *NetworkConfig) GetEnv() map[string]string {
+	// No-op
 
-	return env
+	return nil
 }
 
 // Many of these settings were from the following places:
@@ -46,7 +68,7 @@ func (c *GolangConfig) GetEnv() map[string]string {
 // the values but we can migrate and change as we learn more about the
 // system and tune it appropriately.
 
-func (c *GolangConfig) GetSysctl() map[string]string {
+func (c *NetworkConfig) GetSysctl() map[string]string {
 	sysctl := make(map[string]string)
 
 	// tcp_fin_timeout - INTEGER
@@ -97,7 +119,7 @@ func (c *GolangConfig) GetSysctl() map[string]string {
 	return sysctl
 }
 
-func (c *GolangConfig) GetFiles() map[string]FileChange {
+func (c *NetworkConfig) GetFiles() map[string]FileChange {
 	files := make(map[string]FileChange)
 
 	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ

@@ -16,21 +16,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main
+package signatures
 
-/*
+type GolangConfig struct{}
 
-Network Access ALgorithm for Anatma Knight
+func NewGolangConfig() *GolangConfig {
+	return &GolangConfig{}
+}
 
-To be able to do a profile on network throughput we need to first take
-a metric of teh connection.
+func (c *GolangConfig) GetEnv() map[string]string {
+	env := make(map[string]string)
 
- - Need to look at network connections over a period of time.
- - See if the connections are to the same pid of different ones.
- - See how many timeouts there are.
- - Look at how many connections there are that are open and how tey are operating.
- - See if there is an increase see the throughput as it grows over time.
- - Need to profile the machine over time. Over a long period of time.
-*/
+	// Set the value of GOGC to be really high.
 
-// getNetworkSettings()
+	// TODO: Consider how this is being used as part of a bigger
+	// setting. Based on RAM etc.
+
+	env["GOGC"] = "2000"
+
+	return env
+}
+
+func (c *GolangConfig) GetSysctl() map[string]string {
+	return nil
+}
+
+func (c *GolangConfig) GetFiles() map[string]FileChange {
+	return nil
+}

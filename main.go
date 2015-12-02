@@ -22,10 +22,14 @@ import (
 	"os"
 )
 
+func nameSubcmd(subCmd string) string {
+	return os.Args[0] + " " + subCmd
+}
+
 func main() {
 	switch os.Args[1] {
 	case "agent":
-		agent := NewKnightAgent()
+		agent := NewAgent()
 		agent.ParseArgs(os.Args[2:])
 		agent.Run()
 	}
