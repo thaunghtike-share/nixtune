@@ -21,7 +21,6 @@ package main
 import (
 	"flag"
 	"os"
-	"time"
 
 	sig "github.com/anatma/knight/signatures"
 )
@@ -41,34 +40,9 @@ func (k *Agent) ParseArgs(args []string) {
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
 	}
-
-	// role
-	// profile-hints
-	// service-name
-	// fake run
-	// level 0..3
-	// interval time between runs. Default is 1 hour.
-}
-
-// TODO: Right now it just waits a minute but the goal is to run based
-// on various profiles.
-func (k *Agent) Profile() {
-	// start profiling
-
-	// Make a profile
-	time.Sleep(time.Minute)
 }
 
 func (k *Agent) Run() {
-	var (
-		sc *SystemConfig
-	)
-
-	for {
-		configs := sig.Configs(k.Signature)
-
-		sc.Update(configs)
-
-		k.Profile()
-	}
+	sc := &SystemConfig{}
+	sc.Update(sig.Configs(k.Signature))
 }

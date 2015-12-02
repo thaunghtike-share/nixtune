@@ -26,10 +26,6 @@ const (
 	CmdName = "knight"
 )
 
-func nameSubcmd(subCmd string) string {
-	return CmdName + " " + subCmd
-}
-
 func main() {
 	agent := NewAgent()
 	agent.ParseArgs(os.Args[1:])
