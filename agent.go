@@ -61,27 +61,11 @@ func (k *Agent) Profile() {
 
 func (k *Agent) Run() {
 	var (
-		sc           *SystemConfig
-		configs      []sig.SystemConfiger
-		networkLevel sig.NetworkLevel
+		sc *SystemConfig
 	)
 
 	for {
-		switch serverSignature(k.Signature) {
-		case sig.GolangServer:
-			networkLevel = sig.HighNetworkLevel
-			configs = append(configs, sig.NewGolangConfig())
-		case sig.NodejsServer:
-			networkLevel = sig.HighNetworkLevel
-		//	configs = append(configs, sig.NewGolangConfig())
-		case sig.NginxServer:
-			networkLevel = sig.HighNetworkLevel
-			//configs = append(configs, sig.NewGolangConfig())
-		case sig.ApacheServer:
-			configs = append(configs, sig.NewPostgresqlConfig())
-		}
-
-		configs = append(configs, sig.NewNetworkConfig(networkLevel))
+		configs := sig.Configs(k.Signature)
 
 		sc.Update(configs)
 

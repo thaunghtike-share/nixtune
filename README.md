@@ -18,21 +18,28 @@ a degration will rollback changes to their existing settings.
 knight -signature=golang
 ```
 
-### Available Signatures
+### Free Signatures
 
  - golang
  - nodejs
  - nginx
  - apache
  - postgresql
+ - mysql
  - java
+
+### Pro Signatures
+
+In addition to the free signatures there is a pro list of
+signatures. These are sold separately. The pro signatures come under a
+commercial-friendly license. These pro signatures allow us to produce
+high quality open source code and supports its development. Please go
+here for purchase details.
+
+ - mongodb
 
 ## Commercial License
 
-I sell Anatma Knight Pro which provides a commercial-friendly license
-as well as additional support. This allows me to produce high quality
-open source code and be able to support myself in its
-development. Please see the Anatma Knight homepage for more details.
 
 ## License
 

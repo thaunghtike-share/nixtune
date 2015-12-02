@@ -19,9 +19,9 @@
 package main
 
 import (
-	//	"time"
+//	"time"
 
-	sig "github.com/anatma/knight/signatures"
+//sig "github.com/anatma/knight/signatures"
 )
 
 /*
@@ -43,26 +43,6 @@ func (s *ServerSignature) GuessServerType() sig.ServerType {
 	return sig.GolangServer
 }
 */
-
-func serverSignature(signature string) sig.ServerType {
-	/*	ss := &ServerSignature{}
-
-		return ss.GuessServerType()
-	*/
-
-	switch signature {
-	case "golang":
-		return sig.GolangServer
-	case "nodejs":
-		return sig.NodejsServer
-	case "nginx":
-		return sig.NginxServer
-	case "apache":
-		return sig.ApacheServer
-	}
-
-	return sig.Unknown
-}
 
 /*
 
