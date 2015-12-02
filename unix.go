@@ -23,3 +23,14 @@ package main
 // guessServerProfile()
 // numberOfLogins()
 // mainProcess()
+
+/*
+
+ The best way to figure ot what processes are there is a way to look
+ for certain process names.
+
+ - Also can look at the file itself to see how it is constructed.
+ - Can usually tell based on interpreter
+ - Have to learn to guess executables.
+
+*/
