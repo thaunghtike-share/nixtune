@@ -22,15 +22,16 @@ import (
 	"os"
 )
 
+const (
+	CmdName = "knight"
+)
+
 func nameSubcmd(subCmd string) string {
-	return os.Args[0] + " " + subCmd
+	return CmdName + " " + subCmd
 }
 
 func main() {
-	switch os.Args[1] {
-	case "agent":
-		agent := NewAgent()
-		agent.ParseArgs(os.Args[2:])
-		agent.Run()
-	}
+	agent := NewAgent()
+	agent.ParseArgs(os.Args[1:])
+	agent.Run()
 }

@@ -35,7 +35,7 @@ func NewAgent() *Agent {
 }
 
 func (k *Agent) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(nameSubcmd("agent"), flag.ContinueOnError)
+	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
 	flags.StringVar(&k.Signature, "signature", "", "The signature to use.")
 
 	if err := flags.Parse(args); err != nil {
