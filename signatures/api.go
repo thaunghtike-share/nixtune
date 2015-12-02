@@ -28,7 +28,7 @@ const (
 
 	// Forking Servers
 	ApacheServer
-	PostgreSQLServer
+	PostgresqlServer
 
 	JavaServer
 
@@ -62,26 +62,22 @@ func ServerSignature(signature string) ServerType {
 }
 
 func Configs(signature string) (configs []SystemConfiger) {
-	var (
-		networkLevel NetworkLevel
-	)
-
 	switch ServerSignature(signature) {
 	case GolangServer:
-		networkLevel = HighNetworkLevel
+		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
 		configs = append(configs, NewGolangConfig())
-		configs = append(configs, NewNetworkConfig(networkLevel))
 	case NodejsServer:
-		networkLevel = HighNetworkLevel
-		configs = append(configs, NewNetworkConfig(networkLevel))
-	//	configs = append(configs, NewGolangConfig())
+		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
+		configs = append(configs, NewGolangConfig())
 	case NginxServer:
-		networkLevel = HighNetworkLevel
-		//configs = append(configs, NewGolangConfig())
-		configs = append(configs, NewNetworkConfig(networkLevel))
-	case ApacheServer:
+		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
+		configs = append(configs, NewGolangConfig())
+	case PostgresqlServer:
+		configs = append(configs, NewNetworkConfig(LowNetworkLevel))
 		configs = append(configs, NewPostgresqlConfig())
-		configs = append(configs, NewNetworkConfig(networkLevel))
+	case ApacheServer:
+		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
+		configs = append(configs, NewPostgresqlConfig())
 	}
 
 	return
