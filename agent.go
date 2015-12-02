@@ -50,6 +50,15 @@ func (k *Agent) ParseArgs(args []string) {
 	// interval time between runs. Default is 1 hour.
 }
 
+// TODO: Right now it just waits a minute but the goal is to run based
+// on various profiles.
+func (k *Agent) Profile() {
+	// start profiling
+
+	// Make a profile
+	time.Sleep(time.Minute)
+}
+
 func (k *Agent) Run() {
 	var (
 		sc           *SystemConfig
@@ -59,16 +68,16 @@ func (k *Agent) Run() {
 
 	for {
 		switch serverSignature() {
-		case GolangServer:
+		case sig.GolangServer:
 			networkLevel = sig.HighNetworkLevel
 			configs = append(configs, sig.NewGolangConfig())
-		case NodejsServer:
+		case sig.NodejsServer:
 			networkLevel = sig.HighNetworkLevel
 			configs = append(configs, sig.NewGolangConfig())
-		case NginxServer:
+		case sig.NginxServer:
 			networkLevel = sig.HighNetworkLevel
 			configs = append(configs, sig.NewGolangConfig())
-		case ApacheServer:
+		case sig.ApacheServer:
 
 		}
 
@@ -76,6 +85,6 @@ func (k *Agent) Run() {
 
 		sc.Update(configs)
 
-		time.Sleep(1000)
+		k.Profile()
 	}
 }

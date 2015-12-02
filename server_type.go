@@ -20,19 +20,11 @@ package main
 
 import (
 	"time"
+
+	sig "github.com/anatma/knight/signatures"
 )
 
-type ServerType int
-
-const (
-	GolangServer ServerType = iota
-	NodejsServer
-	ApacheServer
-	NginxServer
-	JavaServer
-)
-
-func serverSignature() ServerType {
+func serverSignature() sig.ServerType {
 	ss := &ServerSignature{}
 
 	return ss.GuessServerType()
@@ -52,8 +44,8 @@ type ServerSignature struct {
 	Finished time.Time
 }
 
-func (s *ServerSignature) GuessServerType() ServerType {
-	return GolangServer
+func (s *ServerSignature) GuessServerType() sig.ServerType {
+	return sig.GolangServer
 }
 
 /*
