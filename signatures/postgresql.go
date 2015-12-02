@@ -18,11 +18,25 @@
  */
 package signatures
 
-/*
-# Makes servers like postgresql and apache more scalable.
+type PostgresqlConfig struct{}
 
-kernel.sched_migration_cost_ns = 5000000
-kernel.sched_autogroup_enabled = 0
+func NewPostgresqlConfig() *PostgresqlConfig {
+	return &PostgresqlConfig{}
+}
 
-/etc/sysctl.d/99-forking-servers.conf
-*/
+func (c *PostgresqlConfig) GetEnv() map[string]string {
+	return nil
+}
+
+func (c *PostgresqlConfig) GetSysctl() map[string]string {
+	sysctl := make(map[string]string)
+
+	sysctl["kernel.sched_migration_cost_ns"] = "5000000"
+	sysctl["kernel.sched_autogroup_enabled"] = "0"
+
+	return nil
+}
+
+func (c *PostgresqlConfig) GetFiles() map[string]FileChange {
+	return nil
+}

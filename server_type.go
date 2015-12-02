@@ -19,17 +19,12 @@
 package main
 
 import (
-	"time"
+	//	"time"
 
 	sig "github.com/anatma/knight/signatures"
 )
 
-func serverSignature() sig.ServerType {
-	ss := &ServerSignature{}
-
-	return ss.GuessServerType()
-}
-
+/*
 const (
 	Low = iota
 	Medium
@@ -46,6 +41,27 @@ type ServerSignature struct {
 
 func (s *ServerSignature) GuessServerType() sig.ServerType {
 	return sig.GolangServer
+}
+*/
+
+func serverSignature(signature string) sig.ServerType {
+	/*	ss := &ServerSignature{}
+
+		return ss.GuessServerType()
+	*/
+
+	switch signature {
+	case "golang":
+		return sig.GolangServer
+	case "nodejs":
+		return sig.NodejsServer
+	case "nginx":
+		return sig.NginxServer
+	case "apache":
+		return sig.ApacheServer
+	}
+
+	return sig.Unknown
 }
 
 /*

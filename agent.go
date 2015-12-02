@@ -27,7 +27,7 @@ import (
 )
 
 type Agent struct {
-	Role string
+	Signature string
 }
 
 func NewAgent() *Agent {
@@ -36,7 +36,7 @@ func NewAgent() *Agent {
 
 func (k *Agent) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(nameSubcmd("agent"), flag.ContinueOnError)
-	flags.StringVar(&k.Role, "role", "", "The role of the server.")
+	flags.StringVar(&k.Signature, "signature", "", "The signature to use.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
@@ -67,18 +67,18 @@ func (k *Agent) Run() {
 	)
 
 	for {
-		switch serverSignature() {
+		switch serverSignature(k.Signature) {
 		case sig.GolangServer:
 			networkLevel = sig.HighNetworkLevel
 			configs = append(configs, sig.NewGolangConfig())
 		case sig.NodejsServer:
 			networkLevel = sig.HighNetworkLevel
-			configs = append(configs, sig.NewGolangConfig())
+		//	configs = append(configs, sig.NewGolangConfig())
 		case sig.NginxServer:
 			networkLevel = sig.HighNetworkLevel
-			configs = append(configs, sig.NewGolangConfig())
+			//configs = append(configs, sig.NewGolangConfig())
 		case sig.ApacheServer:
-
+			configs = append(configs, sig.NewPostgresqlConfig())
 		}
 
 		configs = append(configs, sig.NewNetworkConfig(networkLevel))
