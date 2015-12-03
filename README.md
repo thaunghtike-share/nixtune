@@ -26,7 +26,8 @@ knight -signature=golang
  - apache
  - postgresql
  - mysql
- - java
+ - rubyonrails
+ - redis
 
 ### Pro Signatures
 
@@ -36,10 +37,14 @@ commercial-friendly license. These pro signatures allow us to produce
 high quality open source code and supports its development. Please go
 here for purchase details.
 
+ - mongodb-wiredtiger
  - mongodb
-
-## Commercial License
-
+ - cassandra
+ - java
+ - hadoop
+ - docker
+ - mesos
+ - spark
 
 ## License
 
