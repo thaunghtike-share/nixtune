@@ -23,14 +23,23 @@ import (
 )
 
 type Memory struct {
-	Total uint
+	Total int64
+	Free  int64
 }
 
-func Compute() (m *Memory) {
+func ComputeMemory() (m *Memory) {
 	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
 	if err != nil {
 		return
 	}
+
+	meminfo, err := fs.NewMeminfo()
+	if err != nil {
+		return
+	}
+
+	m.Total = meminfo.MemTotal
+	m.Free = meminfo.MemFree
 
 	return
 }
@@ -39,16 +48,3 @@ func Compute() (m *Memory) {
 // guessServerProfile()
 // numberOfLogins()
 // mainProcess()
-
-/*
-
- The best way to figure ot what processes are there is a way to look
- for certain process names.
-
- - Also can look at the file itself to see how it is constructed.
- - Can usually tell based on interpreter
- - Have to learn to guess executables.
-
-*/
-
-// http://techblog.netflix.com/2015/11/linux-performance-analysis-in-60s.html
