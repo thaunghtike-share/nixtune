@@ -71,13 +71,13 @@ func Configs(signature string) (configs []SystemConfiger) {
 		configs = append(configs, NewGolangConfig())
 	case NginxServer:
 		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewGolangConfig())
+		configs = append(configs, NewNginxConfig())
 	case PostgresqlServer:
 		configs = append(configs, NewNetworkConfig(LowNetworkLevel))
 		configs = append(configs, NewPostgresqlConfig())
 	case ApacheServer:
 		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewPostgresqlConfig())
+		configs = append(configs, NewApacheConfig())
 	}
 
 	return

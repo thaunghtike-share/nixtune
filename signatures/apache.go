@@ -18,8 +18,6 @@
  */
 package signatures
 
-// https://github.com/observing/balancerbattle
-
-func NewNginxConfig() *GolangConfig {
-	return &GolangConfig{}
+func NewApacheConfig() *PostgresqlConfig {
+	return &PostgresqlConfig{}
 }
