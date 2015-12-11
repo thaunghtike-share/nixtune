@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -21,7 +21,7 @@ package signatures
 /*
 
 TODO:
-Network Access ALgorithm for Anatma Knight
+Network Access ALgorithm for Anatma Autotune
 
 To be able to do a profile on network throughput we need to first take
 a metric of teh connection.
@@ -124,7 +124,7 @@ func (c *NetworkConfig) GetFiles() map[string]FileChange {
 	files := make(map[string]FileChange)
 
 	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
-	files["/etc/security/limits.d/00_anatma_knight_limits.conf"] = FileChange{
+	files["/etc/security/limits.d/00_anatma_autotune_limits.conf"] = FileChange{
 		Content: "* - nofile unlimited",
 		Append:  true,
 	}

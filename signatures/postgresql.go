@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -34,7 +34,7 @@ func (c *PostgresqlConfig) GetSysctl() map[string]string {
 	sysctl["kernel.sched_migration_cost_ns"] = "5000000"
 	sysctl["kernel.sched_autogroup_enabled"] = "0"
 
-	return nil
+	return sysctl
 }
 
 func (c *PostgresqlConfig) GetFiles() map[string]FileChange {

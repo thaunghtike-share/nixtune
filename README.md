@@ -1,8 +1,8 @@
-# Anatma Knight
+# Anatma Autotune
 
 Auto tune the Linux kernel for your application.
 
-Anatma Knight is a tool that auto tunes the Linux kernel and other
+Anatma Autotune is a tool that auto tunes the Linux kernel and other
 environment variables to achieve maximum performance for you
 applications. The goal is to support most common use cases such a
 Golang, Node, Java, Various databases, and so on. These are an
@@ -15,24 +15,36 @@ a degration will rollback changes to their existing settings.
 ## Usage
 
 ```
-knight -signature=golang
+autotune -signature=golang
 ```
 
-### Available Signatures
+### Free Signatures
 
  - golang
  - nodejs
  - nginx
  - apache
  - postgresql
+ - mysql
+ - rubyonrails
+ - redis
+
+### Pro Signatures
+
+In addition to the free signatures there is a pro list of
+signatures. These are sold separately. The pro signatures come under a
+commercial-friendly license. These pro signatures allow us to produce
+high quality open source code and supports its development. Please go
+here for purchase details.
+
+ - mongodb-wiredtiger
+ - mongodb
+ - cassandra
  - java
-
-## Commercial License
-
-I sell Anatma Knight Pro which provides a commercial-friendly license
-as well as additional support. This allows me to produce high quality
-open source code and be able to support myself in its
-development. Please see the Anatma Knight homepage for more details.
+ - hadoop
+ - docker
+ - mesos
+ - spark
 
 ## License
 

@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -21,9 +21,8 @@ package main
 import (
 	"flag"
 	"os"
-	"time"
 
-	sig "github.com/anatma/knight/signatures"
+	sig "github.com/anatma/autotune/signatures"
 )
 
 type Agent struct {
@@ -41,50 +40,9 @@ func (k *Agent) ParseArgs(args []string) {
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
 	}
-
-	// role
-	// profile-hints
-	// service-name
-	// fake run
-	// level 0..3
-	// interval time between runs. Default is 1 hour.
-}
-
-// TODO: Right now it just waits a minute but the goal is to run based
-// on various profiles.
-func (k *Agent) Profile() {
-	// start profiling
-
-	// Make a profile
-	time.Sleep(time.Minute)
 }
 
 func (k *Agent) Run() {
-	var (
-		sc           *SystemConfig
-		configs      []sig.SystemConfiger
-		networkLevel sig.NetworkLevel
-	)
-
-	for {
-		switch serverSignature(k.Signature) {
-		case sig.GolangServer:
-			networkLevel = sig.HighNetworkLevel
-			configs = append(configs, sig.NewGolangConfig())
-		case sig.NodejsServer:
-			networkLevel = sig.HighNetworkLevel
-		//	configs = append(configs, sig.NewGolangConfig())
-		case sig.NginxServer:
-			networkLevel = sig.HighNetworkLevel
-			//configs = append(configs, sig.NewGolangConfig())
-		case sig.ApacheServer:
-			configs = append(configs, sig.NewPostgresqlConfig())
-		}
-
-		configs = append(configs, sig.NewNetworkConfig(networkLevel))
-
-		sc.Update(configs)
-
-		k.Profile()
-	}
+	sc := &SystemConfig{}
+	sc.Update(sig.Configs(k.Signature))
 }

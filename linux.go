@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -18,7 +18,32 @@
  */
 package main
 
-// getMemory()
+import (
+	"github.com/abhiyerra/procfs"
+)
+
+type Memory struct {
+	Total int64
+	Free  int64
+}
+
+func ComputeMemory() (m *Memory) {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return
+	}
+
+	meminfo, err := fs.NewMeminfo()
+	if err != nil {
+		return
+	}
+
+	m.Total = meminfo.MemTotal
+	m.Free = meminfo.MemFree
+
+	return
+}
+
 // getProcessList()
 // guessServerProfile()
 // numberOfLogins()

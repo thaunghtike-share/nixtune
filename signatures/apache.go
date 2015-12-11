@@ -18,29 +18,6 @@
  */
 package signatures
 
-type GolangConfig struct{}
-
-func NewGolangConfig() *GolangConfig {
-	return &GolangConfig{}
-}
-
-func (c *GolangConfig) GetEnv() map[string]string {
-	env := make(map[string]string)
-
-	// Set the value of GOGC to be really high.
-
-	// TODO: Consider how this is being used as part of a bigger
-	// setting. Based on RAM etc.
-
-	env["GOGC"] = "2000"
-
-	return env
-}
-
-func (c *GolangConfig) GetSysctl() map[string]string {
-	return nil
-}
-
-func (c *GolangConfig) GetFiles() map[string]FileChange {
-	return nil
+func NewApacheConfig() *PostgresqlConfig {
+	return &PostgresqlConfig{}
 }
