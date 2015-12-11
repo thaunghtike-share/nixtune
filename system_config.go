@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -25,13 +25,13 @@ package main
 import (
 	"fmt"
 
-	sig "github.com/anatma/knight/signatures"
+	sig "github.com/anatma/autotune/signatures"
 )
 
 type SystemConfig struct{}
 
 const (
-	EnvFileName = "/etc/profile.d/99_anatma_knight.sh"
+	EnvFileName = "/etc/profile.d/99_anatma_autotune.sh"
 )
 
 func (sc *SystemConfig) updateEnv(config sig.SystemConfiger) {

@@ -1,8 +1,8 @@
-# Anatma Knight
+# Anatma Autotune
 
 Auto tune the Linux kernel for your application.
 
-Anatma Knight is a tool that auto tunes the Linux kernel and other
+Anatma Autotune is a tool that auto tunes the Linux kernel and other
 environment variables to achieve maximum performance for you
 applications. The goal is to support most common use cases such a
 Golang, Node, Java, Various databases, and so on. These are an
@@ -15,7 +15,7 @@ a degration will rollback changes to their existing settings.
 ## Usage
 
 ```
-knight -signature=golang
+autotune -signature=golang
 ```
 
 ### Free Signatures

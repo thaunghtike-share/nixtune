@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -22,7 +22,7 @@ import (
 	"flag"
 	"os"
 
-	sig "github.com/anatma/knight/signatures"
+	sig "github.com/anatma/autotune/signatures"
 )
 
 type Agent struct {

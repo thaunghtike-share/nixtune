@@ -1,5 +1,5 @@
 /*
- * Anatma Knight - Kernel Autotuning
+ * Anatma Autotune - Kernel Autotuning
  *
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
@@ -23,7 +23,7 @@ import (
 )
 
 const (
-	CmdName = "knight"
+	CmdName = "autotune"
 )
 
 func main() {
