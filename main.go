@@ -51,11 +51,11 @@ func main() {
 	switch os.Args[1] {
 	case "agent":
 		agent := NewAgent()
-		agent.ParseArgs(os.Args[1:])
+		agent.ParseArgs(os.Args[2:])
 		err = agent.Run()
 	case "network":
 		network := NewNetwork()
-		network.ParseArgs(os.Args[1:])
+		network.ParseArgs(os.Args[2:])
 		err = network.Run()
 	}
 
