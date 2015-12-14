@@ -19,6 +19,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -27,7 +28,14 @@ const (
 )
 
 func usage() {
+	usage := `
+%s [cmd]
 
+    agent     Update settings based on utilization.
+    network   Get network utilization over a period of time.
+`
+
+	fmt.Printf(usage, CmdName)
 }
 
 func main() {
@@ -35,7 +43,7 @@ func main() {
 		err error
 	)
 
-	if len(os.Args) < 1 {
+	if len(os.Args) < 2 {
 		usage()
 		os.Exit(0)
 	}
