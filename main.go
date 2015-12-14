@@ -26,8 +26,32 @@ const (
 	CmdName = "autotune"
 )
 
+func usage() {
+
+}
+
 func main() {
-	agent := NewAgent()
-	agent.ParseArgs(os.Args[1:])
-	agent.Run()
+	var (
+		err error
+	)
+
+	if len(os.Args) < 1 {
+		usage()
+		os.Exit(0)
+	}
+
+	switch os.Args[1] {
+	case "agent":
+		agent := NewAgent()
+		agent.ParseArgs(os.Args[1:])
+		err = agent.Run()
+	case "network":
+		network := NewNetwork()
+		network.ParseArgs(os.Args[1:])
+		err = network.Run()
+	}
+
+	if err != nil {
+		os.Exit(-1)
+	}
 }

@@ -29,10 +29,6 @@ type Agent struct {
 	Signature string
 }
 
-func NewAgent() *Agent {
-	return &Agent{}
-}
-
 func (k *Agent) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
 	flags.StringVar(&k.Signature, "signature", "", "The signature to use.")
@@ -42,7 +38,13 @@ func (k *Agent) ParseArgs(args []string) {
 	}
 }
 
-func (k *Agent) Run() {
+func (k *Agent) Run() error {
 	sc := &SystemConfig{}
 	sc.Update(sig.Configs(k.Signature))
+
+	return nil
+}
+
+func NewAgent() *Agent {
+	return &Agent{}
 }

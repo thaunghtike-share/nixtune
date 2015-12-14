@@ -20,28 +20,76 @@ package main
 
 import (
 	"fmt"
-	"github.com/abhiyerra/procfs"
 	"time"
+
+	"flag"
+	"github.com/abhiyerra/procfs"
+	"github.com/montanaflynn/stats"
+	"os"
 )
 
 type Network struct {
-	Used     []int64
-	InUse    []int64
-	TimeWait []int64
+	Duration     int
+	NetSockstats []procfs.NetSockstat
 }
 
 func (n *Network) ComputeNetwork(duration int) {
-	for i := 0; i < duration; i++ {
-		netSockStat, err := procfs.NewNetSockstat()
-		if err != nil {
-			fmt.Println("Error getting information from /proc/sockstat")
-		}
+	for i := 0; i < n.Duration; i++ {
+		go func() {
+			netSockStat, err := procfs.NewNetSockstat()
+			if err != nil {
+				fmt.Println("ERROR: getting information from /proc/sockstat")
+			}
 
-		// All of these should also read IPv6 and UDP.
-		n.Used = append(n.Used, netSockStat.Sockets.Used)
-		n.InUse = append(n.InUse, netSockStat.TCP.InUse)
-		n.TimeWait = append(n.TimeWait, netSockStat.TCP.Tw)
+			n.NetSockstats = append(n.NetSockstats, netSockStat)
+		}()
+
+		// TODO(abhiyerra): All of these should also read IPv6 and UDP.
 
 		time.Sleep(time.Second)
 	}
+}
+
+func (n *Network) mean(data []float64) {
+	avg, err := stats.Mean(data)
+	if err != nil {
+		fmt.Println("Avg error")
+		return
+	}
+
+	fmt.Println("Avg Used:", avg)
+}
+
+func (n *Network) Avg() {
+	var (
+		usedData  []float64
+		tcpTwData []float64
+	)
+
+	for _, i := range n.NetSockstats {
+		usedData = append(usedData, float64(i.Sockets.Used))
+		tcpTwData = append(tcpTwData, float64(i.TCP.InUse))
+	}
+
+	n.mean(usedData)
+	n.mean(tcpTwData)
+}
+
+func (n *Network) ParseArgs(args []string) {
+	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
+	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds.")
+
+	if err := flags.Parse(args); err != nil {
+		os.Exit(-1)
+	}
+}
+
+func (n *Network) Run() error {
+	n.Avg()
+
+	return nil
+}
+
+func NewNetwork() *Network {
+	return &Network{}
 }
