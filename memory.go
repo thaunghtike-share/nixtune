@@ -18,7 +18,45 @@
  */
 package main
 
-// getProcessList()
-// guessServerProfile()
-// numberOfLogins()
-// mainProcess()
+import (
+	"github.com/abhiyerra/procfs"
+)
+
+type Memory struct {
+	Total int64
+	Free  int64
+}
+
+func ComputeMemory() (m *Memory) {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return
+	}
+
+	meminfo, err := fs.NewMeminfo()
+	if err != nil {
+		return
+	}
+
+	m.Total = meminfo.MemTotal
+	m.Free = meminfo.MemFree
+
+	return
+}
+
+func MemoryWorker() {
+	for {
+
+	}
+}
+
+/*
+
+https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-meminfo.html
+
+Look to see how memory changes over time.
+
+ - How many malloc allocations are done.
+ - How quickly does the
+
+*/

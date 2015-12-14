@@ -18,7 +18,30 @@
  */
 package main
 
-// getProcessList()
-// guessServerProfile()
-// numberOfLogins()
-// mainProcess()
+import (
+	"fmt"
+	"github.com/abhiyerra/procfs"
+	"time"
+)
+
+type Network struct {
+	Used     []int64
+	InUse    []int64
+	TimeWait []int64
+}
+
+func (n *Network) ComputeNetwork(duration int) {
+	for i := 0; i < duration; i++ {
+		netSockStat, err := procfs.NewNetSockstat()
+		if err != nil {
+			fmt.Println("Error getting information from /proc/sockstat")
+		}
+
+		// All of these should also read IPv6 and UDP.
+		n.Used = append(n.Used, netSockStat.Sockets.Used)
+		n.InUse = append(n.InUse, netSockStat.TCP.InUse)
+		n.TimeWait = append(n.TimeWait, netSockStat.TCP.Tw)
+
+		time.Sleep(time.Second)
+	}
+}
