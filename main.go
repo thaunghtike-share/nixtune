@@ -73,7 +73,7 @@ func main() {
 			err = network.Run()
 		}
 	case "server":
-		agent := NewAgent()
+		agent := NewServer()
 		agent.ParseArgs(os.Args[2:])
 		err = agent.Run()
 	}

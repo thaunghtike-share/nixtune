@@ -25,11 +25,11 @@ import (
 	sig "github.com/anatma/autotune/signatures"
 )
 
-type Agent struct {
+type Server struct {
 	Signature string
 }
 
-func (k *Agent) ParseArgs(args []string) {
+func (k *Server) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
 	flags.StringVar(&k.Signature, "signature", "", "The signature to use.")
 
@@ -38,13 +38,13 @@ func (k *Agent) ParseArgs(args []string) {
 	}
 }
 
-func (k *Agent) Run() error {
+func (k *Server) Run() error {
 	sc := &SystemConfig{}
 	sc.Update(sig.Configs(k.Signature))
 
 	return nil
 }
 
-func NewAgent() *Agent {
-	return &Agent{}
+func NewServer() *Server {
+	return &Server{}
 }
