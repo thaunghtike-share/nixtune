@@ -31,7 +31,6 @@ func usage() {
 	usage := `
 %s [cmd]
 
-    agent         Update settings based on utilization.
     network stats Get network utilization over a period of time.
     network pid   Figure out the profile of the machine based on
                   network processes that are running on the machine.
@@ -44,6 +43,8 @@ func usage() {
 
     profile       FUTURE: Guess signature of the machine based on memory,
                   network and IO usage.
+
+    server        Update settings based on profile of server.
 `
 
 	fmt.Printf(usage, CmdName)
@@ -60,7 +61,7 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	case "agent":
+	case "server":
 		agent := NewAgent()
 		agent.ParseArgs(os.Args[2:])
 		err = agent.Run()
