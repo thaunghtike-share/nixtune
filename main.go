@@ -61,10 +61,6 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	case "server":
-		agent := NewAgent()
-		agent.ParseArgs(os.Args[2:])
-		err = agent.Run()
 	case "network":
 		switch os.Args[2] {
 		case "stats":
@@ -76,6 +72,10 @@ func main() {
 			network.ParseArgs(os.Args[3:])
 			err = network.Run()
 		}
+	case "server":
+		agent := NewAgent()
+		agent.ParseArgs(os.Args[2:])
+		err = agent.Run()
 	}
 
 	if err != nil {
