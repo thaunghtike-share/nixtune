@@ -64,7 +64,7 @@ func main() {
 	case "network":
 		switch os.Args[2] {
 		case "stats":
-			network := NewNetworkMean()
+			network := NewNetworkStats()
 			network.ParseArgs(os.Args[3:])
 			err = network.Run()
 		case "pid":
