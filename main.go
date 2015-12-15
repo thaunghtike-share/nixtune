@@ -31,9 +31,19 @@ func usage() {
 	usage := `
 %s [cmd]
 
-    agent        Update settings based on utilization.
-    network mean Get network utilization over a period of time.
-    network pid  Guess the PID. d
+    agent         Update settings based on utilization.
+    network stats Get network utilization over a period of time.
+    network pid   Figure out the profile of the machine based on
+                  network processes that are running on the machine.
+
+    memory stats  FUTURE
+    memory pid    FUTURE
+
+    io stats      FUTURE
+    io pid        FUTURE
+
+    profile       FUTURE: Guess signature of the machine based on memory,
+                  network and IO usage.
 `
 
 	fmt.Printf(usage, CmdName)
@@ -56,13 +66,13 @@ func main() {
 		err = agent.Run()
 	case "network":
 		switch os.Args[2] {
-		case "mean":
+		case "stats":
 			network := NewNetworkMean()
-			network.ParseArgs(os.Args[2:])
+			network.ParseArgs(os.Args[3:])
 			err = network.Run()
 		case "pid":
 			network := NewNetworkPid()
-			network.ParseArgs(os.Args[2:])
+			network.ParseArgs(os.Args[3:])
 			err = network.Run()
 		}
 	}
