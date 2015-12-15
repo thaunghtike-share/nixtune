@@ -19,8 +19,9 @@ const (
 
 func usage() {
 	usage := `
-%s [cmd]
+Usage: %s [command]
 
+Available commands:
     network stats Get network utilization over a period of time.
     network pid   Figure out the profile of the machine based on
                   network processes that are running on the machine.
@@ -31,10 +32,17 @@ func usage() {
     io stats      FUTURE
     io pid        FUTURE
 
+    cpu stats     FUTURE
+    cpu pid       FUTURE
+
     profile       FUTURE: Guess signature of the machine based on memory,
                   network and IO usage.
 
     server        Update settings based on profile of server.
+
+Autotune by Anatma.
+Copyright (c) 2015-2016. Abhi Yerra.
+https://anatma.co/autotune
 `
 
 	fmt.Printf(usage, CmdName)
