@@ -19,55 +19,52 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"github.com/abhiyerra/procfs"
 	"os"
 )
 
-const (
-	CmdName = "autotune"
-)
-
-func usage() {
-	usage := `
-%s [cmd]
-
-    agent        Update settings based on utilization.
-    network mean Get network utilization over a period of time.
-    network pid  Guess the PID. d
-`
-
-	fmt.Printf(usage, CmdName)
+type NetworkPid struct {
+	Duration int
 }
 
-func main() {
-	var (
-		err error
-	)
+// Return the PID that has the most amount of network calls on the
+// server. We want to guess it based on TCP/UDP utilization.
+func (n *NetworkPid) MainPid() string {
+	uidMode := make(map[string]uint)
+	netTcp, _ := procfs.NewNetTCP()
 
-	if len(os.Args) < 2 {
-		usage()
-		os.Exit(0)
+	for _, i := range netTcp {
+		uidMode[i.UID]++
 	}
 
-	switch os.Args[1] {
-	case "agent":
-		agent := NewAgent()
-		agent.ParseArgs(os.Args[2:])
-		err = agent.Run()
-	case "network":
-		switch os.Args[2] {
-		case "mean":
-			network := NewNetworkMean()
-			network.ParseArgs(os.Args[2:])
-			err = network.Run()
-		case "pid":
-			network := NewNetworkPid()
-			network.ParseArgs(os.Args[2:])
-			err = network.Run()
+	var numUidVal uint = 0
+	mainUid := ""
+
+	for k, v := range uidMode {
+		if v > numUidVal {
+			mainUid = k
 		}
 	}
 
-	if err != nil {
+	return mainUid
+}
+
+func (n *NetworkPid) ParseArgs(args []string) {
+	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
+
+	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
 	}
+}
+
+func (n *NetworkPid) Run() error {
+	fmt.Println(n.MainPid())
+
+	return nil
+}
+
+func NewNetworkPid() *NetworkPid {
+	return &NetworkPid{}
 }

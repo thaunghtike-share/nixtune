@@ -28,12 +28,12 @@ import (
 	"os"
 )
 
-type Network struct {
+type NetworkMean struct {
 	Duration     int
 	NetSockstats []procfs.NetSockstat
 }
 
-func (n *Network) ComputeNetwork(duration int) {
+func (n *NetworkMean) ComputeNetworkMean() {
 	for i := 0; i < n.Duration; i++ {
 		go func() {
 			netSockStat, err := procfs.NewNetSockstat()
@@ -50,17 +50,17 @@ func (n *Network) ComputeNetwork(duration int) {
 	}
 }
 
-func (n *Network) mean(data []float64) {
+func (n *NetworkMean) mean(title string, data []float64) {
 	avg, err := stats.Mean(data)
 	if err != nil {
 		fmt.Println("Avg error")
 		return
 	}
 
-	fmt.Println("Avg Used:", avg)
+	fmt.Println(title, avg)
 }
 
-func (n *Network) Avg() {
+func (n *NetworkMean) Avg() {
 	var (
 		usedData  []float64
 		tcpTwData []float64
@@ -68,28 +68,29 @@ func (n *Network) Avg() {
 
 	for _, i := range n.NetSockstats {
 		usedData = append(usedData, float64(i.Sockets.Used))
-		tcpTwData = append(tcpTwData, float64(i.TCP.InUse))
+		tcpTwData = append(tcpTwData, float64(i.TCP.Tw))
 	}
 
-	n.mean(usedData)
-	n.mean(tcpTwData)
+	n.mean("Total:", usedData)
+	n.mean("TCP TW:", tcpTwData)
 }
 
-func (n *Network) ParseArgs(args []string) {
+func (n *NetworkMean) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
-	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds.")
+	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds. Defaults to 60 seconds.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
 	}
 }
 
-func (n *Network) Run() error {
+func (n *NetworkMean) Run() error {
+	n.ComputeNetworkMean()
 	n.Avg()
 
 	return nil
 }
 
-func NewNetwork() *Network {
-	return &Network{}
+func NewNetworkMean() *NetworkMean {
+	return &NetworkMean{}
 }
