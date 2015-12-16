@@ -12,36 +12,37 @@ import (
 	"github.com/abhiyerra/procfs"
 )
 
-type Memory struct {
+type MemoryStats struct {
 	Total int64
 	Free  int64
 }
 
-func ComputeMemory() (m *Memory) {
+func (n *MemoryStats) ParseArgs(args []string) {
+
+}
+
+func (m *MemoryStats) Run() error {
 	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
 	if err != nil {
-		return
+		return err
 	}
 
 	meminfo, err := fs.NewMeminfo()
 	if err != nil {
-		return
+		return err
 	}
 
 	m.Total = meminfo.MemTotal
 	m.Free = meminfo.MemFree
 
-	return
+	return nil
 }
 
-func MemoryWorker() {
-	for {
-
-	}
+func NewMemoryStats() *MemoryStats {
+	return &MemoryStats{}
 }
 
 /*
-
 https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-meminfo.html
 
 Look to see how memory changes over time.
