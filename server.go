@@ -20,7 +20,7 @@ type Server struct {
 }
 
 func (k *Server) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
+	flags := flag.NewFlagSet(subCmd("server"), flag.ContinueOnError)
 	flags.StringVar(&k.Signature, "signature", "", "The signature to use.")
 
 	if err := flags.Parse(args); err != nil {

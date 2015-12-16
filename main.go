@@ -11,11 +11,16 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 const (
 	CmdName = "autotune"
 )
+
+func subCmd(cmds ...string) string {
+	return fmt.Sprintf("%s %s", CmdName, strings.Join(cmds, " "))
+}
 
 func usage() {
 	usage := `

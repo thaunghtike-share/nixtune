@@ -1,5 +1,4 @@
-/*
- * Anatma Autotune - Kernel Autotuning
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,7 +8,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -33,7 +31,7 @@ func runCmd(cmdName string, cmdArgs ...string) (err error) {
 			// The program has exited with an exit code != 0
 			if status, ok := exitErr.Sys().(syscall.WaitStatus); ok {
 				if status.ExitStatus() != 0 {
-					return errors.New(fmt.Sprintf("Exit Status: %d\n", status.ExitStatus()))
+					return fmt.Errorf("Exit Status: %d\n", status.ExitStatus())
 				}
 			}
 		}

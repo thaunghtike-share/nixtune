@@ -66,7 +66,7 @@ func (n *NetworkStats) Avg() {
 }
 
 func (n *NetworkStats) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
+	flags := flag.NewFlagSet(subCmd("network", "stats"), flag.ContinueOnError)
 	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds. Defaults to 60 seconds.")
 
 	if err := flags.Parse(args); err != nil {

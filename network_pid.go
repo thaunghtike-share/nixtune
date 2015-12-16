@@ -42,7 +42,7 @@ func (n *NetworkPid) MainPid() string {
 }
 
 func (n *NetworkPid) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(CmdName, flag.ContinueOnError)
+	flags := flag.NewFlagSet(subCmd("network", "pid"), flag.ContinueOnError)
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)

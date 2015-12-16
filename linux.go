@@ -11,4 +11,3 @@ package main
 // getProcessList()
 // guessServerProfile()
 // numberOfLogins()
-// mainProcess()
