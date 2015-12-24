@@ -23,8 +23,8 @@ import (
 )
 
 type Memory struct {
-	Total int64
-	Free  int64
+	Ram  int64
+	Swap int64
 }
 
 func ComputeMemory() (m *Memory) {
@@ -38,8 +38,8 @@ func ComputeMemory() (m *Memory) {
 		return
 	}
 
-	m.Total = meminfo.MemTotal
-	m.Free = meminfo.MemFree
+	m.Ram = meminfo.MemTotal - meminfo.MemFree
+	m.Ram = meminfo.SwapTotal - meminfo.SwapFree
 
 	return
 }
