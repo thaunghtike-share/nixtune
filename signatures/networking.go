@@ -1,20 +1,9 @@
-/*
- * Anatma Autotune - Kernel Autotuning
- *
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package signatures
 
@@ -37,21 +26,10 @@ a metric of teh connection.
 // getNetworkSettings()
 
 type NetworkConfig struct {
-	networkLevel NetworkLevel
 }
 
-type NetworkLevel uint
-
-const (
-	HighNetworkLevel NetworkLevel = iota
-	MediumNetworkLevel
-	LowNetworkLevel
-)
-
-func NewNetworkConfig(networkLevel NetworkLevel) *NetworkConfig {
-	return &NetworkConfig{
-		networkLevel: networkLevel,
-	}
+func NewNetworkConfig() *NetworkConfig {
+	return &NetworkConfig{}
 }
 
 func (c *NetworkConfig) GetEnv() map[string]string {
@@ -118,16 +96,4 @@ func (c *NetworkConfig) GetSysctl() map[string]string {
 	sysctl["fs.file-max"] = "2097152"
 
 	return sysctl
-}
-
-func (c *NetworkConfig) GetFiles() map[string]FileChange {
-	files := make(map[string]FileChange)
-
-	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
-	files["/etc/security/limits.d/00_anatma_autotune_limits.conf"] = FileChange{
-		Content: "* - nofile unlimited",
-		Append:  true,
-	}
-
-	return files
 }

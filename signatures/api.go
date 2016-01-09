@@ -1,84 +1,50 @@
-/*
- * Anatma Autotune - Kernel Autotuning
- *
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package signatures
-
-type ServerType int
-
-const (
-	// Async and High Network Throughput
-	GolangServer ServerType = iota
-	NodejsServer
-	NginxServer
-
-	// Forking Servers
-	ApacheServer
-	PostgresqlServer
-
-	JavaServer
-
-	Unknown
-)
 
 type SystemConfiger interface {
 	GetEnv() map[string]string
 	GetSysctl() map[string]string
-	GetFiles() map[string]FileChange
 }
 
-type FileChange struct {
-	Content string
-	Append  bool
+type Signatures struct {
+	ServerConfigs map[string]SystemConfiger
 }
 
-func ServerSignature(signature string) ServerType {
-	switch signature {
-	case "golang":
-		return GolangServer
-	case "nodejs":
-		return NodejsServer
-	case "nginx":
-		return NginxServer
-	case "apache":
-		return ApacheServer
-	}
+func NewSignatures() *Signatures {
+	s := &Signatures{}
+	s.ServerConfigs = make(map[string]SystemConfiger)
 
-	return Unknown
+	// Async Server configurations
+	s.ServerConfigs["golang"] = NewGolangConfig()
+	s.ServerConfigs["nodejs"] = NewNodejsConfig()
+	s.ServerConfigs["nginx"] = NewNginxConfig()
+	s.ServerConfigs["haproxy"] = NewHaproxyConfig()
+
+	// Forking server configurations
+	s.ServerConfigs["apache"] = &PostgresqlConfig{}
+	s.ServerConfigs["postgresql"] = &PostgresqlConfig{}
+
+	s.ServerConfigs["java"] = NewJavaConfig()
+
+	return s
 }
 
-func Configs(signature string) (configs []SystemConfiger) {
-	switch ServerSignature(signature) {
-	case GolangServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewGolangConfig())
-	case NodejsServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewGolangConfig())
-	case NginxServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewNginxConfig())
-	case PostgresqlServer:
-		configs = append(configs, NewNetworkConfig(LowNetworkLevel))
-		configs = append(configs, NewPostgresqlConfig())
-	case ApacheServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewApacheConfig())
+// SignatureTypes returns the slice of the different configurations
+// that we have available.
+func (s *Signatures) Types() (types []string) {
+	for k, _ := range s.ServerConfigs {
+		types = append(types, k)
 	}
 
 	return
+}
+
+func (c *Signatures) Get(sig string) SystemConfiger {
+	return c.ServerConfigs[sig]
 }

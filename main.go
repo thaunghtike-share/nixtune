@@ -1,33 +1,64 @@
-/*
- * Anatma Autotune - Kernel Autotuning
- *
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package main
 
 import (
+	"fmt"
 	"os"
+	"strings"
 )
 
 const (
+	// CmdName is the name of the command line app.
 	CmdName = "autotune"
 )
 
+func subCmd(cmds ...string) string {
+	return fmt.Sprintf("%s %s", CmdName, strings.Join(cmds, " "))
+}
+
+func usage() {
+	usage := `Usage: %s [command]
+
+Available commands:
+    signature [profile]     Update settings based on signature of man application.
+
+Autotune by Anatma.
+Copyright (c) 2015-2016. Abhi Yerra.
+https://anatma.co/autotune
+`
+
+	fmt.Printf(usage, CmdName)
+}
+
 func main() {
-	agent := NewAgent()
-	agent.ParseArgs(os.Args[1:])
-	agent.Run()
+	var (
+		err error
+	)
+
+	if len(os.Args) < 2 {
+		usage()
+		os.Exit(0)
+	}
+
+	switch os.Args[1] {
+	case "signature":
+		sig := NewSignature()
+		sig.ParseArgs(os.Args[2:])
+		err = sig.Run()
+	default:
+		usage()
+		os.Exit(-1)
+	}
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
 }
