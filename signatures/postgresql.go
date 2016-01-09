@@ -25,7 +25,3 @@ func (c *PostgresqlConfig) GetSysctl() map[string]string {
 
 	return sysctl
 }
-
-func (c *PostgresqlConfig) GetFiles() map[string]FileChange {
-	return nil
-}

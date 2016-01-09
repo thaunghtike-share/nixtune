@@ -30,7 +30,3 @@ func (c *GolangConfig) GetSysctl() map[string]string {
 	nc := &NetworkConfig{}
 	return nc.GetSysctl()
 }
-
-func (c *GolangConfig) GetFiles() map[string]FileChange {
-	return nil
-}

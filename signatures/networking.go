@@ -97,15 +97,3 @@ func (c *NetworkConfig) GetSysctl() map[string]string {
 
 	return sysctl
 }
-
-func (c *NetworkConfig) GetFiles() map[string]FileChange {
-	files := make(map[string]FileChange)
-
-	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
-	files["/etc/security/limits.d/00_anatma_autotune_limits.conf"] = FileChange{
-		Content: "* - nofile unlimited",
-		Append:  true,
-	}
-
-	return files
-}
