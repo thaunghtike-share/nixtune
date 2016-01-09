@@ -1,5 +1,4 @@
-/*
- * Anatma Autotune - Kernel Autotuning
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
