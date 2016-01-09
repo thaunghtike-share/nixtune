@@ -8,23 +8,6 @@
  */
 package signatures
 
-type ServerType int
-
-const (
-	// Async and High Network Throughput
-	GolangServer ServerType = iota
-	NodejsServer
-	NginxServer
-
-	// Forking Servers
-	ApacheServer
-	PostgresqlServer
-
-	JavaServer
-
-	Unknown
-)
-
 type SystemConfiger interface {
 	GetEnv() map[string]string
 	GetSysctl() map[string]string
@@ -36,39 +19,39 @@ type FileChange struct {
 	Append  bool
 }
 
-func ServerSignature(signature string) ServerType {
-	switch signature {
-	case "golang":
-		return GolangServer
-	case "nodejs":
-		return NodejsServer
-	case "nginx":
-		return NginxServer
-	case "apache":
-		return ApacheServer
-	}
-
-	return Unknown
+type Signatures struct {
+	ServerConfigs map[string]SystemConfiger
 }
 
-func Configs(signature string) (configs []SystemConfiger) {
-	switch ServerSignature(signature) {
-	case GolangServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewGolangConfig())
-	case NodejsServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewGolangConfig())
-	case NginxServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewNginxConfig())
-	case PostgresqlServer:
-		configs = append(configs, NewNetworkConfig(LowNetworkLevel))
-		configs = append(configs, NewPostgresqlConfig())
-	case ApacheServer:
-		configs = append(configs, NewNetworkConfig(HighNetworkLevel))
-		configs = append(configs, NewApacheConfig())
+func NewSignatures() *Signatures {
+	s := &Signatures{}
+	s.ServerConfigs = make(map[string]SystemConfiger)
+
+	// Async Server configurations
+	s.ServerConfigs["golang"] = NewGolangConfig()
+	s.ServerConfigs["nodejs"] = NewNodejsConfig()
+	s.ServerConfigs["nginx"] = NewNginxConfig()
+	s.ServerConfigs["haproxy"] = NewHaproxyConfig()
+
+	// Forking server configurations
+	s.ServerConfigs["apache"] = &PostgresqlConfig{}
+	s.ServerConfigs["postgresql"] = &PostgresqlConfig{}
+
+	s.ServerConfigs["java"] = NewJavaConfig()
+
+	return s
+}
+
+// SignatureTypes returns the slice of the different configurations
+// that we have available.
+func (s *Signatures) Types() (types []string) {
+	for k, _ := range s.ServerConfigs {
+		types = append(types, k)
 	}
 
 	return
+}
+
+func (c *Signatures) Get(sig string) SystemConfiger {
+	return c.ServerConfigs[sig]
 }

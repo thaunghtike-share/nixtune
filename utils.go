@@ -5,11 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"syscall"
@@ -40,10 +40,19 @@ func runCmd(cmdName string, cmdArgs ...string) (err error) {
 	return
 }
 
-func writeFile(fileName, content string) {
+func runCmdGetOutput(cmdName string, cmdArgs ...string) []byte {
+	cmdOut, err := exec.Command(cmdName, cmdArgs...).Output()
+	if err != nil {
+		return nil
+	}
 
+	return cmdOut
 }
 
-func logMe(logType string, logString string) {
-	log.Println(logType, logString)
+func sysctlGet(k string) string {
+	return string(runCmdGetOutput("sysctl", "-b", k))
+}
+
+func writeFile(fileName, content string) {
+
 }

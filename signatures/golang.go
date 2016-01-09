@@ -1,5 +1,4 @@
-/*
- * Anatma Autotune - Kernel Autotuning
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -28,7 +27,8 @@ func (c *GolangConfig) GetEnv() map[string]string {
 }
 
 func (c *GolangConfig) GetSysctl() map[string]string {
-	return nil
+	nc := &NetworkConfig{}
+	return nc.GetSysctl()
 }
 
 func (c *GolangConfig) GetFiles() map[string]FileChange {

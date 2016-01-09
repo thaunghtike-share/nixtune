@@ -1,5 +1,4 @@
-/*
- * Anatma Autotune - Kernel Autotuning
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -27,21 +26,10 @@ a metric of teh connection.
 // getNetworkSettings()
 
 type NetworkConfig struct {
-	networkLevel NetworkLevel
 }
 
-type NetworkLevel uint
-
-const (
-	HighNetworkLevel NetworkLevel = iota
-	MediumNetworkLevel
-	LowNetworkLevel
-)
-
-func NewNetworkConfig(networkLevel NetworkLevel) *NetworkConfig {
-	return &NetworkConfig{
-		networkLevel: networkLevel,
-	}
+func NewNetworkConfig() *NetworkConfig {
+	return &NetworkConfig{}
 }
 
 func (c *NetworkConfig) GetEnv() map[string]string {

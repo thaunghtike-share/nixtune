@@ -1,11 +1,11 @@
-/*
- * Anatma Autotune - Kernel Autotuning
+/* Anatma Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package main
 
 import (
@@ -15,6 +15,7 @@ import (
 )
 
 const (
+	// CmdName is the name of the command line app.
 	CmdName = "autotune"
 )
 
@@ -23,27 +24,10 @@ func subCmd(cmds ...string) string {
 }
 
 func usage() {
-	usage := `
-Usage: %s [command]
+	usage := `Usage: %s [command]
 
 Available commands:
-    network stats Get network utilization over a period of time.
-    network pid   Figure out the profile of the machine based on
-                  network processes that are running on the machine.
-
-    memory stats  FUTURE
-    memory pid    FUTURE
-
-    io stats      FUTURE
-    io pid        FUTURE
-
-    cpu stats     FUTURE
-    cpu pid       FUTURE
-
-    profile       FUTURE: Guess signature of the machine based on memory,
-                  network and IO usage.
-
-    server        Update settings based on profile of server.
+    signature [profile]     Update settings based on signature of man application.
 
 Autotune by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
@@ -64,21 +48,13 @@ func main() {
 	}
 
 	switch os.Args[1] {
-	case "network":
-		switch os.Args[2] {
-		case "stats":
-			network := NewNetworkStats()
-			network.ParseArgs(os.Args[3:])
-			err = network.Run()
-		case "pid":
-			network := NewNetworkPid()
-			network.ParseArgs(os.Args[3:])
-			err = network.Run()
-		}
-	case "server":
-		agent := NewServer()
-		agent.ParseArgs(os.Args[2:])
-		err = agent.Run()
+	case "signature":
+		sig := NewSignature()
+		sig.ParseArgs(os.Args[2:])
+		err = sig.Run()
+	default:
+		usage()
+		os.Exit(-1)
 	}
 
 	if err != nil {

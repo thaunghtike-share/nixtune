@@ -5,10 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package signatures
 
-// https://github.com/observing/balancerbattle
+package main
 
-func NewNginxConfig() *GolangConfig {
-	return &GolangConfig{}
+import (
+	"log"
+)
+
+func logMe(logType string, logString string) {
+	log.Println(logType, logString)
 }
