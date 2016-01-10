@@ -7,12 +7,12 @@
  */
 package signatures
 
-// ##  Linux Optimizations for High Throughput Golang Apps
+// #  Linux Optimizations for High Throughput Golang Apps
 //
 // Go applications have unique characteristics which require certain
 // Linux kernel tuning to achieve high throughput.
 //
-// ### Go\'s utilization Profile
+// # Go\'s utilization Profile
 //
 // CPU will not be a bottleneck with Golang applications. Our research
 // shows that applications, even those that utilize CGO, do no see CPU be
@@ -23,7 +23,7 @@ package signatures
 //  - Default ulimits
 //  - Networking
 //
-// ## Assumptions
+// # Assumptions
 //
 // We will be under the assumption that there will be one primary Go
 // application running on the machine and can have access to all of the
@@ -31,9 +31,9 @@ package signatures
 // goal is to have high response rate. We want to be able to handle
 // millions of requests.
 //
-// ## Prescription
+// # Prescription
 //
-// ### GC Optimizations
+// # GC Optimizations
 //
 // For all intents and purposes we should be able to increase the GOGC to
 // a number based on the size of the machine. If I am using a m4.large
@@ -42,7 +42,7 @@ package signatures
 // optimizing the server to be heavily utilized for a primary Golang
 // service we want to use up all the RAM available to us.
 //
-// ### Ulimits
+// # Ulimits
 //
 // Ulimits are a security mechanism in POSIX based systems which gives
 // each user a certain amount of allocation of various
@@ -57,7 +57,7 @@ package signatures
 // application we will give every user on the Linux machine unlimited
 // open files.
 //
-// ### Networking
+// # Networking
 //
 // https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads
 type GolangConfig struct{}
