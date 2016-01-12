@@ -80,6 +80,6 @@ func (c *GolangConfig) GetEnv() map[string]string {
 }
 
 func (c *GolangConfig) GetSysctl() map[string]string {
-	nc := &NetworkConfig{}
+	nc := NetworkConfig{}
 	return nc.GetSysctl()
 }

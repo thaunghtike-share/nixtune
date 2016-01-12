@@ -1,7 +1,6 @@
 all:
 	go get
-	golint **/*.go
-	golint *.go
+	golint ./...
 	go test -cover
 	go vet
 	go build
