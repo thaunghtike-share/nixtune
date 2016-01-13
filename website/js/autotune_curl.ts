@@ -19,6 +19,7 @@ export class AutotuneCurl {
     profiles: []string = [
         "golang",
         "nodejs",
+        "haproxy"
     ];
     // Default profile to use.
     selectedProfile: string = 'golang';
