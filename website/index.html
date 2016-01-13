@@ -1,6 +1,5 @@
----
-layout: front
----
++++
++++
 
 <header id="autotune-header">
   <div class="container">
@@ -37,8 +36,8 @@ layout: front
     <div class="row">
       <div class="col-lg-6">
         <p>
-        Installation is easy. Specify the server profile of your
-        machine and run the curl command.
+          Installation is easy. Specify the server profile of your
+          machine and run the curl command.
         </p>
 
       </div>
@@ -123,3 +122,20 @@ layout: front
     </div>
   </div>
 </section>
+
+<!-- 2. Configure SystemJS -->
+<script>
+System.config({
+  transpiler: 'typescript',
+  typescriptOptions: { emitDecoratorMetadata: true },
+  packages: {'src': {defaultExtension: 'ts'}}
+});
+</script>
+<!-- 3. Bootstrap -->
+<script>
+System.import('angular2/platform/browser').then(function(ng){
+  System.import('./js/autotune_curl.ts').then(function(src) {
+    ng.bootstrap(src.AutotuneCurl);
+  });
+});
+</script>
