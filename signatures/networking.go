@@ -42,6 +42,7 @@ func (c *networkConfig) GetEnv() map[string]string {
 // Many of these settings were from the following places:
 //   - http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html
 //   - https://rtcamp.com/tutorials/linux/sysctl-conf/
+//   - https://fasterdata.es.net/host-tuning/linux/
 //
 // TODO: These setting are sort of set in stone but I feel that they
 // can adapt as the system is being used. We don't have to set them to
@@ -91,20 +92,55 @@ func (c *networkConfig) GetSysctl() map[string]string {
 	// conditions require more than the default value.
 	sysctl["net.ipv4.tcp_max_tw_buckets"] = "400000"
 	sysctl["net.ipv4.tcp_no_metrics_save"] = "1"
-	sysctl["net.ipv4.tcp_rmem"] = "4096 87380 16777216"
 	sysctl["net.ipv4.tcp_syn_retries"] = "2"
 	sysctl["net.ipv4.tcp_synack_retries"] = "2"
-	sysctl["net.ipv4.tcp_wmem"] = "4096 65536 16777216"
+	sysctl["net.ipv4.tcp_rmem"] = "4096 87380 67108864"
+	sysctl["net.ipv4.tcp_wmem"] = "4096 65536 67108864"
 
 	// Amount of memory to keep free. Don't want to make this too high as
 	// Linux will spend more time trying to reclaim memory.
 	sysctl["vm.min_free_kbytes"] = "65536"
 
 	// http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
-	sysctl["fs.file-max"] = "2097152"
+	// This needs to be higher.
+	// sysctl["fs.file-max"] = "2097152"
 
 	return sysctl
 }
 
 // http://cherokee-project.com/doc/other_os_tuning.html
 // https://easyengine.io/tutorials/linux/sysctl-conf/
+
+/*
+
+sysctl -w net.ipv4.tcp_fin_timeout=15
+sysctl -w net.ipv4.ip_local_port_range='1024 65535'
+
+Default:
+sysctl net.core.somaxconn=128
+Changes to:
+sysctl -w net.core.somaxconn=16096
+
+Default:
+sysctl net.ipv4.tcp_max_syn_backlog
+net.ipv4.tcp_max_syn_backlog = 2048
+sysctl -w net.ipv4.tcp_max_syn_backlog=20480
+
+Default:
+sysctl net.core.rmem_max
+net.core.rmem_max = 212992
+sysctl -w net.core.rmem_max="16777216"
+
+net.core.wmem_max
+net.core.wmem_max = 212992
+sysctl -w net.core.wmem_max="16777216"
+
+sysctl net.ipv4.tcp_rmem
+net.ipv4.tcp_rmem = 4096        87380   6291456
+sysctl -w net.ipv4.tcp_rmem="4096 87380 67108864"
+
+sysctl net.ipv4.tcp_wmem
+net.ipv4.tcp_wmem = 4096        16384   4194304
+sysctl -w net.ipv4.tcp_wmem="4096 65536 67108864"
+
+*/
