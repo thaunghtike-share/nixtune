@@ -21,12 +21,14 @@ function download_autotune {
 function install_autotune {
     profile=$1 ; shift
 
+    echo ""
+    echo ""
     echo "Since we are installing from the web Anatma Autotune"
     echo "WILL NOT update the system values. It will only display"
     echo "what values will change."
     echo ""
-    echo "Verify that the values being changed are okay."
-    echo "Run it again with: \"autotune signature $profile\""
+    echo "Verify that the values being changed are okay and run"
+    echo "it again with: \"autotune signature $profile\""
     echo ""
     autotune signature -write=false $profile
 }
