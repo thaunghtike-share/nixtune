@@ -13,7 +13,7 @@ function welcome_autotune {
 }
 
 function download_autotune {
-    curl -o /tmp/autotune.tar.gz https://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
+    curl -s -o /tmp/autotune.tar.gz https://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
     cd /tmp && tar zxvf autotune.tar.gz
     sudo mv autotune /usr/local/bin/autotune
 }
