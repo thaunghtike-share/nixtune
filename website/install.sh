@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=0.5.1
+VERSION=0.5.2
 
 function download_autotune {
     curl -o /tmp/autotune.tar.gz https://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
