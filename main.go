@@ -19,6 +19,10 @@ const (
 	CmdName = "autotune"
 )
 
+var (
+	version = "v0.0.0"
+)
+
 func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", CmdName, strings.Join(cmds, " "))
 }
@@ -29,12 +33,12 @@ func usage() {
 Available commands:
     signature [profile]     Update settings based on signature of man application.
 
-Autotune by Anatma.
+Autotune %s by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
 https://anatma.co/autotune
 `
 
-	fmt.Printf(usage, CmdName)
+	fmt.Printf(usage, CmdName, version)
 }
 
 func main() {
