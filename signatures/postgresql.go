@@ -5,18 +5,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package signatures
 
+// PostgresqlConfig defines the interface for PostgreSQL configration.
 type PostgresqlConfig struct{}
 
+// NewPostgresqlConfig returns the config for PostgreSQL.
 func NewPostgresqlConfig() *PostgresqlConfig {
 	return &PostgresqlConfig{}
 }
 
+// GetEnv returns configurations Environment configurations.
 func (c *PostgresqlConfig) GetEnv() map[string]string {
 	return nil
 }
 
+// GetSysctl returns configurations for the kernel.
 func (c *PostgresqlConfig) GetSysctl() map[string]string {
 	sysctl := make(map[string]string)
 

@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package signatures
 
 /*
@@ -25,14 +26,14 @@ a metric of teh connection.
 
 // getNetworkSettings()
 
-type NetworkConfig struct {
+type networkConfig struct {
 }
 
-func NewNetworkConfig() *NetworkConfig {
-	return &NetworkConfig{}
+func newNetworkConfig() *networkConfig {
+	return &networkConfig{}
 }
 
-func (c *NetworkConfig) GetEnv() map[string]string {
+func (c *networkConfig) GetEnv() map[string]string {
 	// No-op
 
 	return nil
@@ -47,7 +48,7 @@ func (c *NetworkConfig) GetEnv() map[string]string {
 // the values but we can migrate and change as we learn more about the
 // system and tune it appropriately.
 
-func (c *NetworkConfig) GetSysctl() map[string]string {
+func (c *networkConfig) GetSysctl() map[string]string {
 	sysctl := make(map[string]string)
 
 	// tcp_fin_timeout - INTEGER
@@ -78,9 +79,16 @@ func (c *NetworkConfig) GetSysctl() map[string]string {
 	sysctl["net.ipv4.tcp_syncookies"] = "1"
 
 	// The maximum number of "backlogged sockets".
-	sysctl["net.core.somaxconn"] = "4096"
+	sysctl["net.core.somaxconn"] = "16096"
 
-	sysctl["net.core.netdev_max_backlog"] = "4096"
+	sysctl["net.core.netdev_max_backlog"] = "30000"
+	// Maximal number of timewait sockets held by the system
+	// simultaneously. If this number is exceeded time-wait socket
+	// is immediately destroyed and a warning is printed. This
+	// limit exists only to prevent simple DoS attacks, you must
+	// not lower the limit artificially, but rather increase it
+	// (probably, after increasing installed memory), if network
+	// conditions require more than the default value.
 	sysctl["net.ipv4.tcp_max_tw_buckets"] = "400000"
 	sysctl["net.ipv4.tcp_no_metrics_save"] = "1"
 	sysctl["net.ipv4.tcp_rmem"] = "4096 87380 16777216"
@@ -97,3 +105,6 @@ func (c *NetworkConfig) GetSysctl() map[string]string {
 
 	return sysctl
 }
+
+// http://cherokee-project.com/doc/other_os_tuning.html
+// https://easyengine.io/tutorials/linux/sysctl-conf/
