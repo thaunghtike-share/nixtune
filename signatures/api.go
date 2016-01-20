@@ -5,46 +5,51 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package signatures
 
+// SystemConfiger is the interface which each signature should have to
+// set the values in the environment and the kernel.
 type SystemConfiger interface {
 	GetEnv() map[string]string
 	GetSysctl() map[string]string
 }
 
-type Signatures struct {
-	ServerConfigs map[string]SystemConfiger
-}
+// Signatures contains the name and configuration for each of the
+// server profiles.
+type Signatures map[string]SystemConfiger
 
-func NewSignatures() *Signatures {
-	s := &Signatures{}
-	s.ServerConfigs = make(map[string]SystemConfiger)
+// New returns a map of profile and system configurations that are
+// currently supported.
+func New() (serverConfigs Signatures) {
+	serverConfigs = make(Signatures)
 
 	// Async Server configurations
-	s.ServerConfigs["golang"] = NewGolangConfig()
-	s.ServerConfigs["nodejs"] = NewNodejsConfig()
-	s.ServerConfigs["nginx"] = NewNginxConfig()
-	s.ServerConfigs["haproxy"] = NewHaproxyConfig()
+	serverConfigs["golang"] = NewGolangConfig()
+	serverConfigs["nodejs"] = NewNodejsConfig()
+	serverConfigs["nginx"] = NewNginxConfig()
+	serverConfigs["haproxy"] = NewHaproxyConfig()
 
 	// Forking server configurations
-	s.ServerConfigs["apache"] = &PostgresqlConfig{}
-	s.ServerConfigs["postgresql"] = &PostgresqlConfig{}
+	serverConfigs["apache"] = NewApacheConfig()
+	serverConfigs["postgresql"] = NewPostgresqlConfig()
 
-	s.ServerConfigs["java"] = NewJavaConfig()
+	serverConfigs["java"] = NewJavaConfig()
 
-	return s
+	return
 }
 
-// SignatureTypes returns the slice of the different configurations
-// that we have available.
-func (s *Signatures) Types() (types []string) {
-	for k, _ := range s.ServerConfigs {
+// Types returns the slice of the different configurations that we
+// have available.
+func (s Signatures) Types() (types []string) {
+	for k := range s {
 		types = append(types, k)
 	}
 
 	return
 }
 
-func (c *Signatures) Get(sig string) SystemConfiger {
-	return c.ServerConfigs[sig]
+// Get returns the kernel configuration for a profile.
+func (s Signatures) Get(sig string) SystemConfiger {
+	return s[sig]
 }

@@ -8,6 +8,7 @@
 
 package signatures
 
+// NewNodejsConfig returns the configuration for Node.js servers.
 func NewNodejsConfig() *GolangConfig {
 	return &GolangConfig{}
 }

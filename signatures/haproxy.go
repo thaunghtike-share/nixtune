@@ -8,6 +8,7 @@
 
 package signatures
 
+// NewHaproxyConfig returns the configration for HAProxy server.
 func NewHaproxyConfig() *GolangConfig {
 	return &GolangConfig{}
 }

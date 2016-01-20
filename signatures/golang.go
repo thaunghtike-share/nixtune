@@ -5,14 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package signatures
 
-// #  Linux Optimizations for High Throughput Golang Apps
+// Linux Optimizations for High Throughput Golang Apps
 //
 // Go applications have unique characteristics which require certain
 // Linux kernel tuning to achieve high throughput.
 //
-// # Go\'s utilization Profile
+// Go's Utilization Profile
 //
 // CPU will not be a bottleneck with Golang applications. Our research
 // shows that applications, even those that utilize CGO, do no see CPU be
@@ -23,7 +24,7 @@ package signatures
 //  - Default ulimits
 //  - Networking
 //
-// # Assumptions
+// Assumptions
 //
 // We will be under the assumption that there will be one primary Go
 // application running on the machine and can have access to all of the
@@ -31,9 +32,7 @@ package signatures
 // goal is to have high response rate. We want to be able to handle
 // millions of requests.
 //
-// # Prescription
-//
-// # GC Optimizations
+// GC Optimizations
 //
 // For all intents and purposes we should be able to increase the GOGC to
 // a number based on the size of the machine. If I am using a m4.large
@@ -42,7 +41,7 @@ package signatures
 // optimizing the server to be heavily utilized for a primary Golang
 // service we want to use up all the RAM available to us.
 //
-// # Ulimits
+// Ulimits
 //
 // Ulimits are a security mechanism in POSIX based systems which gives
 // each user a certain amount of allocation of various
@@ -60,12 +59,19 @@ package signatures
 // # Networking
 //
 // https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads
+
+// GolangConfig is the configuration for Golang applications.
 type GolangConfig struct{}
 
+// NewGolangConfig returns the configuration for applications written
+// in Go. There is an assumption that the application is going to use
+// all the memory on the system as well it being a high throughput
+// network application.
 func NewGolangConfig() *GolangConfig {
 	return &GolangConfig{}
 }
 
+// GetEnv returns configurations Environment configurations.
 func (c *GolangConfig) GetEnv() map[string]string {
 	env := make(map[string]string)
 
@@ -79,7 +85,8 @@ func (c *GolangConfig) GetEnv() map[string]string {
 	return env
 }
 
+// GetSysctl returns configurations for the kernel.
 func (c *GolangConfig) GetSysctl() map[string]string {
-	nc := NetworkConfig{}
+	nc := newNetworkConfig()
 	return nc.GetSysctl()
 }

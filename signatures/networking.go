@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package signatures
 
 /*
@@ -25,14 +26,14 @@ a metric of teh connection.
 
 // getNetworkSettings()
 
-type NetworkConfig struct {
+type networkConfig struct {
 }
 
-func NewNetworkConfig() *NetworkConfig {
-	return &NetworkConfig{}
+func newNetworkConfig() *networkConfig {
+	return &networkConfig{}
 }
 
-func (c *NetworkConfig) GetEnv() map[string]string {
+func (c *networkConfig) GetEnv() map[string]string {
 	// No-op
 
 	return nil
@@ -47,7 +48,7 @@ func (c *NetworkConfig) GetEnv() map[string]string {
 // the values but we can migrate and change as we learn more about the
 // system and tune it appropriately.
 
-func (c *NetworkConfig) GetSysctl() map[string]string {
+func (c *networkConfig) GetSysctl() map[string]string {
 	sysctl := make(map[string]string)
 
 	// tcp_fin_timeout - INTEGER
