@@ -96,9 +96,11 @@ func (k *Signature) updateEnv() {
 // written to disk so if things fail we can just restart the
 // machine.
 func (k *Signature) updateSysctl() {
-	for k, v := range k.Config.GetSysctl() {
-		logMe("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", k, sysctlGet(k), v))
-		runCmd("sysctl", "-w", fmt.Sprintf("%s='%v'", k, v))
+	for kernelKey, kernelVal := range k.Config.GetSysctl() {
+		logMe("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, sysctlGet(kernelKey), kernelVal))
+		if k.write {
+			runCmd("sysctl", "-w", fmt.Sprintf("%s='%v'", kernelKey, kernelVal))
+		}
 	}
 }
 

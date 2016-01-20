@@ -5,7 +5,7 @@ VERSION := $(shell cat VERSION)
 all: build
 
 build: deps test
-	go build -ldflags "-X main.version $(VERSION)"
+	go build -ldflags "-X main.version=$(VERSION)"
 	$(MAKE) website-assets
 
 deps:
@@ -20,11 +20,11 @@ archive:
 	tar cvzf autotune-$(VERSION).tar.gz autotune
 
 release: build archive
-	echo $(VERSION) > website/VERSION
-	git add website/VERSION
+	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
+	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
-	-git tag $(VERSION) && git push --tags
-	s3cmd put --acl-public nautotune s3://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
+	-git tag v$(VERSION) && git push --tags
+	s3cmd put --acl-public autotune-$(VERSION).tar.gz s3://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
