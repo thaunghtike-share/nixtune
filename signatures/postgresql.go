@@ -9,6 +9,7 @@
 package signatures
 
 // PostgresqlConfig defines the interface for PostgreSQL configration.
+// http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
 type PostgresqlConfig struct{}
 
 // NewPostgresqlConfig returns the config for PostgreSQL.
