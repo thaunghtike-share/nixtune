@@ -9,7 +9,9 @@
 package signatures
 
 // PostgresqlConfig defines the interface for PostgreSQL configration.
+//
 // http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
+// http://www.postgresql.org/docs/9.1/static/kernel-resources.html
 type PostgresqlConfig struct{}
 
 // NewPostgresqlConfig returns the config for PostgreSQL.
@@ -28,6 +30,9 @@ func (c *PostgresqlConfig) GetSysctl() map[string]string {
 
 	sysctl["kernel.sched_migration_cost_ns"] = "5000000"
 	sysctl["kernel.sched_autogroup_enabled"] = "0"
+
+	sysctl["kernel.shmmax"] = "17179869184"
+	sysctl["kernel.shmall"] = "4194304"
 
 	return sysctl
 }
