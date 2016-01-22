@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=0.5.3
+VERSION=0.5.4
 
 function welcome_autotune {
     echo "Welcome to Anatma Autotune ($VERSION) Installation"
