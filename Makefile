@@ -1,6 +1,7 @@
 PRODUCT := autotune
 PROFILES := $(shell cd signatures && ls *.go | grep -v api | grep -v networking | grep -v doc | sed "s/.go$$//g")
 VERSION := $(shell cat VERSION)
+WEBSITE := anatma.github.io
 
 all: build
 
@@ -33,7 +34,7 @@ website:
 	echo "Nothin here govn'r"
 
 website-dev:  website
-	rm -rf $$GOPATH/src/github.com/anatma/anatma.co/content/$(PRODUCT)
-	cp -r ./website $$GOPATH/src/github.com/anatma/anatma.co/content/$(PRODUCT)
+	rm -rf $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
+	cp -r ./website $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
 
 .PHONY: website website-dev

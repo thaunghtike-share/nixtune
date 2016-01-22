@@ -53,6 +53,10 @@ func sysctlGet(k string) string {
 	return string(runCmdGetOutput("sysctl", "-b", k))
 }
 
+func sysctlSet(k, v string) string {
+	return string(runCmdGetOutput("sysctl", "-w", fmt.Sprintf("%s=\"%s\"", k, v)))
+}
+
 func writeFile(fileName, content string) {
 
 }
