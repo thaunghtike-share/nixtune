@@ -20,7 +20,7 @@ test:
 archive:
 	tar cvzf autotune-$(VERSION).tar.gz autotune
 
-release: build archive
+release: spell build archive
 	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
 	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
@@ -36,5 +36,10 @@ website:
 website-dev:  website
 	rm -rf $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
 	cp -r ./website $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
+
+spell:
+	for i in $(shell ls website/*.html); do \
+		aspell check --mode=html $$i; \
+	done
 
 .PHONY: website website-dev
