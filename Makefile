@@ -18,14 +18,14 @@ test:
 	go tool vet **/*.go
 
 archive:
-	tar cvzf autotune-$(VERSION).tar.gz autotune
+	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
 
 release: spell build archive
 	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
 	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	s3cmd put --acl-public autotune-$(VERSION).tar.gz s3://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
+	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.anatma.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
