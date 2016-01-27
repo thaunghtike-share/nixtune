@@ -36,8 +36,8 @@ func (n *Stats) ParseArgs(args []string) {
 func (n *Stats) Run() error {
 	type statsResponse struct {
 		Memory struct {
-			Swapping bool
-			// SwappingProcesses map[string]bool
+			Swapping          bool
+			SwappingProcesses map[string]bool
 		}
 	}
 
@@ -45,7 +45,7 @@ func (n *Stats) Run() error {
 
 	mem := memory.New(nil)
 	s.Memory.Swapping = mem.Swapping()
-	// s.Memory.SwappingProcesses = mem.SwappingProcesses()
+	s.Memory.SwappingProcesses = mem.SwappingProcesses()
 
 	return printJson(s)
 }

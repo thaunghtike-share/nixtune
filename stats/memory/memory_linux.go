@@ -12,6 +12,7 @@ package memory
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/anatma/procfs"
 )
@@ -34,7 +35,32 @@ func (m *Memory) Swapping() bool {
 }
 
 func (m *Memory) SwappingProcesses() map[string]bool {
-	swappingProcesses := make(map[string]bool)
+	sp := make(map[string]bool)
 
-	return swappingProcesses
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	for _, i := range procs {
+		ps, _ := i.NewStatus()
+		if ps.VmSwap != "" {
+			v, err := strconv.ParseInt(ps.VmSwap, 10, 64)
+			if err != nil {
+				continue
+			}
+
+			if v > 0 {
+				sp[ps.Pid] = true
+			}
+		}
+
+	}
+
+	return sp
 }
