@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package signatures
 
 import (
 	"fmt"
@@ -21,6 +21,8 @@ func runCmd(cmdName string, cmdArgs ...string) (err error) {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+
+	fmt.Println(cmdArgs)
 
 	if err := cmd.Start(); err != nil {
 		return err
@@ -47,16 +49,4 @@ func runCmdGetOutput(cmdName string, cmdArgs ...string) []byte {
 	}
 
 	return cmdOut
-}
-
-func sysctlGet(k string) string {
-	return string(runCmdGetOutput("sysctl", "-b", k))
-}
-
-func sysctlSet(k, v string) string {
-	return string(runCmdGetOutput("sysctl", "-w", fmt.Sprintf("%s=\"%s\"", k, v)))
-}
-
-func writeFile(fileName, content string) {
-
 }

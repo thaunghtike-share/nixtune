@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package signatures
 
 import (
 	"flag"
 	"fmt"
-	sig "github.com/anatma/autotune/signatures"
+	"log"
 	"os"
 	"sort"
 	"strings"
@@ -23,11 +23,25 @@ const (
 	EnvFileName = "/etc/profile.d/99_anatma_autotune.sh"
 )
 
+// SystemConfiger is the interface which each signature should have to
+// set the values in the environment and the kernel.
+type SystemConfiger interface {
+	GetEnv() map[string]string
+	GetSysctl() map[string]string
+}
+
 // Signature is the command used to update the system settings based
 // on the profile specified by the user.
 type Signature struct {
+	CmdName string
+
 	// Config is configuration for the signature that we want to set.
-	Config sig.SystemConfiger
+	Config SystemConfiger
+
+	// Signatures contains the name and configuration for each of the
+	// server profiles.
+	Profiles map[string]SystemConfiger
+
 	// signature is the string representation of the signature we
 	// want to get
 	signature string
@@ -41,8 +55,8 @@ func (k *Signature) usage() {
 		sigs []string
 	)
 
-	for _, i := range sig.New().Types() {
-		sigs = append(sigs, fmt.Sprintf(" - %s", i))
+	for k, _ := range k.Profiles {
+		sigs = append(sigs, fmt.Sprintf(" - %s", k))
 	}
 	sort.Strings(sigs)
 
@@ -57,7 +71,7 @@ Available signature profiles:
 // ParseArgs parses the commandline arguments passed for the Signature
 // command.
 func (k *Signature) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(subCmd("signature"), flag.ContinueOnError)
+	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
 	flags.BoolVar(&k.write, "write", true, "Write the settings.")
 
 	if err := flags.Parse(args); err != nil {
@@ -66,7 +80,7 @@ func (k *Signature) ParseArgs(args []string) {
 
 	leftovers := flags.Args()
 	if len(leftovers) == 0 {
-		fmt.Fprintf(os.Stderr, "Usage of %s signature [profile]:\n", CmdName)
+		fmt.Fprintf(os.Stderr, "Usage of %s [profile]:\n", k.CmdName)
 		flags.PrintDefaults()
 		k.usage()
 		os.Exit(-1)
@@ -86,7 +100,7 @@ func (k *Signature) updateEnv() {
 		envVar := fmt.Sprintf("%s=%s\n", k, v)
 		fileContent += envVar
 
-		logMe("INFO", envVar)
+		log.Println("INFO", envVar)
 	}
 
 	//	writeFile(EnvFileName, fileContent)
@@ -97,7 +111,7 @@ func (k *Signature) updateEnv() {
 // machine.
 func (k *Signature) updateSysctl() {
 	for kernelKey, kernelVal := range k.Config.GetSysctl() {
-		logMe("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, sysctlGet(kernelKey), kernelVal))
+		log.Println("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, sysctlGet(kernelKey), kernelVal))
 		if k.write {
 			sysctlSet(kernelKey, kernelVal)
 		}
@@ -107,9 +121,8 @@ func (k *Signature) updateSysctl() {
 // Run gets the configuration for the profile and updates the system
 // settings with the new values.
 func (k *Signature) Run() error {
-	sigs := sig.New()
+	k.Config = k.Profiles[k.signature]
 
-	k.Config = sigs.Get(k.signature)
 	if k.Config == nil {
 		k.usage()
 	}
@@ -124,6 +137,26 @@ func (k *Signature) Run() error {
 
 // NewSignature returns a new Signature object that we will use to
 // update the system settings.
-func NewSignature() *Signature {
-	return &Signature{}
+func New(cmdName string) *Signature {
+	// New returns a map of profile and system configurations that are
+	// currently supported.
+	s := &Signature{
+		CmdName: cmdName,
+	}
+
+	s.Profiles = make(map[string]SystemConfiger)
+
+	// Async Server configurations
+	s.Profiles["golang"] = NewGolangConfig()
+	s.Profiles["nodejs"] = NewNodejsConfig()
+	s.Profiles["nginx"] = NewNginxConfig()
+	s.Profiles["haproxy"] = NewHaproxyConfig()
+
+	// Forking server configurations
+	s.Profiles["apache"] = NewApacheConfig()
+	s.Profiles["postgresql"] = NewPostgresqlConfig()
+
+	s.Profiles["java"] = NewJavaConfig()
+
+	return s
 }
