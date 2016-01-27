@@ -6,12 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package signatures
 
 import (
-	"log"
+	"fmt"
 )
 
-func logMe(logType string, logString string) {
-	log.Println(logType, logString)
+func sysctlGet(k string) string {
+	return string(runCmdGetOutput("sysctl", "-b", k))
+}
+
+func sysctlSet(k, v string) string {
+	return string(runCmdGetOutput("sysctl", "-w", fmt.Sprintf("%s=\"%s\"", k, v)))
 }
