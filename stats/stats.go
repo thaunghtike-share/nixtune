@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/anatma/autotune/stats/fd"
 	"github.com/anatma/autotune/stats/memory"
 )
 
@@ -40,6 +41,10 @@ func (n *Stats) Run() error {
 			Swapping          bool
 			SwappingProcesses []memory.SwappingProcess
 		}
+
+		FD struct {
+			FileDescriptors []fd.FileDescriptor
+		}
 	}
 
 	var s statsResponse
@@ -47,6 +52,9 @@ func (n *Stats) Run() error {
 	mem := memory.New(nil)
 	s.Memory.Swapping = mem.Swapping()
 	s.Memory.SwappingProcesses = mem.SwappingProcesses()
+
+	fdesc := fd.New(nil)
+	s.FD.FileDescriptors = fdesc.FDs()
 
 	return printJson(s)
 }
