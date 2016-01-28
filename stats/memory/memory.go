@@ -14,9 +14,6 @@ import (
 
 type Memory struct {
 	Duration *time.Duration
-
-	Total int64
-	Free  int64
 }
 
 func New(duration *time.Duration) *Memory {

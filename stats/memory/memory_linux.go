@@ -34,9 +34,14 @@ func (m *Memory) Swapping() bool {
 	return false
 }
 
-func (m *Memory) SwappingProcesses() map[string]bool {
-	sp := make(map[string]bool)
+type SwappingProcess struct {
+	Name     string
+	PID      string
+	Size     int64
+	SizeUnit string
+}
 
+func (m *Memory) SwappingProcesses() (sp []SwappingProcess) {
 	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
 	if err != nil {
 		return nil
@@ -55,8 +60,14 @@ func (m *Memory) SwappingProcesses() map[string]bool {
 				continue
 			}
 
+			// It's swapping.
 			if v > 0 {
-				sp[ps.Pid] = true
+				sp = append(sp, SwappingProcess{
+					Name:     ps.Name,
+					PID:      ps.Pid,
+					Size:     v,
+					SizeUnit: "kb",
+				})
 			}
 		}
 

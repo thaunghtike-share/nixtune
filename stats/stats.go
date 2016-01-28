@@ -11,22 +11,23 @@ package stats
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"os"
 
-	"fmt"
 	"github.com/anatma/autotune/stats/memory"
 )
 
 type Stats struct {
 	CmdName string
 
-	//network  *Network
 	Duration int
+	Every    int
 }
 
 func (n *Stats) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
-	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds. Defaults to 60 seconds.")
+	flags.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
+	flags.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
@@ -37,7 +38,7 @@ func (n *Stats) Run() error {
 	type statsResponse struct {
 		Memory struct {
 			Swapping          bool
-			SwappingProcesses map[string]bool
+			SwappingProcesses []memory.SwappingProcess
 		}
 	}
 
