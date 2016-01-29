@@ -6,8 +6,7 @@ WEBSITE := anatma.github.io
 all: build
 
 build: deps test
-	go build -ldflags "-X main.version=$(VERSION)" github.com/anatma/autotune/cmd/autotune
-	go build -ldflags "-X CmdName=autotune-pro -X main.version=$(VERSION)" github.com/anatma/autotune/cmd/autotune-pro
+	go build -ldflags "-X main.version=$(VERSION)" github.com/anatma/autotune
 	$(MAKE) website-assets
 
 deps:

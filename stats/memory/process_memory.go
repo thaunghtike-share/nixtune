@@ -18,9 +18,9 @@ type ProcessMemory struct {
 	proc procfs.Proc
 
 	Swap struct {
-		Size     int64
-		SizeUnit string
-	}
+		Size     int64  `json:",omitempty"`
+		SizeUnit string `json:",omitempty"`
+	} `json:",omitempty"`
 }
 
 func NewProcess(proc procfs.Proc) *ProcessMemory {

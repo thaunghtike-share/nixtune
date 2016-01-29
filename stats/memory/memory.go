@@ -9,8 +9,6 @@
 package memory
 
 import (
-	"log"
-
 	"github.com/anatma/procfs"
 )
 
@@ -27,22 +25,43 @@ Look to see how memory changes over time.
 
 */
 type Memory struct {
+	Unit string
+
+	Total  int64
+	Free   int64
+	Cached int64
+
+	Swap struct {
+		Total int64
+		Free  int64
+		Used  int64
+	}
 }
 
 func New() *Memory {
-	return &Memory{}
-}
+	m := &Memory{}
 
-func (m *Memory) Swapping() bool {
 	meminfo, err := procfs.NewMeminfo()
 	if err != nil {
-		log.Printf("could not get meminfo: %s", err)
-		return false
+		return nil
 	}
 
-	if meminfo.SwapCached > 0 {
-		return true
-	}
+	m.Unit = "kb"
 
-	return false
+	m.swap(&meminfo)
+	m.mem(&meminfo)
+
+	return m
+}
+
+func (m *Memory) mem(meminfo *procfs.Meminfo) {
+	m.Total = meminfo.MemTotal
+	m.Free = meminfo.MemFree
+	m.Cached = meminfo.Cached
+}
+
+func (m *Memory) swap(meminfo *procfs.Meminfo) {
+	m.Swap.Used = meminfo.SwapCached
+	m.Swap.Total = meminfo.SwapTotal
+	m.Swap.Free = meminfo.SwapFree
 }

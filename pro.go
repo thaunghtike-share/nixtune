@@ -11,10 +11,8 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	. "github.com/anatma/autotune/cmd"
 	"github.com/anatma/fugue/autotune/instance"
 )
 
@@ -28,25 +26,4 @@ func subCommandsPro() (handled bool, err error) {
 	}
 
 	return handled, err
-}
-
-func main() {
-	var (
-		handled bool
-		err     error
-	)
-
-	handled, err = SubCommands()
-	if !handled {
-		handled, err = subCommandsPro()
-		if !handled {
-			Usage()
-			os.Exit(-1)
-		}
-	}
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
 }

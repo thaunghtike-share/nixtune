@@ -6,19 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package fd
+package main
 
-import (
-	"github.com/anatma/procfs"
-)
-
-type ProcessFD map[string]string
-
-func NewProcess(proc procfs.Proc) ProcessFD {
-	fd, err := proc.NewFD()
-	if err != nil {
-
-	}
-
-	return ProcessFD(fd)
-}
+import ()

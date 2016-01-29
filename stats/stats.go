@@ -40,37 +40,23 @@ func (n *Stats) Run() error {
 	type process struct {
 		Exe    string
 		PID    int
-		Memory *memory.ProcessMemory
-		FD     *fd.ProcessFD
+		Memory *memory.ProcessMemory `json:",omitempty"`
+		FD     fd.ProcessFD          `json:",omitempty"`
 	}
 
 	type statsResponse struct {
 		System struct {
-			Memory struct {
-				Swapping bool
-			}
+			Memory *memory.Memory
 		}
 
 		Processes []process
 	}
 
-	var s statsResponse
+	s := statsResponse{}
 
-	mem := memory.New()
+	s.System.Memory = memory.New()
 
-	s.System.Memory.Swapping = mem.Swapping()
-
-	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
-	if err != nil {
-		return nil
-	}
-
-	procs, err := fs.AllProcs()
-	if err != nil {
-		return nil
-	}
-
-	for _, proc := range procs {
+	for _, proc := range n.processes() {
 		exe, err := proc.Executable()
 		if err != nil || exe == "" {
 			status, _ := proc.NewStatus()
@@ -88,6 +74,20 @@ func (n *Stats) Run() error {
 	}
 
 	return printJson(s)
+}
+
+func (n *Stats) processes() procfs.Procs {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	return procs
 }
 
 func printJson(s interface{}) error {
