@@ -9,12 +9,24 @@
 package fd
 
 import (
-// "github.com/anatma/procfs"
+	"github.com/anatma/procfs"
 )
 
-type FD struct {
+type ProcessFD struct {
+	proc procfs.Proc
+
+	Descriptors map[string]string
 }
 
-func New() *FD {
-	return &FD{}
+func NewProcess(proc procfs.Proc) *ProcessFD {
+	pfd := &ProcessFD{proc: proc}
+
+	fd, err := proc.NewFD()
+	if err != nil {
+
+	}
+
+	pfd.Descriptors = fd
+
+	return pfd
 }

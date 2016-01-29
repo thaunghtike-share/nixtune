@@ -16,6 +16,7 @@ import (
 
 	"github.com/anatma/autotune/stats/fd"
 	"github.com/anatma/autotune/stats/memory"
+	"github.com/anatma/procfs"
 )
 
 type Stats struct {
@@ -36,25 +37,55 @@ func (n *Stats) ParseArgs(args []string) {
 }
 
 func (n *Stats) Run() error {
+	type process struct {
+		Exe    string
+		PID    int
+		Memory *memory.ProcessMemory
+		FD     *fd.ProcessFD
+	}
+
 	type statsResponse struct {
-		Memory struct {
-			Swapping          bool
-			SwappingProcesses []memory.SwappingProcess
+		System struct {
+			Memory struct {
+				Swapping bool
+			}
 		}
 
-		FD struct {
-			FileDescriptors []fd.FileDescriptor
-		}
+		Processes []process
 	}
 
 	var s statsResponse
 
-	mem := memory.New(nil)
-	s.Memory.Swapping = mem.Swapping()
-	s.Memory.SwappingProcesses = mem.SwappingProcesses()
+	mem := memory.New()
 
-	fdesc := fd.New(nil)
-	s.FD.FileDescriptors = fdesc.FDs()
+	s.System.Memory.Swapping = mem.Swapping()
+
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	for _, proc := range procs {
+		exe, err := proc.Executable()
+		if err != nil || exe == "" {
+			status, _ := proc.NewStatus()
+			exe = status.Name
+		}
+
+		p := process{
+			Exe:    exe,
+			PID:    proc.PID,
+			Memory: memory.NewProcess(proc),
+			FD:     fd.NewProcess(proc),
+		}
+
+		s.Processes = append(s.Processes, p)
+	}
 
 	return printJson(s)
 }

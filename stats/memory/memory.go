@@ -9,18 +9,10 @@
 package memory
 
 import (
-	"time"
+	"log"
+
+	"github.com/anatma/procfs"
 )
-
-type Memory struct {
-	Duration *time.Duration
-}
-
-func New(duration *time.Duration) *Memory {
-	return &Memory{
-		Duration: duration,
-	}
-}
 
 /*
 https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-meminfo.html
@@ -30,4 +22,27 @@ Look to see how memory changes over time.
  - How many malloc allocations are done.
  - How quickly does the
 
+ Documentation for Linux Memory
+ - http://superuser.com/questions/521551/cat-proc-meminfo-what-do-all-those-numbers-mean
+
 */
+type Memory struct {
+}
+
+func New() *Memory {
+	return &Memory{}
+}
+
+func (m *Memory) Swapping() bool {
+	meminfo, err := procfs.NewMeminfo()
+	if err != nil {
+		log.Printf("could not get meminfo: %s", err)
+		return false
+	}
+
+	if meminfo.SwapCached > 0 {
+		return true
+	}
+
+	return false
+}
