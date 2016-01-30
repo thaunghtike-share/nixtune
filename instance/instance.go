@@ -14,8 +14,10 @@ import (
 	"os"
 )
 
+// CloudType represents ia cloud provider.
 type CloudType int
 
+// Supported Cloud Providers.
 const (
 	Aws CloudType = iota
 	Azure
