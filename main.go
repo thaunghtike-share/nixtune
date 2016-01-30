@@ -21,15 +21,15 @@ import (
 )
 
 var (
-	CmdName = "autotune"
+	cmdName = "autotune"
 	version = "v0.0.0"
 )
 
-func SubCmd(cmds ...string) string {
-	return fmt.Sprintf("%s %s", CmdName, strings.Join(cmds, " "))
+func subCmd(cmds ...string) string {
+	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
 
-func Usage() {
+func usage() {
 	usage := `Usage: %s [command]
 
 Available commands:
@@ -42,7 +42,7 @@ Copyright (c) 2015-2016. Abhi Yerra.
 https://anatma.co/autotune
 `
 
-	fmt.Printf(usage, CmdName, version)
+	fmt.Printf(usage, cmdName, version)
 }
 
 func main() {
@@ -51,25 +51,25 @@ func main() {
 	)
 
 	if len(os.Args) < 2 {
-		Usage()
+		usage()
 		os.Exit(0)
 	}
 
 	switch os.Args[1] {
 	case "signature":
-		sig := signatures.New(SubCmd("signature"))
+		sig := signatures.New(subCmd("signature"))
 		sig.ParseArgs(os.Args[2:])
 		err = sig.Run()
 	case "stats":
-		stats := stats.New(SubCmd("stats"))
+		stats := stats.New(subCmd("stats"))
 		stats.ParseArgs(os.Args[2:])
 		err = stats.Run()
 	case "instance":
-		ins := instance.New(SubCmd("instance"))
+		ins := instance.New(subCmd("instance"))
 		ins.ParseArgs(os.Args[2:])
 		err = ins.Run()
 	default:
-		Usage()
+		usage()
 		os.Exit(-1)
 	}
 
