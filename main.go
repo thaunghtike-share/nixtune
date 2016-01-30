@@ -41,7 +41,6 @@ Autotune %s by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
 https://anatma.co/autotune
 `
-
 	fmt.Printf(usage, cmdName, version)
 }
 

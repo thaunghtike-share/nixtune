@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package instance
 
-import ()
+type Response struct {
+	Aws *AwsInstance
+}
