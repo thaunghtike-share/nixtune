@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+// +build open
+
 package main
 
 import (
@@ -13,21 +15,18 @@ import (
 	"os"
 	"strings"
 
+	"github.com/anatma/autotune/instance"
 	"github.com/anatma/autotune/signatures"
 	"github.com/anatma/autotune/stats"
 )
 
-const (
-	// CmdName is the name of the command line app.
-	CmdName = "autotune"
-)
-
 var (
+	cmdName = "autotune"
 	version = "v0.0.0"
 )
 
 func subCmd(cmds ...string) string {
-	return fmt.Sprintf("%s %s", CmdName, strings.Join(cmds, " "))
+	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
 
 func usage() {
@@ -36,13 +35,14 @@ func usage() {
 Available commands:
     signature [profile]     Update settings based on signature of man application.
     stats                   Gives a quick diagnostics about the state of the machine.
+    instance [api_key]      PRO. Recommended instance size for this machine.
 
 Autotune %s by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
 https://anatma.co/autotune
 `
 
-	fmt.Printf(usage, CmdName, version)
+	fmt.Printf(usage, cmdName, version)
 }
 
 func main() {
@@ -64,6 +64,10 @@ func main() {
 		stats := stats.New(subCmd("stats"))
 		stats.ParseArgs(os.Args[2:])
 		err = stats.Run()
+	case "instance":
+		ins := instance.New(subCmd("instance"))
+		ins.ParseArgs(os.Args[2:])
+		err = ins.Run()
 	default:
 		usage()
 		os.Exit(-1)

@@ -11,22 +11,25 @@ package stats
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"os"
 
-	"fmt"
+	"github.com/anatma/autotune/stats/fd"
 	"github.com/anatma/autotune/stats/memory"
+	"github.com/anatma/procfs"
 )
 
 type Stats struct {
 	CmdName string
 
-	//network  *Network
 	Duration int
+	Every    int
 }
 
 func (n *Stats) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
-	flags.IntVar(&n.Duration, "duration", 60, "Duration to monitor in seconds. Defaults to 60 seconds.")
+	flags.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
+	flags.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
@@ -34,20 +37,42 @@ func (n *Stats) ParseArgs(args []string) {
 }
 
 func (n *Stats) Run() error {
-	type statsResponse struct {
-		Memory struct {
-			Swapping bool
-			// SwappingProcesses map[string]bool
+	s := Response{}
+
+	s.System.Memory = memory.New()
+
+	for _, proc := range n.processes() {
+		exe, err := proc.Executable()
+		if err != nil || exe == "" {
+			status, _ := proc.NewStatus()
+			exe = status.Name
 		}
+
+		p := Process{
+			Exe:    exe,
+			PID:    proc.PID,
+			Memory: memory.NewProcess(proc),
+			FD:     fd.NewProcess(proc),
+		}
+
+		s.Processes = append(s.Processes, p)
 	}
 
-	var s statsResponse
-
-	mem := memory.New(nil)
-	s.Memory.Swapping = mem.Swapping()
-	// s.Memory.SwappingProcesses = mem.SwappingProcesses()
-
 	return printJson(s)
+}
+
+func (n *Stats) processes() procfs.Procs {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	return procs
 }
 
 func printJson(s interface{}) error {

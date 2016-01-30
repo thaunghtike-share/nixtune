@@ -6,15 +6,15 @@ WEBSITE := anatma.github.io
 all: build
 
 build: deps test
-	go build -ldflags "-X main.version=$(VERSION)"
+	go build -ldflags "-X main.version=$(VERSION)" github.com/anatma/autotune
 	$(MAKE) website-assets
 
 deps:
-	go get
+	go get ./...
 
 test:
 	golint ./...
-	go test -cover
+	go test -cover ./...
 	go tool vet **/*.go
 
 archive:
