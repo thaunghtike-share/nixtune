@@ -12,6 +12,9 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/anatma/autotune/signatures"
+	"github.com/anatma/autotune/stats"
 )
 
 const (
@@ -32,6 +35,7 @@ func usage() {
 
 Available commands:
     signature [profile]     Update settings based on signature of man application.
+    stats                   Gives a quick diagnostics about the state of the machine.
 
 Autotune %s by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
@@ -53,9 +57,13 @@ func main() {
 
 	switch os.Args[1] {
 	case "signature":
-		sig := NewSignature()
+		sig := signatures.New(subCmd("signature"))
 		sig.ParseArgs(os.Args[2:])
 		err = sig.Run()
+	case "stats":
+		stats := stats.New(subCmd("stats"))
+		stats.ParseArgs(os.Args[2:])
+		err = stats.Run()
 	default:
 		usage()
 		os.Exit(-1)
