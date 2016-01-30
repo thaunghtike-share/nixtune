@@ -15,6 +15,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/anatma/autotune/instance"
 	"github.com/anatma/autotune/signatures"
 	"github.com/anatma/autotune/stats"
 )
@@ -34,6 +35,7 @@ func Usage() {
 Available commands:
     signature [profile]     Update settings based on signature of man application.
     stats                   Gives a quick diagnostics about the state of the machine.
+    instance [api_key]      PRO. Recommended instance size for this machine.
 
 Autotune %s by Anatma.
 Copyright (c) 2015-2016. Abhi Yerra.
@@ -43,7 +45,11 @@ https://anatma.co/autotune
 	fmt.Printf(usage, CmdName, version)
 }
 
-func SubCommands() (handled bool, err error) {
+func main() {
+	var (
+		err error
+	)
+
 	if len(os.Args) < 2 {
 		Usage()
 		os.Exit(0)
@@ -54,31 +60,17 @@ func SubCommands() (handled bool, err error) {
 		sig := signatures.New(SubCmd("signature"))
 		sig.ParseArgs(os.Args[2:])
 		err = sig.Run()
-		handled = true
 	case "stats":
 		stats := stats.New(SubCmd("stats"))
 		stats.ParseArgs(os.Args[2:])
 		err = stats.Run()
-		handled = true
-	}
-
-	return handled, err
-}
-
-func main() {
-	var (
-		handled bool
-		err     error
-	)
-
-	handled, err = SubCommands()
-	handled, err = SubCommands()
-	if !handled {
-		handled, err = subCommandsPro()
-		if !handled {
-			Usage()
-			os.Exit(-1)
-		}
+	case "instance":
+		ins := instance.New(SubCmd("instance"))
+		ins.ParseArgs(os.Args[2:])
+		err = ins.Run()
+	default:
+		Usage()
+		os.Exit(-1)
 	}
 
 	if err != nil {

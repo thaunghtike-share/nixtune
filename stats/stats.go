@@ -37,22 +37,7 @@ func (n *Stats) ParseArgs(args []string) {
 }
 
 func (n *Stats) Run() error {
-	type process struct {
-		Exe    string
-		PID    int
-		Memory *memory.ProcessMemory `json:",omitempty"`
-		FD     fd.ProcessFD          `json:",omitempty"`
-	}
-
-	type statsResponse struct {
-		System struct {
-			Memory *memory.Memory
-		}
-
-		Processes []process
-	}
-
-	s := statsResponse{}
+	s := Response{}
 
 	s.System.Memory = memory.New()
 
@@ -63,7 +48,7 @@ func (n *Stats) Run() error {
 			exe = status.Name
 		}
 
-		p := process{
+		p := Process{
 			Exe:    exe,
 			PID:    proc.PID,
 			Memory: memory.NewProcess(proc),
