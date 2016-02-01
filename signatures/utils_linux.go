@@ -12,10 +12,18 @@ import (
 	"fmt"
 )
 
-func sysctlGet(k string) string {
+func procfsGet(k string) string {
 	return string(runCmdGetOutput("sysctl", "-b", k))
 }
 
-func sysctlSet(k, v string) string {
+func procfsSet(k, v string) string {
 	return string(runCmdGetOutput("sysctl", "-w", fmt.Sprintf("%s=\"%s\"", k, v)))
+}
+
+func sysfsGet(k string) string {
+	return string(runCmdGetOutput("cat", k))
+}
+
+func sysfsSet(k, v string) string {
+	return string(runCmdGetOutput("echo", v, ">", k))
 }

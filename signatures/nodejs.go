@@ -8,7 +8,9 @@
 
 package signatures
 
+type NodejsConfig GolangConfig
+
 // NewNodejsConfig returns the configuration for Node.js servers.
-func NewNodejsConfig() *GolangConfig {
-	return &GolangConfig{}
+func NewNodejsConfig() *NodejsConfig {
+	return &NodejsConfig{}
 }

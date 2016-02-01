@@ -24,15 +24,20 @@ func (c *PostgresqlConfig) GetEnv() map[string]string {
 	return nil
 }
 
-// GetSysctl returns configurations for the kernel.
-func (c *PostgresqlConfig) GetSysctl() map[string]string {
-	sysctl := make(map[string]string)
+// GetProcFS returns configurations for the kernel.
+func (c *PostgresqlConfig) GetProcFS() map[string]string {
+	proc := make(map[string]string)
 
-	sysctl["kernel.sched_migration_cost_ns"] = "5000000"
-	sysctl["kernel.sched_autogroup_enabled"] = "0"
+	proc["kernel.sched_migration_cost_ns"] = "5000000"
+	proc["kernel.sched_autogroup_enabled"] = "0"
 
-	sysctl["kernel.shmmax"] = "17179869184"
-	sysctl["kernel.shmall"] = "4194304"
+	proc["kernel.shmmax"] = "17179869184"
+	proc["kernel.shmall"] = "4194304"
 
-	return sysctl
+	return proc
+}
+
+// GetSysFS returns configurations Environment configurations.
+func (c *PostgresqlConfig) GetSysFS() map[string]string {
+	return nil
 }

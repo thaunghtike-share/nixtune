@@ -61,14 +61,16 @@ package signatures
 // https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads
 
 // GolangConfig is the configuration for Golang applications.
-type GolangConfig struct{}
+type GolangConfig struct {
+	networkConfig
+}
 
 // NewGolangConfig returns the configuration for applications written
 // in Go. There is an assumption that the application is going to use
 // all the memory on the system as well it being a high throughput
 // network application.
 func NewGolangConfig() *GolangConfig {
-	return &GolangConfig{}
+	return &GolangConfig{networkConfig{200000}}
 }
 
 // GetEnv returns configurations Environment configurations.
@@ -85,8 +87,12 @@ func (c *GolangConfig) GetEnv() map[string]string {
 	return env
 }
 
-// GetSysctl returns configurations for the kernel.
-func (c *GolangConfig) GetSysctl() map[string]string {
-	nc := newNetworkConfig()
-	return nc.GetSysctl()
+// GetProcFS returns configurations for the kernel.
+func (c *GolangConfig) GetProcFS() map[string]string {
+	return c.networkConfig.GetProcFS()
+}
+
+// GetSysFS returns configurations Environment configurations.
+func (c *GolangConfig) GetSysFS() map[string]string {
+	return c.networkConfig.GetSysFS()
 }

@@ -24,13 +24,18 @@ func (c *ApacheConfig) GetEnv() map[string]string {
 	return nil
 }
 
-// GetSysctl returns configurations for the kernel.
-func (c *ApacheConfig) GetSysctl() map[string]string {
+// GetProcFS returns configurations for the kernel.
+func (c *ApacheConfig) GetProcFS() map[string]string {
 	nc := newNetworkConfig()
-	sysctl := nc.GetSysctl()
+	proc := nc.GetProcFS()
 
-	sysctl["kernel.sched_migration_cost_ns"] = "5000000"
-	sysctl["kernel.sched_autogroup_enabled"] = "0"
+	proc["kernel.sched_migration_cost_ns"] = "5000000"
+	proc["kernel.sched_autogroup_enabled"] = "0"
 
-	return sysctl
+	return proc
+}
+
+// GetSysFS returns configurations Environment configurations.
+func (c *ApacheConfig) GetSysFS() map[string]string {
+	return nil
 }

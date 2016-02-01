@@ -27,7 +27,8 @@ const (
 // set the values in the environment and the kernel.
 type SystemConfiger interface {
 	GetEnv() map[string]string
-	GetSysctl() map[string]string
+	GetProcFS() map[string]string
+	GetSysFS() map[string]string
 }
 
 // Signature is the command used to update the system settings based
@@ -106,14 +107,20 @@ func (k *Signature) updateEnv() {
 	//	writeFile(EnvFileName, fileContent)
 }
 
-// Goes through the sysctl changes and updates them. They are not
-// written to disk so if things fail we can just restart the
-// machine.
-func (k *Signature) updateSysctl() {
-	for kernelKey, kernelVal := range k.Config.GetSysctl() {
-		log.Println("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, sysctlGet(kernelKey), kernelVal))
+func (k *Signature) updateProcFS() {
+	for kernelKey, kernelVal := range k.Config.GetProcFS() {
+		log.Println("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, procfsGet(kernelKey), kernelVal))
 		if k.write {
-			sysctlSet(kernelKey, kernelVal)
+			procfsSet(kernelKey, kernelVal)
+		}
+	}
+}
+
+func (k *Signature) updateSysFS() {
+	for kernelKey, kernelVal := range k.Config.GetSysFS() {
+		log.Println("INFO", fmt.Sprintf("%s From: '%v' To: '%v'", kernelKey, sysfsGet(kernelKey), kernelVal))
+		if k.write {
+			sysfsSet(kernelKey, kernelVal)
 		}
 	}
 }
@@ -127,7 +134,8 @@ func (k *Signature) Run() error {
 		k.usage()
 	}
 
-	k.updateSysctl()
+	k.updateProcFS()
+	k.updateSysFS()
 
 	// TODO: This is not quite ready yet.
 	// k.updateEnv()

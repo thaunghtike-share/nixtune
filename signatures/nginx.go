@@ -8,7 +8,9 @@
 
 package signatures
 
+type NginxConfig GolangConfig
+
 // NewNginxConfig returns the configuration for Nginx servers.
-func NewNginxConfig() *GolangConfig {
-	return &GolangConfig{}
+func NewNginxConfig() *NginxConfig {
+	return &NginxConfig{}
 }
