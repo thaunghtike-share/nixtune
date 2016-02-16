@@ -18,7 +18,7 @@ import {HTTP_PROVIDERS, Http} from 'angular2/http';
 </select>
 </div>
 <br>
-<code>\\curl -sSL https://anatma.co/autotune/install.sh | bash -s {{selectedProfile}}</code>`
+<code>\\curl -sSL https://acksin.co/autotune/install.sh | bash -s {{selectedProfile}}</code>`
 })
 export class AutotuneCurl {
     constructor(http: Http) {

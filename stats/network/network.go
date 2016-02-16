@@ -1,4 +1,4 @@
-/* Anatma Autotune - Kernel Autotuning
+/* Acksin Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,13 +9,13 @@
 package network
 
 import (
-//	"github.com/anatma/procfs"
+//	"github.com/acksin/procfs"
 )
 
 /*
 
 TODO:
-Network Access ALgorithm for Anatma Autotune
+Network Access ALgorithm for Acksin Autotune
 
 To be able to do a profile on network throughput we need to first take
 a metric of teh connection.

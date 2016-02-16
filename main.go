@@ -1,4 +1,4 @@
-/* Anatma Autotune - Kernel Autotuning
+/* Acksin Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -15,9 +15,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/anatma/autotune/instance"
-	"github.com/anatma/autotune/signatures"
-	"github.com/anatma/autotune/stats"
+	"github.com/acksin/autotune/instance"
+	"github.com/acksin/autotune/signatures"
+	"github.com/acksin/autotune/stats"
 )
 
 var (
@@ -37,9 +37,9 @@ Available commands:
     stats                   Gives a quick diagnostics about the state of the machine.
     instance [api_key]      PRO. Recommended instance size for this machine.
 
-Autotune %s by Anatma.
+Autotune %s by Acksin.
 Copyright (c) 2015-2016. Abhi Yerra.
-https://anatma.co/autotune
+https://acksin.co/autotune
 `
 	fmt.Printf(usage, cmdName, version)
 }

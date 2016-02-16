@@ -1,4 +1,4 @@
-/* Anatma Autotune - Kernel Autotuning
+/* Acksin Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,9 +9,9 @@
 package stats
 
 import (
-	"github.com/anatma/autotune/stats/fd"
-	"github.com/anatma/autotune/stats/memory"
-	"github.com/anatma/autotune/stats/network"
+	"github.com/acksin/autotune/stats/fd"
+	"github.com/acksin/autotune/stats/memory"
+	"github.com/acksin/autotune/stats/network"
 )
 
 type Process struct {

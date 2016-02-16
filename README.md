@@ -1,10 +1,10 @@
 ![](website/autotune.png)
 
-# Anatma Autotune
+# Acksin Autotune
 
 Autotune the Linux kernel to get optimal server performance.
 
-Anatma Autotune tunes the Linux kernel and other environment variables
+Acksin Autotune tunes the Linux kernel and other environment variables
 to achieve maximum performance for you applications. The goal is to
 support most common use cases such a Golang, Node, Java, Various
 databases, and so on. These are an alternate to manually tuning the

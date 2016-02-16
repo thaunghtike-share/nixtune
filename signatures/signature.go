@@ -1,4 +1,4 @@
-/* Anatma Autotune - Kernel Autotuning
+/* Acksin Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -20,7 +20,7 @@ import (
 const (
 	// EnvFileName is the file where Environment variables will be
 	// stored for settings defined by the various signatures.
-	EnvFileName = "/etc/profile.d/99_anatma_autotune.sh"
+	EnvFileName = "/etc/profile.d/99_acksin_autotune.sh"
 )
 
 // SystemConfiger is the interface which each signature should have to

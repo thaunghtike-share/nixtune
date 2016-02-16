@@ -1,4 +1,4 @@
-/* Anatma Autotune - Kernel Autotuning
+/* Acksin Autotune - Kernel Autotuning
  * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,7 +9,7 @@
 package fd
 
 import (
-	"github.com/anatma/procfs"
+	"github.com/acksin/procfs"
 )
 
 type ProcessFD map[string]string

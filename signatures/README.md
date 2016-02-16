@@ -3,7 +3,7 @@
 These files contain the various tunings for different services.
 
 All the signatures follow the
-`[SystemConfiger](https://godoc.org/github.com/anatma/autotune/signatures#SystemConfiger)`
+`[SystemConfiger](https://godoc.org/github.com/acksin/autotune/signatures#SystemConfiger)`
 Golang interface.
 
 ## Adding a New Signature

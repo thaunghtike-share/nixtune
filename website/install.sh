@@ -3,9 +3,9 @@
 VERSION=0.5.4
 
 function welcome_autotune {
-    echo "Welcome to Anatma Autotune ($VERSION) Installation"
+    echo "Welcome to Acksin Autotune ($VERSION) Installation"
     echo "Copyright (c) 2015-2016. Abhi Yerra."
-    echo "https://anatma.co/autotune"
+    echo "https://acksin.co/autotune"
     echo ""
     echo "We will be installing Autotune on your system into the following location:"
     echo ""
@@ -14,7 +14,7 @@ function welcome_autotune {
 }
 
 function download_autotune {
-    curl -s -o /tmp/autotune.tar.gz https://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
+    curl -s -o /tmp/autotune.tar.gz https://assets.acksin.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
     cd /tmp && tar zxf autotune.tar.gz
     sudo mv autotune /usr/local/bin/autotune
 }

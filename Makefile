@@ -1,12 +1,12 @@
 PRODUCT := autotune
 PROFILES := $(shell cd signatures && ls *.go | grep -v signature | grep -v networking | grep -v utils | grep -v doc | sed "s/.go$$//g")
 VERSION := $(shell cat VERSION)
-WEBSITE := anatma.github.io
+WEBSITE := acksin.com
 
 all: build
 
 build: deps test
-	go build -ldflags "-X main.version=$(VERSION)" github.com/anatma/autotune
+	go build -ldflags "-X main.version=$(VERSION)" github.com/acksin/autotune
 	$(MAKE) website-assets
 
 deps:
@@ -25,7 +25,7 @@ release: spell build archive
 	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.anatma.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
+	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
@@ -34,8 +34,8 @@ website:
 	echo "Nothin here govn'r"
 
 website-dev:  website
-	rm -rf $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
-	cp -r ./website $$GOPATH/src/github.com/anatma/$(WEBSITE)/content/$(PRODUCT)
+	rm -rf $$GOPATH/src/github.com/acksin/$(WEBSITE)/content/$(PRODUCT)
+	cp -r ./website $$GOPATH/src/github.com/acksin/$(WEBSITE)/content/$(PRODUCT)
 
 spell:
 	for i in $(shell ls website/*.html); do \
