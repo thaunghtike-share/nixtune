@@ -1,3 +1,5 @@
+![](website/autotune.png)
+
 # Anatma Autotune
 
 Autotune the Linux kernel to get optimal server performance.

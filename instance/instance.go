@@ -12,6 +12,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	//	"time"
 )
 
 // CloudType represents ia cloud provider.
@@ -26,17 +27,28 @@ const (
 )
 
 type Instance struct {
+	// CmdName is the subcommand used to access this feature.
 	CmdName string
-
+	// ApiKey is the Fugue key to send metrics.
+	ApiKey string
+	// MachineName represents how to find the machine on Fugue.
+	MachineName string
+	// Type is the current cloud provider.
 	Type CloudType
 }
 
 func (n *Instance) ParseArgs(args []string) {
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
+	flag.StringVar(&n.ApiKey, "fugue-api-key", "", "API key to authenticate with Fugue.")
+	flag.StringVar(&n.MachineName, "machine-name", "", "Machine name as to be found in Fugue.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
 	}
+}
+
+func (n *Instance) sendStats() {
+
 }
 
 func (n *Instance) Run() error {
@@ -46,6 +58,11 @@ func (n *Instance) Run() error {
 	if aws == nil {
 		return fmt.Errorf("not an aws instance.")
 	}
+
+	// for {
+	// 	n.sendStats()
+	// 	time.Sleep(1 * time.Minute)
+	// }
 
 	return nil
 }

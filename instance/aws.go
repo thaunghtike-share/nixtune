@@ -9,6 +9,9 @@
 package instance
 
 import (
+	"strings"
+
+	"github.com/anatma/autotune/stats"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 )
@@ -18,10 +21,21 @@ import (
 type AwsInstance struct {
 	// Region is the AWS region that this instance is in.
 	Region string
-	// InstanceType is the AWS instance that this instance is.
-	InstanceType string
+	// InstanceType is the AWS instance that this instance is. Ex. m4.large
+	Type string
+	// Stats includes current metrics about the machine.
+	Stats stats.Response
 
 	metadata *ec2metadata.EC2Metadata
+}
+
+func (a *AwsInstance) Family() string {
+	if a.Type == "" {
+		return ""
+	}
+
+	instType := strings.Split(a.Type, ".")
+	return instType[0]
 }
 
 // NewAws returns an AwsInstance if the current machine is an AWS

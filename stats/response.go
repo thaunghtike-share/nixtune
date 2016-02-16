@@ -11,6 +11,7 @@ package stats
 import (
 	"github.com/anatma/autotune/stats/fd"
 	"github.com/anatma/autotune/stats/memory"
+	"github.com/anatma/autotune/stats/network"
 )
 
 type Process struct {
@@ -22,7 +23,8 @@ type Process struct {
 
 type Response struct {
 	System struct {
-		Memory *memory.Memory
+		Memory  *memory.Memory
+		Network *network.Network
 	}
 
 	Processes []Process
