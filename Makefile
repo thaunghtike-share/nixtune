@@ -13,6 +13,9 @@ deps:
 	go get -u github.com/golang/lint/golint
 	go get ./...
 
+dev-deps:
+	sudo apt-get install -y inkscape 
+
 test:
 	golint ./...
 	go test -cover ./...
@@ -30,7 +33,8 @@ release: spell build archive
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
-	cd website && go run logo.go > autotune.png
+	cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
+
 
 website:
 	echo "Nothin here govn'r"
