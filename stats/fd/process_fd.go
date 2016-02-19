@@ -17,7 +17,7 @@ type ProcessFD map[string]string
 func NewProcess(proc procfs.Proc) ProcessFD {
 	fd, err := proc.NewFD()
 	if err != nil {
-
+		return nil
 	}
 
 	return ProcessFD(fd)

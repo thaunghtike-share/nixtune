@@ -10,6 +10,7 @@ build: deps test
 	$(MAKE) website-assets
 
 deps:
+	go get -u github.com/golang/lint/golint
 	go get ./...
 
 test:
@@ -29,6 +30,7 @@ release: spell build archive
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
+	cd website && go run logo.go > autotune.png
 
 website:
 	echo "Nothin here govn'r"
