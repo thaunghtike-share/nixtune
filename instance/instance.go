@@ -11,8 +11,10 @@ package instance
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
-	//	"time"
+	"os/signal"
+	"time"
 )
 
 // CloudType represents ia cloud provider.
@@ -35,34 +37,55 @@ type Instance struct {
 	MachineName string
 	// Type is the current cloud provider.
 	Type CloudType
+	// Frequency that metrics are sent to Fugue
+	Every time.Duration
 }
 
 func (n *Instance) ParseArgs(args []string) {
-	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
-	flag.StringVar(&n.ApiKey, "fugue-api-key", "", "API key to authenticate with Fugue.")
-	flag.StringVar(&n.MachineName, "machine-name", "", "Machine name as to be found in Fugue.")
+	var err error
 
-	if err := flags.Parse(args); err != nil {
+	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
+	flags.StringVar(&n.ApiKey, "fugue-api-key", "", "API key to authenticate with Fugue.")
+	flags.StringVar(&n.MachineName, "machine-name", "", "Machine name as to be found in Fugue.")
+	every := flags.String("every", "1m", "Send metrics [every] duration.")
+
+	if err = flags.Parse(args); err != nil {
+		os.Exit(-1)
+	}
+
+	n.Every, err = time.ParseDuration(*every)
+	if err != nil {
 		os.Exit(-1)
 	}
 }
 
-func (n *Instance) sendStats() {
+func (n *Instance) sendStats(c2 chan struct{}) {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	for {
+		log.Println("sending autotune metrics")
+		select {
+		case <-time.After(time.Minute * 1):
+			continue
+		case <-c:
+			c2 <- struct{}{}
+		}
+	}
 
 }
 
 func (n *Instance) Run() error {
 	aws := NewAws()
-
 	// TODO: Support other than AWS.
 	if aws == nil {
 		return fmt.Errorf("not an aws instance.")
 	}
 
-	// for {
-	// 	n.sendStats()
-	// 	time.Sleep(1 * time.Minute)
-	// }
+	c := make(chan struct{})
+	go n.sendStats(c)
+
+	<-c
 
 	return nil
 }

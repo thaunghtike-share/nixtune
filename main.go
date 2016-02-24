@@ -37,9 +37,9 @@ Available commands:
     stats                   Gives a quick diagnostics about the state of the machine.
     instance [api_key]      PRO. Recommended instance size for this machine.
 
-Autotune %s by Acksin.
+Acksin Autotune %s.
 Copyright (c) 2015-2016. Abhi Yerra.
-https://acksin.co/autotune
+https://acksin.com/autotune
 `
 	fmt.Printf(usage, cmdName, version)
 }

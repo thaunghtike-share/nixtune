@@ -6,7 +6,7 @@ WEBSITE := acksin.com
 all: build
 
 build: deps test
-	go build -ldflags "-X main.version=$(VERSION)" github.com/acksin/autotune
+	go build -ldflags "-X main.version=$(VERSION)"
 	$(MAKE) website-assets
 
 deps:
