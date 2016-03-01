@@ -10,7 +10,6 @@ package instance
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -41,7 +40,15 @@ type Instance struct {
 	Every time.Duration
 }
 
-func (n *Instance) ParseArgs(args []string) {
+func (n *Instance) Synopsis() string {
+	return ""
+}
+
+func (n *Instance) Help() string {
+	return ""
+}
+
+func (n *Instance) Run(args []string) int {
 	var err error
 
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
@@ -50,13 +57,26 @@ func (n *Instance) ParseArgs(args []string) {
 	every := flags.String("every", "1m", "Send metrics [every] duration.")
 
 	if err = flags.Parse(args); err != nil {
-		os.Exit(-1)
+		return -1
 	}
 
 	n.Every, err = time.ParseDuration(*every)
 	if err != nil {
-		os.Exit(-1)
+		return -1
 	}
+
+	aws := NewAws()
+	// TODO: Support other than AWS.
+	if aws == nil {
+		return -1 // fmt.Errorf("not an aws instance.")
+	}
+
+	c := make(chan struct{})
+	go n.sendStats(c)
+
+	<-c
+
+	return 0
 }
 
 func (n *Instance) sendStats(c2 chan struct{}) {
@@ -73,21 +93,6 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 		}
 	}
 
-}
-
-func (n *Instance) Run() error {
-	aws := NewAws()
-	// TODO: Support other than AWS.
-	if aws == nil {
-		return fmt.Errorf("not an aws instance.")
-	}
-
-	c := make(chan struct{})
-	go n.sendStats(c)
-
-	<-c
-
-	return nil
 }
 
 func New(cmdName string) *Instance {

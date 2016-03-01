@@ -15,6 +15,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/mitchellh/cli"
+
 	"github.com/acksin/autotune/instance"
 	"github.com/acksin/autotune/signatures"
 	"github.com/acksin/autotune/stats"
@@ -29,51 +31,37 @@ func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
 
-func usage() {
-	usage := `Usage: %s [command]
-
-Available commands:
-    signature [profile]     Update settings based on signature of man application.
-    stats                   Gives a quick diagnostics about the state of the machine.
-    instance [api_key]      PRO. Recommended instance size for this machine.
-
-Acksin Autotune %s.
+func copyright() string {
+	return fmt.Sprintf(`Acksin Autotune %s.
 Copyright (c) 2015-2016. Abhi Yerra.
 https://acksin.com/autotune
-`
-	fmt.Printf(usage, cmdName, version)
+`, version)
 }
 
 func main() {
-	var (
-		err error
-	)
-
-	if len(os.Args) < 2 {
-		usage()
-		os.Exit(0)
+	c := cli.NewCLI(cmdName, version)
+	c.Args = os.Args[1:]
+	c.Commands = map[string]cli.CommandFactory{
+		"signature": func() (cli.Command, error) {
+			return signatures.New(subCmd("signature")), nil
+		},
+		"stats": func() (cli.Command, error) {
+			return stats.New(subCmd("stats")), nil
+		},
+		"instance": func() (cli.Command, error) {
+			return instance.New(subCmd("instance")), nil
+		},
 	}
 
-	switch os.Args[1] {
-	case "signature":
-		sig := signatures.New(subCmd("signature"))
-		sig.ParseArgs(os.Args[2:])
-		err = sig.Run()
-	case "stats":
-		stats := stats.New(subCmd("stats"))
-		stats.ParseArgs(os.Args[2:])
-		err = stats.Run()
-	case "instance":
-		ins := instance.New(subCmd("instance"))
-		ins.ParseArgs(os.Args[2:])
-		err = ins.Run()
-	default:
-		usage()
-		os.Exit(-1)
+	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
+		return fmt.Sprintf("%s\n%s", cli.BasicHelpFunc(cmdName)(commands), copyright())
 	}
 
+	exitStatus, err := c.Run()
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(-1)
 	}
+
+	os.Exit(exitStatus)
+
 }

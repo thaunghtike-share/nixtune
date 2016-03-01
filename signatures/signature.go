@@ -51,7 +51,12 @@ type Signature struct {
 	write bool
 }
 
-func (k *Signature) usage() {
+func (k *Signature) Synopsis() string {
+	return "Tune the kernel for server profile."
+
+}
+
+func (k *Signature) Help() string {
 	var (
 		sigs []string
 	)
@@ -61,7 +66,7 @@ func (k *Signature) usage() {
 	}
 	sort.Strings(sigs)
 
-	fmt.Fprintf(os.Stderr, `
+	return fmt.Sprintf(`
 Available signature profiles:
 
 %s
@@ -71,7 +76,9 @@ Available signature profiles:
 
 // ParseArgs parses the commandline arguments passed for the Signature
 // command.
-func (k *Signature) ParseArgs(args []string) {
+// Run gets the configuration for the profile and updates the system
+// settings with the new values.
+func (k *Signature) Run(args []string) int {
 	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
 	flags.BoolVar(&k.write, "write", true, "Write the settings.")
 
@@ -81,13 +88,25 @@ func (k *Signature) ParseArgs(args []string) {
 
 	leftovers := flags.Args()
 	if len(leftovers) == 0 {
-		fmt.Fprintf(os.Stderr, "Usage of %s [profile]:\n", k.CmdName)
-		flags.PrintDefaults()
-		k.usage()
-		os.Exit(-1)
+		return -1
+
 	}
 
 	k.signature = leftovers[0]
+
+	k.Config = k.Profiles[k.signature]
+
+	if k.Config == nil {
+		return -1
+	}
+
+	k.updateProcFS()
+	k.updateSysFS()
+
+	// TODO: This is not quite ready yet.
+	// k.updateEnv()
+
+	return 0
 }
 
 // TODO: This operation still doesn't happen and needs to be updated
@@ -123,24 +142,6 @@ func (k *Signature) updateSysFS() {
 			sysfsSet(kernelKey, kernelVal)
 		}
 	}
-}
-
-// Run gets the configuration for the profile and updates the system
-// settings with the new values.
-func (k *Signature) Run() error {
-	k.Config = k.Profiles[k.signature]
-
-	if k.Config == nil {
-		k.usage()
-	}
-
-	k.updateProcFS()
-	k.updateSysFS()
-
-	// TODO: This is not quite ready yet.
-	// k.updateEnv()
-
-	return nil
 }
 
 // NewSignature returns a new Signature object that we will use to

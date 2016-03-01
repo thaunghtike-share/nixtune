@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"os"
 
 	"github.com/acksin/autotune/stats/fd"
 	"github.com/acksin/autotune/stats/memory"
@@ -26,17 +25,23 @@ type Stats struct {
 	Every    int
 }
 
-func (n *Stats) ParseArgs(args []string) {
+func (n *Stats) Synopsis() string {
+	return ""
+}
+
+func (n *Stats) Help() string {
+	return ""
+}
+
+func (n *Stats) Run(args []string) int {
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
 	flags.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
 	flags.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
 
 	if err := flags.Parse(args); err != nil {
-		os.Exit(-1)
+		return -1
 	}
-}
 
-func (n *Stats) Run() error {
 	s := Response{}
 
 	s.System.Memory = memory.New()
@@ -58,7 +63,9 @@ func (n *Stats) Run() error {
 		s.Processes = append(s.Processes, p)
 	}
 
-	return printJson(s)
+	printJson(s)
+
+	return 0
 }
 
 func (n *Stats) processes() procfs.Procs {
