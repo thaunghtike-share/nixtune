@@ -33,7 +33,7 @@ release: spell build archive
 
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
-	cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
+	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
 
 
 website:

@@ -1,12 +1,12 @@
-+++
-+++
+---
+---
 
-<header id="autotune-header">
+<header>
   <div class="container">
-    <div class="intro-text">
-      <div class="intro-lead-in">Taking your servers to eleven.</div>
-      <div class="intro-heading">Autotune</div>
-      <a href="#service" class="page-scroll btn btn-xl">Tune My Machine</a>
+    <div class="jumbotron acksin-jumbotron acksin-header" id="autotune-header">
+      <h1 class="intro-heading">Autotune</h1>
+      <h2 class="intro-lead-in">Taking your servers to eleven.</h2>
+      <a href="#service" class="btn-success btn btn-xl">Tune My Machine</a>
     </div>
   </div>
 </header>
@@ -139,7 +139,7 @@ System.config({
 <!-- 3. Bootstrap -->
 <script>
 System.import('angular2/platform/browser').then(function(ng){
-  System.import('./js/autotune_curl.ts').then(function(src) {
+  System.import('/autotune/js/autotune_curl.ts').then(function(src) {
     ng.bootstrap(src.AutotuneCurl);
   });
 });

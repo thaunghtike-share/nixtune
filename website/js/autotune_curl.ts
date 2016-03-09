@@ -22,7 +22,7 @@ import {HTTP_PROVIDERS, Http} from 'angular2/http';
 })
 export class AutotuneCurl {
     constructor(http: Http) {
-        http.get('js/profiles.json').map(res => res.json())
+        http.get('/autotune/js/profiles.json').map(res => res.json())
             .subscribe(profiles => this.profiles = profiles);
     }
 
