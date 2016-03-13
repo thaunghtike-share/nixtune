@@ -1,4 +1,5 @@
 ---
+title: Autotune - Home
 ---
 
 <header>
@@ -18,17 +19,27 @@
         <h3>What is Autotune?</h3>
 
         <p>
-          Autotune brings performance to your machine by tuning the
-          Linux kernel for your application profile. Pick a profile
-          for your machine (e.g. Go, Nodejs, Apache) and Autotune will
-          set you up for the best settings for that application.
+          Autotune is born out of the frustration that kernel tuning
+          is a black art. If you are running a Linux server it was
+          made for a world where multiple services are running on that
+          machine with the kernel giving preference to all of the
+          services. However, when running Service Oriented
+          architectures you want the machine to be greedy.
+        </p>
+
+        <p>
+          Autotune optimized the Linux kernel for your application
+          profile. Pick a profile for your machine (e.g. Go, Nodejs,
+          Apache) and Autotune will set up for the best settings for
+          that application which will allow your machine to handle
+          many more times the load when it is not optimized.
         </p>
       </div>
     </div>
 
     <div class="row">
       <div class="col-lg-12">
-        <h3>Install</h3>
+        <h3>Install Autotune</h3>
       </div>
     </div>
 
@@ -36,12 +47,14 @@
       <div class="col-lg-6">
         <p>
           Installation is easy. Specify the server profile of your
-          machine and run the curl command. Note: It won't change your
-          kernel settings it'll only show you what will
-          change. Additional command is necessary to make actual
-          changes.
+          machine and run the curl command.
         </p>
 
+        <p>
+          Note: It won't change your kernel settings it'll only show
+          you what will change. Please review the changes before
+          running the actual command to make your changes.
+        </p>
       </div>
       <div class="col-lg-6">
         <autotune-curl>Loading...</autotune-curl>
@@ -57,12 +70,14 @@
     <div class="row">
       <div class="col-lg-6">
         <p>
-          Autotune is open source because we believe that everyone
-          should have access to performant servers. We want to help
-          save you money as well as save the environment by using
-          fewer resources. This is one of our guiding principles. If
-          you find this software useful consider getting a Pro
-          subscription which will help the development of Autotune.
+          Autotune is completely free. The Autotune Pro allows you to
+          watch your machine and get recommendations to change
+          instance types if necessary. It'll watch your network, IO,
+          CPU, and memory utilitization with the profile you specified
+          and recommend the best instance type to use. If we see that
+          the machine is underutilized we will also recommend going to
+          a serverless architecture if we see that you can save more
+          money.
         </p>
       </div>
 

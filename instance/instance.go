@@ -87,7 +87,7 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 		log.Println("sending autotune metrics")
 		select {
 		case <-time.After(time.Minute * 1):
-			continue
+			n.invokeLambda()
 		case <-c:
 			c2 <- struct{}{}
 		}
@@ -95,7 +95,7 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 
 }
 
-func New(cmdName string) *Instance {
+func New(cmdName, apiKey, secretKey string) *Instance {
 	return &Instance{
 		CmdName: cmdName,
 		Type:    Aws,
