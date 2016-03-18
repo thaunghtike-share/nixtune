@@ -9,6 +9,7 @@
 package instance
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/acksin/autotune/stats"
@@ -19,6 +20,8 @@ import (
 // AwsInstance returns the relevant AWS information about the current
 // instance.
 type AwsInstance struct {
+	// APIKey is the API Key on Fugue
+	APIKey string
 	// Region is the AWS region that this instance is in.
 	Region string
 	// InstanceType is the AWS instance that this instance is. Ex. m4.large
@@ -38,11 +41,21 @@ func (a *AwsInstance) Family() string {
 	return instType[0]
 }
 
+func (a *AwsInstance) Json() []byte {
+	js, err := json.MarshalIndent(a, "", "  ")
+	if err != nil {
+		return nil
+	}
+
+	return js
+}
+
 // NewAws returns an AwsInstance if the current machine is an AWS
 // instance otherwise it returns nil.
-func NewAws() *AwsInstance {
+func NewAws(apiKey string) *AwsInstance {
 	sess := session.New()
 	i := &AwsInstance{
+		APIKey:   apiKey,
 		metadata: ec2metadata.New(sess),
 	}
 

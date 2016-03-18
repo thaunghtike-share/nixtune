@@ -6,8 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-// +build open
-
 package main
 
 import (
@@ -27,13 +25,21 @@ var (
 	version = "v0.0.0"
 )
 
+// Keys for invoking the Lambda scripts. Should only have policies for
+// invoking the single lambda script and nothing else.
+var (
+	awsAPIKey    = ""
+	awsSecretKey = ""
+	awsRegion    = ""
+)
+
 func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
 
 func copyright() string {
 	return fmt.Sprintf(`Acksin Autotune %s.
-Copyright (c) 2015-2016. Abhi Yerra.
+Copyright (c) 2015-2016. Acksin.
 https://acksin.com/autotune
 `, version)
 }
@@ -49,7 +55,7 @@ func main() {
 			return stats.New(subCmd("stats")), nil
 		},
 		"instance": func() (cli.Command, error) {
-			return instance.New(subCmd("instance")), nil
+			return instance.New(subCmd("instance"), awsAPIKey, awsSecretKey, awsRegion), nil
 		},
 	}
 
