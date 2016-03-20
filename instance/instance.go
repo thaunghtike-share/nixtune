@@ -9,13 +9,13 @@
 package instance
 
 import (
+	"encoding/json"
 	"flag"
 	"log"
 	"os"
 	"os/signal"
 	"time"
 
-	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -79,6 +79,11 @@ func (n *Instance) Run(args []string) int {
 		return -1
 	}
 
+	if !n.validAPIKey() {
+		log.Println("invalid API key.")
+		return -1
+	}
+
 	aws := NewAws(n.APIKey)
 	// TODO: Support other than AWS.
 	if aws == nil {
@@ -93,42 +98,67 @@ func (n *Instance) Run(args []string) int {
 	return 0
 }
 
-// invokeLambda calls a AWS Lambda function which stores the Metrics.
-func (n *Instance) invokeLambda() {
-	const (
-		functionName = "arn:aws:lambda:us-west-2:451305228097:function:autotune_fugueKey_instance_metrics_POST"
-	)
-
-	awsInstance := NewAws(n.APIKey)
-	if awsInstance == nil {
-		return
-	}
-
+// invokeLambda calls a AWS Lambda functions.
+func (n *Instance) invokeLambda(functionName string, payload []byte) ([]byte, error) {
 	config := aws.NewConfig().WithCredentials(credentials.NewStaticCredentials(n.aws.APIKey, n.aws.SecretKey, "")).WithRegion(n.aws.Region)
 	svc := lambda.New(session.New(config))
 
-	fmt.Println(awsInstance.Json())
-
 	params := &lambda.InvokeInput{
 		FunctionName: aws.String(functionName),
-		Payload:      awsInstance.Json(),
+		Payload:      payload,
 	}
 	resp, err := svc.Invoke(params)
 
 	if err != nil {
-		// Print the error, cast err to awserr.Error to get the Code and
-		// Message from an error.
-		log.Println(err.Error())
-		log.Println(err)
-		return
+		return []byte(""), err
 	}
 
 	// Pretty-print the response data.
 	log.Println(resp)
 	log.Println(string(resp.Payload))
+
+	return resp.Payload, nil
+}
+
+func (n *Instance) validAPIKey() bool {
+	const (
+		functionName = "arn:aws:lambda:us-west-2:451305228097:function:auth_validate_apikey_POST"
+	)
+
+	var apiKey = struct {
+		APIKey string
+	}{APIKey: n.APIKey}
+
+	js, err := json.MarshalIndent(apiKey, "", "  ")
+	if err != nil {
+		log.Println("failed to marshall API data", err)
+		return false
+	}
+
+	payload, err := n.invokeLambda(functionName, js)
+	if err != nil {
+		log.Println("failed to call API to check API validity.", err)
+		return false
+	}
+
+	var validity struct {
+		Retry int
+		Valid bool
+	}
+	err = json.Unmarshal(payload, &validity)
+	if err != nil {
+		log.Println("failed to parse api payload", err)
+		return false
+	}
+
+	return validity.Valid
 }
 
 func (n *Instance) sendStats(c2 chan struct{}) {
+	const (
+		functionName = "arn:aws:lambda:us-west-2:451305228097:function:autotune_fugueKey_instance_metrics_POST"
+	)
+
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 
@@ -136,7 +166,15 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 		log.Println("sending autotune metrics")
 		select {
 		case <-time.After(n.Every):
-			n.invokeLambda()
+			awsInstance := NewAws(n.APIKey)
+			if awsInstance == nil {
+				return
+			}
+
+			_, err := n.invokeLambda(functionName, awsInstance.Json())
+			if err != nil {
+				log.Println(err)
+			}
 		case <-c:
 			c2 <- struct{}{}
 		}
