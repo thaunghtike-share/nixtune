@@ -55,7 +55,7 @@ type Instance struct {
 }
 
 func (n *Instance) Synopsis() string {
-	return "Autotune Pro feature to recommend Instance sizes."
+	return "Pro feature to recommend Instance sizes."
 }
 
 func (n *Instance) Help() string {
@@ -84,15 +84,14 @@ func (n *Instance) Run(args []string) int {
 		return -1
 	}
 
-	aws := NewAws(n.APIKey)
 	// TODO: Support other than AWS.
-	if aws == nil {
-		return -1 // fmt.Errorf("not an aws instance.")
+	if aws := NewAws(n.APIKey); aws == nil {
+		log.Println("only AWS supported currently.")
+		return -1
 	}
 
 	c := make(chan struct{})
 	go n.sendStats(c)
-
 	<-c
 
 	return 0
@@ -114,8 +113,7 @@ func (n *Instance) invokeLambda(functionName string, payload []byte) ([]byte, er
 	}
 
 	// Pretty-print the response data.
-	log.Println(resp)
-	log.Println(string(resp.Payload))
+	log.Println("lambda response", string(resp.Payload))
 
 	return resp.Payload, nil
 }
@@ -129,7 +127,7 @@ func (n *Instance) validAPIKey() bool {
 		APIKey string
 	}{APIKey: n.APIKey}
 
-	js, err := json.MarshalIndent(apiKey, "", "  ")
+	js, err := json.Marshal(apiKey)
 	if err != nil {
 		log.Println("failed to marshall API data", err)
 		return false
