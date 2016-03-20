@@ -68,15 +68,22 @@ func (n *Instance) Run(args []string) int {
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
 	flags.StringVar(&n.APIKey, "fugue-api-key", "", "API key to authenticate with Fugue.")
 	flags.StringVar(&n.MachineName, "machine-name", "", "Machine name as to be found in Fugue.")
-	every := flags.String("every", "1m", "Send metrics [every] duration.")
 
 	if err = flags.Parse(args); err != nil {
 		return -1
 	}
 
-	n.Every, err = time.ParseDuration(*every)
-	if err != nil {
-		return -1
+	n.Every = time.Minute
+	log.Println("sending metrics every minute.")
+
+	if n.MachineName == "" {
+		n.MachineName, err = os.Hostname()
+		if err != nil {
+			log.Println("can't get hostname")
+			return -1
+		}
+
+		log.Println("no machine-name passed. using hostname", n.MachineName)
 	}
 
 	if !n.validAPIKey() {
