@@ -9,51 +9,35 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
-
-	"github.com/acksin/strum/fd"
-	"github.com/acksin/strum/memory"
 )
 
-func printJson(s interface{}) error {
-	js, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return err
-	}
+// OutputType is the formatted output of the command.
+type OutputType string
 
-	fmt.Println(string(js))
+// Currently available output types.
+const (
+	JsonOutput  OutputType = "json"
+	FlatOutput             = "flat"
+	HumanOutput            = "human"
+)
 
-	return nil
+type config struct {
+	output   string
+	response *Response
 }
 
 func main() {
-	n := &Stats{}
-	s := Response{}
+	conf := config{}
 
-	flag.StringVar(&n.Output, "output", "json", "Formatted outputs available.")
-
+	flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
 	flag.Parse()
 
-	s.System.Memory = memory.New()
+	conf.response = NewResponse()
 
-	for _, proc := range n.processes() {
-		exe, err := proc.Executable()
-		if err != nil || exe == "" {
-			status, _ := proc.NewStatus()
-			exe = status.Name
-		}
-
-		p := Process{
-			Exe:    exe,
-			PID:    proc.PID,
-			Memory: memory.NewProcess(proc),
-			FD:     fd.NewProcess(proc),
-		}
-
-		s.Processes = append(s.Processes, p)
+	switch OutputType(conf.output) {
+	case JsonOutput:
+		fmt.Printf("%s", conf.response.Json())
 	}
-
-	printJson(s)
 }

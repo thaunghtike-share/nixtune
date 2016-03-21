@@ -9,39 +9,13 @@
 package main
 
 import (
+	"encoding/json"
+
 	"github.com/acksin/procfs"
 	"github.com/acksin/strum/fd"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
 )
-
-// OutputType is the formatted output of the command.
-type OutputType string
-
-// Currently available output types.
-const (
-	JsonType  OutputType = "json"
-	Flattened            = "flattened"
-	Human                = "human"
-)
-
-type Stats struct {
-	Output string
-}
-
-func (n *Stats) processes() procfs.Procs {
-	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
-	if err != nil {
-		return nil
-	}
-
-	procs, err := fs.AllProcs()
-	if err != nil {
-		return nil
-	}
-
-	return procs
-}
 
 type Process struct {
 	Exe    string
@@ -57,4 +31,52 @@ type Response struct {
 	}
 
 	Processes []Process
+}
+
+func (n *Response) processes() procfs.Procs {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	return procs
+}
+
+func (n *Response) Json() string {
+	js, err := json.MarshalIndent(n, "", "  ")
+	if err != nil {
+		return ""
+	}
+
+	return string(js)
+}
+
+func NewResponse() (s *Response) {
+	s = &Response{}
+
+	s.System.Memory = memory.New()
+
+	for _, proc := range s.processes() {
+		exe, err := proc.Executable()
+		if err != nil || exe == "" {
+			status, _ := proc.NewStatus()
+			exe = status.Name
+		}
+
+		p := Process{
+			Exe:    exe,
+			PID:    proc.PID,
+			Memory: memory.NewProcess(proc),
+			FD:     fd.NewProcess(proc),
+		}
+
+		s.Processes = append(s.Processes, p)
+	}
+
+	return s
 }
