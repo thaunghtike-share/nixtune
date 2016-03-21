@@ -12,7 +12,7 @@ function welcome_strum {
 
 function download_strum {
     echo "Downloading STRUM for $(uname)-$(uname -i)"
-    curl -s -o /tmp/strum.tar.gz https://assets.acksin.com/${PRODUCT}/${VERSION}/${PRODUCT}-$(uname)-$(uname -i)-${VERSION}.tar.gz
+    curl -s -o strum.tar.gz https://assets.acksin.com/${PRODUCT}/${VERSION}/${PRODUCT}-$(uname)-$(uname -i)-${VERSION}.tar.gz
     tar zxf strum.tar.gz
 }
 
