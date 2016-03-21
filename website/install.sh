@@ -11,7 +11,7 @@ function welcome_strum {
 
 function download_strum {
     echo "Downloading for $(uname)-$(uname -i)"
-    curl -s -o /tmp/strum.tar.gz https://assets.acksin.com/strum/${VERSION}/strum-${VERSION}-$(uname)-$(uname -i).tar.gz
+    curl -s -o /tmp/strum.tar.gz https://assets.acksin.com/strum/${VERSION}/strum-$(uname)-$(uname -i)-${VERSION}.tar.gz
     tar zxf strum.tar.gz
 }
 
