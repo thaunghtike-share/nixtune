@@ -28,7 +28,7 @@ release: spell build archive
 	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
+	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
 	echo "None"
