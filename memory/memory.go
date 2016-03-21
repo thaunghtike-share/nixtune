@@ -1,4 +1,4 @@
-/* Acksin STRUM - Kernel Autotuning
+/* Acksin STRUM - Linux Diagnostics
  * Copyright (C) 2015 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
