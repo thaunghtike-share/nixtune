@@ -8,7 +8,7 @@
 
 // Package stats provides various statistics about the system and
 // provides information related to memory, cpu, io, and networking.
-package stats
+package main
 
 // List of kernel settings to tune.
 /*

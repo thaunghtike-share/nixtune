@@ -6,43 +6,36 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package stats
+package main
 
 import (
 	"encoding/json"
 	"flag"
 	"fmt"
 
-	"github.com/acksin/procfs"
 	"github.com/acksin/strum/fd"
 	"github.com/acksin/strum/memory"
 )
 
-type Stats struct {
-	CmdName string
-
-	Duration int
-	Every    int
-}
-
-func (n *Stats) Synopsis() string {
-	return ""
-}
-
-func (n *Stats) Help() string {
-	return ""
-}
-
-func (n *Stats) Run(args []string) int {
-	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
-	flags.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
-	flags.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
-
-	if err := flags.Parse(args); err != nil {
-		return -1
+func printJson(s interface{}) error {
+	js, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return err
 	}
 
+	fmt.Println(string(js))
+
+	return nil
+}
+
+func main() {
+	n := &Stats{}
 	s := Response{}
+
+	flag.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
+	flag.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
+
+	flag.Parse()
 
 	s.System.Memory = memory.New()
 
@@ -64,37 +57,4 @@ func (n *Stats) Run(args []string) int {
 	}
 
 	printJson(s)
-
-	return 0
-}
-
-func (n *Stats) processes() procfs.Procs {
-	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
-	if err != nil {
-		return nil
-	}
-
-	procs, err := fs.AllProcs()
-	if err != nil {
-		return nil
-	}
-
-	return procs
-}
-
-func printJson(s interface{}) error {
-	js, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(string(js))
-
-	return nil
-}
-
-func New(cmdName string) *Stats {
-	return &Stats{
-		CmdName: cmdName,
-	}
 }

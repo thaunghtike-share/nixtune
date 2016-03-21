@@ -6,13 +6,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package stats
+package main
 
 import (
+	"github.com/acksin/procfs"
 	"github.com/acksin/strum/fd"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
 )
+
+type Stats struct {
+	Duration int
+	Every    int
+}
+
+func (n *Stats) processes() procfs.Procs {
+	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
+	if err != nil {
+		return nil
+	}
+
+	procs, err := fs.AllProcs()
+	if err != nil {
+		return nil
+	}
+
+	return procs
+}
 
 type Process struct {
 	Exe    string
