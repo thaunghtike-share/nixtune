@@ -1,4 +1,4 @@
-/* Acksin Autotune - Kernel Autotuning
+/* Acksin STRUM - Kernel Autotuning
  * Copyright (C) 2015 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -15,7 +15,7 @@ import (
 /*
 
 TODO:
-Network Access ALgorithm for Acksin Autotune
+Network Access ALgorithm for Acksin STRUM
 
 To be able to do a profile on network throughput we need to first take
 a metric of teh connection.
