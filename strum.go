@@ -13,9 +13,9 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/acksin/autotune/stats/fd"
-	"github.com/acksin/autotune/stats/memory"
 	"github.com/acksin/procfs"
+	"github.com/acksin/strum/fd"
+	"github.com/acksin/strum/memory"
 )
 
 type Stats struct {

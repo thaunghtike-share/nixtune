@@ -9,9 +9,9 @@
 package stats
 
 import (
-	"github.com/acksin/autotune/stats/fd"
-	"github.com/acksin/autotune/stats/memory"
-	"github.com/acksin/autotune/stats/network"
+	"github.com/acksin/strum/fd"
+	"github.com/acksin/strum/memory"
+	"github.com/acksin/strum/network"
 )
 
 type Process struct {
