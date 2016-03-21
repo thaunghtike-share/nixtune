@@ -32,8 +32,7 @@ func main() {
 	n := &Stats{}
 	s := Response{}
 
-	flag.IntVar(&n.Every, "every", -1, "Run stats [every] seconds and give average.")
-	flag.IntVar(&n.Duration, "duration", -1, "Run command for [duration] seconds.")
+	flag.StringVar(&n.Output, "output", "json", "Formatted outputs available.")
 
 	flag.Parse()
 

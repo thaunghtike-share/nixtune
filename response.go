@@ -15,9 +15,18 @@ import (
 	"github.com/acksin/strum/network"
 )
 
+// OutputType is the formatted output of the command.
+type OutputType string
+
+// Currently available output types.
+const (
+	JsonType  OutputType = "json"
+	Flattened            = "flattened"
+	Human                = "human"
+)
+
 type Stats struct {
-	Duration int
-	Every    int
+	Output string
 }
 
 func (n *Stats) processes() procfs.Procs {
