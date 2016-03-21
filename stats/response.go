@@ -24,7 +24,7 @@ type Process struct {
 	FD     fd.ProcessFD          `json:",omitempty"`
 }
 
-type Response struct {
+type Stats struct {
 	System struct {
 		Memory  *memory.Memory
 		Network *network.Network
@@ -33,7 +33,7 @@ type Response struct {
 	Processes []Process
 }
 
-func (n *Response) processes() procfs.Procs {
+func (n *Stats) processes() procfs.Procs {
 	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
 	if err != nil {
 		return nil
@@ -47,7 +47,7 @@ func (n *Response) processes() procfs.Procs {
 	return procs
 }
 
-func (n *Response) Json() string {
+func (n *Stats) Json() string {
 	js, err := json.MarshalIndent(n, "", "  ")
 	if err != nil {
 		return ""
@@ -56,8 +56,8 @@ func (n *Response) Json() string {
 	return string(js)
 }
 
-func NewResponse() (s *Response) {
-	s = &Response{}
+func New() (s *Stats) {
+	s = &Stats{}
 
 	s.System.Memory = memory.New()
 

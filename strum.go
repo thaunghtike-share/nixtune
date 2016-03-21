@@ -26,8 +26,8 @@ const (
 )
 
 type config struct {
-	output   string
-	response *stats.Response
+	output string
+	stats  *stats.Stats
 }
 
 func main() {
@@ -36,10 +36,10 @@ func main() {
 	flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
 	flag.Parse()
 
-	conf.response = stats.NewResponse()
+	conf.stats = stats.New()
 
 	switch OutputType(conf.output) {
 	case JsonOutput:
-		fmt.Printf("%s", conf.response.Json())
+		fmt.Printf("%s", conf.stats.Json())
 	}
 }
