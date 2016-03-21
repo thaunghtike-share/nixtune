@@ -20,7 +20,7 @@ type OutputType string
 
 // Currently available output types.
 const (
-	JsonOutput  OutputType = "json"
+	JSONOutput  OutputType = "json"
 	FlatOutput             = "flat"
 	HumanOutput            = "human"
 )
@@ -39,7 +39,7 @@ func main() {
 	conf.stats = stats.New()
 
 	switch OutputType(conf.output) {
-	case JsonOutput:
+	case JSONOutput:
 		fmt.Printf("%s", conf.stats.Json())
 	}
 }
