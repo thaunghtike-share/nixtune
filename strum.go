@@ -11,6 +11,8 @@ package main
 import (
 	"flag"
 	"fmt"
+
+	"github.com/acksin/strum/stats"
 )
 
 // OutputType is the formatted output of the command.
@@ -25,7 +27,7 @@ const (
 
 type config struct {
 	output   string
-	response *Response
+	response *stats.Response
 }
 
 func main() {
@@ -34,7 +36,7 @@ func main() {
 	flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
 	flag.Parse()
 
-	conf.response = NewResponse()
+	conf.response = stats.NewResponse()
 
 	switch OutputType(conf.output) {
 	case JsonOutput:
