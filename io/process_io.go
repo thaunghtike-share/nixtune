@@ -18,7 +18,7 @@ type ProcessIO struct {
 	Limits struct {
 		OpenFiles int
 		FileSize  int
-		CPU       int
+		CPUTime   int
 	}
 
 	FD ProcessFD
@@ -30,7 +30,7 @@ func (p *ProcessIO) limits(proc *procfs.Proc) {
 		return
 	}
 
-	p.Limits.CPU = limits.CPUTime
+	p.Limits.CPUTime = limits.CPUTime
 	p.Limits.FileSize = limits.FileSize
 	p.Limits.OpenFiles = limits.OpenFiles
 }
