@@ -33,14 +33,16 @@ sudo strum [pid]
 ## Completed
 
  - [X] Memory
- - [ ] Netowrking
+ - [ ] Networking
  - [ ] IO
  - [ ] CPU
+ - [ ] FDs
  - [ ] Process
    - [ ] Memory
-   - [ ] Netowrking
+   - [ ] Networking
    - [ ] IO
    - [ ] CPU
+   - [ ] FDs
 
 
 
