@@ -6,13 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package fd
+package io
 
-// FD contains the aggregrate file descriptors for the entire system.
-type FD struct {
+// IO contains the aggregrate IO information for the entire system.
+type IO struct {
 }
 
-// New returns a new FD with the file descriptors.
-func New() *FD {
-	return &FD{}
+// New returns a new IO.
+func New() *IO {
+	return &IO{}
 }

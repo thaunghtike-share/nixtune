@@ -19,36 +19,28 @@ type ProcessMemory struct {
 	// Swap usage of the Process
 	Swap struct {
 		// Size of the swap used
-		Size int64 `json:",omitempty"`
+		Size int64
 		// Unit metric used
-		Unit string `json:",omitempty"`
-	} `json:",omitempty"`
-
-	proc procfs.Proc
+		Unit string
+	}
 }
 
-func (m *ProcessMemory) getSwap() {
-	ps, _ := m.proc.NewStatus()
-	if ps.VmSwap == "" {
-		return
-	}
+func (m *ProcessMemory) swap(proc *procfs.Proc) {
+	ps, _ := proc.NewStatus()
 
-	v, err := strconv.ParseInt(ps.VmSwap, 10, 64)
+	v, err := strconv.ParseInt(ps.VMSwap, 10, 64)
 	if err != nil {
 		return
 	}
 
-	// It's swapping.
-	if v > 0 {
-		m.Swap.Size = v
-		m.Swap.Unit = "kb"
-	}
+	m.Swap.Size = v
+	m.Swap.Unit = "kb"
 }
 
 // NewProcess returns memory information of a Linux Process
 func NewProcess(proc procfs.Proc) *ProcessMemory {
-	pm := &ProcessMemory{proc: proc}
-	pm.getSwap()
+	pm := &ProcessMemory{}
+	pm.swap(&proc)
 
 	return pm
 }

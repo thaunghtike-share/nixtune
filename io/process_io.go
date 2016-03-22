@@ -6,22 +6,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package fd
+package io
 
 import (
 	"github.com/acksin/procfs"
 )
 
-// ProcessFD is a map of the file descriptor number to the descriptor
-// object that it is pointing to.
-type ProcessFD map[string]string
+type ProcessIO struct {
+	FD ProcessFD
+}
 
-// NewProcess returns the file descriptors for a single Linux process.
-func NewProcess(proc procfs.Proc) ProcessFD {
+func (p *ProcessIO) fileDescriptors(proc *procfs.Proc) {
 	fd, err := proc.NewFD()
 	if err != nil {
-		return nil
+		return
 	}
+	p.FD = ProcessFD(fd)
+}
 
-	return ProcessFD(fd)
+// NewProcess returns the file descriptors for a single Linux process.
+func NewProcess(proc procfs.Proc) *ProcessIO {
+	p := &ProcessIO{}
+	p.fileDescriptors(&proc)
+
+	return p
 }

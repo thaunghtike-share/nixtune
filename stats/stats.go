@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 
 	"github.com/acksin/procfs"
-	"github.com/acksin/strum/fd"
+	"github.com/acksin/strum/io"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
 )
@@ -24,9 +24,9 @@ type Process struct {
 	// PID of the process
 	PID int
 	// Memory stats of the process
-	Memory *memory.ProcessMemory `json:",omitempty"`
-	// FD is the file descriptors of the process
-	FD fd.ProcessFD `json:",omitempty"`
+	Memory *memory.ProcessMemory
+	// IO contains information about the IO of the machine.
+	IO *io.ProcessIO
 }
 
 // Stats contains both the system and process statistics.
@@ -95,7 +95,7 @@ func New(pids []int) (s *Stats) {
 			Exe:    exe,
 			PID:    proc.PID,
 			Memory: memory.NewProcess(proc),
-			FD:     fd.NewProcess(proc),
+			IO:     io.NewProcess(proc),
 		}
 
 		if len(pids) == 0 || s.containsPid(pids, proc) {
