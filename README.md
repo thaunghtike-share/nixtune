@@ -30,6 +30,20 @@ If you just want infor on a single PID run the following:
 sudo strum [pid]
 ```
 
+## Completed
+
+ - [X] Memory
+ - [ ] Netowrking
+ - [ ] IO
+ - [ ] CPU
+ - [ ] Process
+   - [ ] Memory
+   - [ ] Netowrking
+   - [ ] IO
+   - [ ] CPU
+
+
+
 ## Authors
 
  Abhi Yerra @abhiyerra
