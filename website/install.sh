@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PRODUCT=strum
-VERSION=0.1.0
+VERSION=0.2.0
 
 function welcome_strum {
     echo "Welcome to Acksin STRUM ($VERSION) Installation"
