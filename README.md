@@ -30,7 +30,11 @@ If you just want infor on a single PID run the following:
 sudo strum [pid]
 ```
 
-## Completed
+## Todo
+
+There are quite a few of these tasks done to make the tool useful but
+we want to make it complete. That means we want to make the data the
+is given to the user useful.
 
  - [X] Memory
  - [ ] Networking
@@ -42,7 +46,7 @@ sudo strum [pid]
    - [ ] Networking
    - [ ] IO
    - [ ] CPU
-   - [ ] FDs
+   - [X] FDs
 
 
 

@@ -9,26 +9,8 @@
 package network
 
 import (
-//	"github.com/acksin/procfs"
+	"github.com/acksin/procfs"
 )
-
-/*
-
-TODO:
-Network Access ALgorithm for Acksin STRUM
-
-To be able to do a profile on network throughput we need to first take
-a metric of teh connection.
-
- - Need to look at network connections over a period of time.
- - See if the connections are to the same pid of different ones.
- - See how many timeouts there are.
- - Look at how many connections there are that are open and how tey are operating.
- - See if there is an increase see the throughput as it grows over time.
- - Need to profile the machine over time. Over a long period of time.
-*/
-
-// getNetworkSettings()
 
 // Total: 804 (kernel 0)
 // TCP:   410 (estab 327, closed 75, orphaned 0, synrecv 0, timewait 71/0), ports 0
@@ -40,15 +22,6 @@ a metric of teh connection.
 // TCP	  335       333       2
 // INET	  350       342       8
 // FRAG	  0         0         0
-
-// TCPStat represents the stats of socket connections on the machine.
-type TCPStat struct {
-	Established int64
-	Closed      int64
-	Orphaned    int64
-	Synrecv     int64
-	Timewait    int64
-}
 
 // Network returns network information about the machine.
 type Network struct {
@@ -64,25 +37,32 @@ type Network struct {
 	TCP struct {
 		// Total TCP sockets
 		Total int64
-		// IPv4 socket information
-		IPv4 TCPStat
-		// IPv6 socket information
-		IPv6 TCPStat
+
+		Established int64
+		Closed      int64
+		Orphaned    int64
+		Synrecv     int64
+		Timewait    int64
 	}
 }
 
-func (n *Network) tcpIPv4() {
-}
-
-func (n *Network) tcpIPv6() {
+func (n *Network) tcp(sockstat *procfs.NetSockstat) {
+	n.TCP.Established = sockstat.TCP.InUse
+	n.TCP.Orphaned = sockstat.TCP.Orphan
+	// TODO: Finish more of this.
 }
 
 // New returns the Network information of the machine
 func New() *Network {
 	n := &Network{}
 
-	n.tcpIPv4()
-	n.tcpIPv6()
+	netSockstat, err := procfs.NewNetSockstat()
+	if err != nil {
+		return nil
+	}
+
+	n.Total = netSockstat.Sockets.Used
+	n.tcp(&netSockstat)
 
 	return n
 }

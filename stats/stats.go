@@ -83,6 +83,7 @@ func New(pids []int) (s *Stats) {
 	s = &Stats{}
 
 	s.System.Memory = memory.New()
+	s.System.Network = network.New()
 
 	for _, proc := range s.processes() {
 		exe, err := proc.Executable()
