@@ -41,6 +41,7 @@ a metric of teh connection.
 // INET	  350       342       8
 // FRAG	  0         0         0
 
+// TCPStat represents the stats of socket connections on the machine.
 type TCPStat struct {
 	Established int64
 	Closed      int64
@@ -48,7 +49,10 @@ type TCPStat struct {
 	Synrecv     int64
 	Timewait    int64
 }
+
+// Network returns network information about the machine.
 type Network struct {
+	// Total sockets the machine is maintaining of all types.
 	Total int64
 
 	// TODO Implement RAW sockets
@@ -56,10 +60,14 @@ type Network struct {
 	// TODO Implement UDP sockets
 	UDP struct{}
 
+	// TCP socket information.
 	TCP struct {
+		// Total TCP sockets
 		Total int64
-		V4    TCPStat
-		V6    TCPStat
+		// IPv4 socket information
+		IPv4 TCPStat
+		// IPv6 socket information
+		IPv6 TCPStat
 	}
 }
 
@@ -69,6 +77,7 @@ func (n *Network) tcpIPv4() {
 func (n *Network) tcpIPv6() {
 }
 
+// New returns the Network information of the machine
 func New() *Network {
 	n := &Network{}
 

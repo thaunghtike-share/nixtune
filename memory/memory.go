@@ -24,20 +24,43 @@ Look to see how memory changes over time.
  - http://superuser.com/questions/521551/cat-proc-meminfo-what-do-all-those-numbers-mean
 
 */
+
+// Memory returns the memory usage of the system.
 type Memory struct {
+	// Unit is the metric used for all the numbers returned. E.g. kb, mb, gb.
 	Unit string
 
-	Total  int64
-	Free   int64
+	// Total is the total memory of the system.
+	Total int64
+	// Free is the total free memory in the system.
+	Free int64
+	// Cached is the total memory that is cached.
 	Cached int64
 
+	// Swap is information on swap usage on the system.
 	Swap struct {
+		// Total swap that is available.
 		Total int64
-		Free  int64
-		Used  int64
+		// Free swap space.
+		Free int64
+		// Used swap space.
+		Used int64
 	}
 }
 
+func (m *Memory) mem(meminfo *procfs.Meminfo) {
+	m.Total = meminfo.MemTotal
+	m.Free = meminfo.MemFree
+	m.Cached = meminfo.Cached
+}
+
+func (m *Memory) swap(meminfo *procfs.Meminfo) {
+	m.Swap.Used = meminfo.SwapCached
+	m.Swap.Total = meminfo.SwapTotal
+	m.Swap.Free = meminfo.SwapFree
+}
+
+// New returns a Memory object representing system memory information.
 func New() *Memory {
 	m := &Memory{}
 
@@ -52,16 +75,4 @@ func New() *Memory {
 	m.mem(&meminfo)
 
 	return m
-}
-
-func (m *Memory) mem(meminfo *procfs.Meminfo) {
-	m.Total = meminfo.MemTotal
-	m.Free = meminfo.MemFree
-	m.Cached = meminfo.Cached
-}
-
-func (m *Memory) swap(meminfo *procfs.Meminfo) {
-	m.Swap.Used = meminfo.SwapCached
-	m.Swap.Total = meminfo.SwapTotal
-	m.Swap.Free = meminfo.SwapFree
 }

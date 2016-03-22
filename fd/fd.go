@@ -8,13 +8,11 @@
 
 package fd
 
-import (
-// "github.com/acksin/procfs"
-)
-
+// FD contains the aggregrate file descriptors for the entire system.
 type FD struct {
 }
 
+// New returns a new FD with the file descriptors.
 func New() *FD {
 	return &FD{}
 }

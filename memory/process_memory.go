@@ -14,20 +14,17 @@ import (
 	"github.com/acksin/procfs"
 )
 
+// ProcessMemory returns memory usage of a Process
 type ProcessMemory struct {
-	proc procfs.Proc
-
+	// Swap usage of the Process
 	Swap struct {
-		Size     int64  `json:",omitempty"`
-		SizeUnit string `json:",omitempty"`
+		// Size of the swap used
+		Size int64 `json:",omitempty"`
+		// Unit metric used
+		Unit string `json:",omitempty"`
 	} `json:",omitempty"`
-}
 
-func NewProcess(proc procfs.Proc) *ProcessMemory {
-	pm := &ProcessMemory{proc: proc}
-	pm.getSwap()
-
-	return pm
+	proc procfs.Proc
 }
 
 func (m *ProcessMemory) getSwap() {
@@ -44,6 +41,14 @@ func (m *ProcessMemory) getSwap() {
 	// It's swapping.
 	if v > 0 {
 		m.Swap.Size = v
-		m.Swap.SizeUnit = "kb"
+		m.Swap.Unit = "kb"
 	}
+}
+
+// NewProcess returns memory information of a Linux Process
+func NewProcess(proc procfs.Proc) *ProcessMemory {
+	pm := &ProcessMemory{proc: proc}
+	pm.getSwap()
+
+	return pm
 }

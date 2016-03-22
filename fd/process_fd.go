@@ -12,8 +12,11 @@ import (
 	"github.com/acksin/procfs"
 )
 
+// ProcessFD is a map of the file descriptor number to the descriptor
+// object that it is pointing to.
 type ProcessFD map[string]string
 
+// NewProcess returns the file descriptors for a single Linux process.
 func NewProcess(proc procfs.Proc) ProcessFD {
 	fd, err := proc.NewFD()
 	if err != nil {

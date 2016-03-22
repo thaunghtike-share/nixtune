@@ -69,6 +69,6 @@ func main() {
 
 	switch OutputType(conf.output) {
 	case JSONOutput:
-		fmt.Printf("%s", conf.stats.Json())
+		fmt.Printf("%s", conf.stats.JSON())
 	}
 }

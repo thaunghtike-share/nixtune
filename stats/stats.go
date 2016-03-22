@@ -17,19 +17,29 @@ import (
 	"github.com/acksin/strum/network"
 )
 
+// Process is information about a Linux process
 type Process struct {
-	Exe    string
-	PID    int
+	// Exe is the executable that is running.
+	Exe string
+	// PID of the process
+	PID int
+	// Memory stats of the process
 	Memory *memory.ProcessMemory `json:",omitempty"`
-	FD     fd.ProcessFD          `json:",omitempty"`
+	// FD is the file descriptors of the process
+	FD fd.ProcessFD `json:",omitempty"`
 }
 
+// Stats contains both the system and process statistics.
 type Stats struct {
+	// System specific information
 	System struct {
-		Memory  *memory.Memory
+		// Memory stats of the system
+		Memory *memory.Memory
+		// Network stats of the system
 		Network *network.Network
 	}
 
+	// Processes are the process information of the system
 	Processes []Process
 }
 
@@ -47,7 +57,8 @@ func (n *Stats) processes() procfs.Procs {
 	return procs
 }
 
-func (n *Stats) Json() string {
+// JSON returns JSON string of Stats
+func (n *Stats) JSON() string {
 	js, err := json.MarshalIndent(n, "", "  ")
 	if err != nil {
 		return ""
@@ -66,6 +77,8 @@ func (n *Stats) containsPid(pids []int, proc procfs.Proc) bool {
 	return false
 }
 
+// New returns stats of the machine with pids filtering for
+// processes. If pids are empty then it returns all process stats.
 func New(pids []int) (s *Stats) {
 	s = &Stats{}
 
