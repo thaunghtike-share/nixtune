@@ -13,7 +13,26 @@ import (
 )
 
 type ProcessIO struct {
+	// Limits are the max limits either in time or size for the
+	// following resources.
+	Limits struct {
+		OpenFiles int
+		FileSize  int
+		CPU       int
+	}
+
 	FD ProcessFD
+}
+
+func (p *ProcessIO) limits(proc *procfs.Proc) {
+	limits, err := proc.NewLimits()
+	if err != nil {
+		return
+	}
+
+	p.Limits.CPU = limits.CPUTime
+	p.Limits.FileSize = limits.FileSize
+	p.Limits.OpenFiles = limits.OpenFiles
 }
 
 func (p *ProcessIO) fileDescriptors(proc *procfs.Proc) {
@@ -28,6 +47,7 @@ func (p *ProcessIO) fileDescriptors(proc *procfs.Proc) {
 func NewProcess(proc procfs.Proc) *ProcessIO {
 	p := &ProcessIO{}
 	p.fileDescriptors(&proc)
+	p.limits(&proc)
 
 	return p
 }
