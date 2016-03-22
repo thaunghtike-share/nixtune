@@ -56,7 +56,17 @@ func (n *Stats) Json() string {
 	return string(js)
 }
 
-func New() (s *Stats) {
+func (n *Stats) containsPid(pids []int, proc procfs.Proc) bool {
+	for _, pid := range pids {
+		if proc.PID == pid {
+			return true
+		}
+	}
+
+	return false
+}
+
+func New(pids []int) (s *Stats) {
 	s = &Stats{}
 
 	s.System.Memory = memory.New()
@@ -75,7 +85,9 @@ func New() (s *Stats) {
 			FD:     fd.NewProcess(proc),
 		}
 
-		s.Processes = append(s.Processes, p)
+		if len(pids) == 0 || s.containsPid(pids, proc) {
+			s.Processes = append(s.Processes, p)
+		}
 	}
 
 	return s
