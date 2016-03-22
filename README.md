@@ -1,54 +1,39 @@
 # Acksin STRUM
 
-Tool to gather quick stats about a machine including metrics on CPU,
-IO, Memory, Networking, etc. to help quickly debug and locate common
-problems.
+Tool to diagnose issues on the machine quickly. It includes system and
+process information about CPU, IO, Memory, Networking, Limits, etc. to
+help debug and assess problems.
 
 ## Use Case
 
-DevOps people turn to tools ls =vmstat=, =free=, =/proc= fs, etc. to
-quickly figure out what the issues are with a Linux and UNIX
+System Admins turn to tools like `vmstat`, `free`, `top`, `ps`,
+etc. to quickly figure out what the issues are with a Linux and UNIX
 machines. However, as common as these tools are they are still limited
 insofar as they need to be strung togehter to give a complete picture
 of what is happening.
 
-If a MySQL machine is high CPU your workflow may be running =top= to
-see what the CPUs are like, =free= to see if the machine is swapping,
-=ss= to see if there are a lot of connections, etc.
+If a MySQL machine is high CPU your workflow may be running `top` to
+see what the CPUs are like, `free` to see if the machine is swapping,
+`ss` to see if there are a lot of connections, etc.
 
-Strum will give you a birds eye view of the system quickly.
+STRUM will give you a birds eye view of the system and a process
+quickly.
 
 ## Usage
+
+While the tool can be used without sudo there may be information that
+is left out because of lack of access. As such it is better to run the
+tool as `sudo`.
 
 ```
 sudo strum
 ```
 
-If you just want infor on a single PID run the following:
+If you just want info on a single PID run the following:
 
 ```
 sudo strum [pid]
 ```
-
-## Todo
-
-There are quite a few of these tasks done to make the tool useful but
-we want to make it complete. That means we want to make the data the
-is given to the user useful.
-
- - [X] Memory
- - [ ] Networking
- - [ ] IO
- - [ ] CPU
- - [ ] FDs
- - [ ] Process
-   - [ ] Memory
-   - [ ] Networking
-   - [ ] IO
-   - [ ] CPU
-   - [X] FDs
-
-
 
 ## Authors
 
