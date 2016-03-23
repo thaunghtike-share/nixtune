@@ -9,12 +9,12 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"strconv"
 
 	"github.com/acksin/strum/stats"
+	flag "github.com/ogier/pflag"
 )
 
 var (
@@ -46,8 +46,7 @@ type config struct {
 func main() {
 	conf := config{}
 
-	// TODO: flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
-	conf.output = "json"
+	flag.StringVarP(&conf.output, "output", "o", "json", "Formatted outputs available. Available: json, flat, human")
 
 	flag.Usage = func() {
 		fmt.Println("strum [flags] [pid]")
@@ -72,5 +71,9 @@ func main() {
 	switch OutputType(conf.output) {
 	case JSONOutput:
 		fmt.Printf("%s", conf.stats.JSON())
+	case FlatOutput:
+		fmt.Println("Feature is not quite ready")
+	case HumanOutput:
+		fmt.Println("Feature is not quite ready")
 	}
 }
