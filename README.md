@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/acksin/strum.svg?branch=master)](https://travis-ci.org/acksin/strum)
+
 # Acksin STRUM
 
 Tool to diagnose issues on the machine quickly. It includes system and
