@@ -17,7 +17,6 @@ import (
 
 	"github.com/acksin/autotune/instance"
 	"github.com/acksin/autotune/signatures"
-	"github.com/acksin/autotune/stats"
 )
 
 var (
@@ -50,9 +49,6 @@ func main() {
 	c.Commands = map[string]cli.CommandFactory{
 		"signature": func() (cli.Command, error) {
 			return signatures.New(subCmd("signature")), nil
-		},
-		"stats": func() (cli.Command, error) {
-			return stats.New(subCmd("stats")), nil
 		},
 		"instance": func() (cli.Command, error) {
 			return instance.New(subCmd("instance"), awsAPIKey, awsSecretKey, awsRegion), nil

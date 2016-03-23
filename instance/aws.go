@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/acksin/autotune/stats"
+	"github.com/acksin/strum/stats"
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
 )
@@ -27,7 +27,7 @@ type AwsInstance struct {
 	// InstanceType is the AWS instance that this instance is. Ex. m4.large
 	Type string
 	// Stats includes current metrics about the machine.
-	Stats stats.Response
+	Stats stats.Stats
 
 	metadata *ec2metadata.EC2Metadata
 }
