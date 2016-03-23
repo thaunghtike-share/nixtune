@@ -46,7 +46,9 @@ type config struct {
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
+	// TODO: flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, human")
+	conf.output = "json"
+
 	flag.Usage = func() {
 		fmt.Println("strum [flags] [pid]")
 		fmt.Println("")
