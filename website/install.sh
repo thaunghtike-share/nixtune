@@ -6,7 +6,7 @@ VERSION=0.2.0
 function welcome_strum {
     echo "Welcome to Acksin STRUM ($VERSION) Installation"
     echo "Copyright (c) 2016. Acksin, LLC."
-    echo "https://acksin.com/strum"
+    echo "https://www.acksin.com/strum"
     echo ""
 }
 
