@@ -72,7 +72,7 @@ func main() {
 	case JSONOutput:
 		fmt.Printf("%s", conf.stats.JSON())
 	case FlatOutput:
-		fmt.Println("Feature is not quite ready")
+		fmt.Printf("%s", conf.stats.Flat())
 	case HumanOutput:
 		fmt.Println("Feature is not quite ready")
 	}
