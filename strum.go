@@ -11,6 +11,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/acksin/strum/stats"
@@ -49,10 +50,10 @@ func main() {
 	flag.StringVarP(&conf.output, "output", "o", "json", "Formatted outputs available. Available: json, flat, human")
 
 	flag.Usage = func() {
-		fmt.Println("strum [flags] [pid]")
-		fmt.Println("")
+		fmt.Fprintln(os.Stderr, "strum [flags] [pid]")
+		fmt.Fprintln(os.Stderr, "")
 		flag.PrintDefaults()
-		fmt.Printf("\n%s", copyright())
+		fmt.Fprintf(os.Stderr, "\n%s", copyright())
 	}
 	flag.Parse()
 

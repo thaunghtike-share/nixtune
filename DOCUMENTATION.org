@@ -1,0 +1,2883 @@
+#+TITLE: Acksin STRUM
+#+AUTHOR: Acksin
+
+#+OPTIONS: html-postamble:nil body-only: t
+
+#+HTML_HEAD: <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+* Help
+
+#+begin_src sh :results output :exports both
+./strum --help
+#+end_src
+
+#+RESULTS:
+
+* Basic Usage
+
+#+begin_src sh :results output code json :exports both :noweb
+./strum
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC json
+{
+  "System": {
+    "Memory": {
+      "Unit": "kb",
+      "Physical": {
+        "Total": 500244,
+        "Free": 44072,
+        "Used": 456172,
+        "Cached": 89252,
+        "Buffers": 9080
+      },
+      "Swap": {
+        "Total": 0,
+        "Free": 0,
+        "Used": 0,
+        "Cached": 0
+      },
+      "Virtual": {
+        "Total": 34359738367,
+        "Used": 8600,
+        "Chunk": 34359722892
+      },
+      "Dirty": 156,
+      "Writeback": 0,
+      "Mapped": 20828
+    },
+    "Network": {
+      "Total": 144,
+      "RAW": {},
+      "UDP": {},
+      "TCP": {
+        "Total": 0,
+        "Established": 11,
+        "Closed": 0,
+        "Orphaned": 0,
+        "Synrecv": 0,
+        "Timewait": 0
+      }
+    }
+  },
+  "Processes": [
+    {
+      "Exe": "init",
+      "PID": 1,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kthreadd",
+      "PID": 2,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ksoftirqd",
+      "PID": 3,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 5,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcu",
+      "PID": 7,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 8,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 9,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 10,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 11,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 12,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 13,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 14,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 15,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 16,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 17,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 18,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 19,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 20,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 21,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuos",
+      "PID": 22,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcu",
+      "PID": 23,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 24,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 25,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 26,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 27,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 28,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 29,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 30,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 31,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 32,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 33,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 34,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 35,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 36,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 37,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rcuob",
+      "PID": 38,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "migration",
+      "PID": 39,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "watchdog",
+      "PID": 40,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "khelper",
+      "PID": 41,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kdevtmpfs",
+      "PID": 42,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "netns",
+      "PID": 43,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "xenwatch",
+      "PID": 44,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "xenbus",
+      "PID": 45,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "writeback",
+      "PID": 47,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kintegrityd",
+      "PID": 48,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "bioset",
+      "PID": 49,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 50,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kblockd",
+      "PID": 51,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ata",
+      "PID": 52,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "khubd",
+      "PID": 53,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "md",
+      "PID": 54,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "devfreq",
+      "PID": 55,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "khungtaskd",
+      "PID": 57,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kswapd0",
+      "PID": 58,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ksmd",
+      "PID": 59,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "fsnotify",
+      "PID": 60,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ecryptfs",
+      "PID": 61,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "crypto",
+      "PID": 62,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kthrotld",
+      "PID": 74,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "scsi",
+      "PID": 76,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "scsi",
+      "PID": 77,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "deferwq",
+      "PID": 98,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "charger",
+      "PID": 99,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kpsmoused",
+      "PID": 140,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ttm",
+      "PID": 146,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "jbd2",
+      "PID": 201,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ext4",
+      "PID": 202,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "upstart",
+      "PID": 487,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "systemd",
+      "PID": 492,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "upstart",
+      "PID": 627,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "dhclient",
+      "PID": 657,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "dbus",
+      "PID": 818,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 65536,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "systemd",
+      "PID": 860,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "rsyslogd",
+      "PID": 864,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "upstart",
+      "PID": 882,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 990,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 994,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 998,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 999,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 1001,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "sshd",
+      "PID": 1050,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "acpid",
+      "PID": 1051,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "atd",
+      "PID": 1052,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "cron",
+      "PID": 1053,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "nginx",
+      "PID": 1085,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "nginx",
+      "PID": 1086,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "nginx",
+      "PID": 1087,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "nginx",
+      "PID": 1088,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "nginx",
+      "PID": 1089,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 1222,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "getty",
+      "PID": 1223,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kauditd",
+      "PID": 1318,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/usr/bin/tmux",
+      "PID": 1505,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/null",
+          "1": "/dev/null",
+          "10": "/dev/ptmx",
+          "11": "/dev/ptmx",
+          "12": "/dev/ptmx",
+          "13": "/dev/ptmx",
+          "14": "/dev/ptmx",
+          "15": "/dev/ptmx",
+          "16": "/dev/ptmx",
+          "17": "/dev/ptmx",
+          "18": "/dev/ptmx",
+          "19": "/dev/ptmx",
+          "2": "/dev/null",
+          "3": "socket:[11566]",
+          "4": "socket:[11567]",
+          "5": "socket:[1946916]",
+          "6": "socket:[11568]",
+          "7": "/dev/pts/0",
+          "8": "/dev/ptmx",
+          "9": "/dev/ptmx"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 1506,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/1",
+          "1": "/dev/pts/1",
+          "10": "/dev/pts/1",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/1"
+        }
+      }
+    },
+    {
+      "Exe": "sshd",
+      "PID": 1526,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 1539,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "sshd",
+      "PID": 1603,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 1607,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/0",
+          "1": "/dev/pts/0",
+          "10": "/dev/pts/0",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/0"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 1616,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/2",
+          "1": "/dev/pts/2",
+          "10": "/dev/pts/2",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/2"
+        }
+      }
+    },
+    {
+      "Exe": "/usr/bin/irssi",
+      "PID": 1703,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/2",
+          "1": "/dev/pts/2",
+          "2": "/dev/pts/2",
+          "3": "anon_inode:[eventfd]",
+          "4": "socket:[170356]",
+          "6": "anon_inode:[eventfd]"
+        }
+      }
+    },
+    {
+      "Exe": "/usr/bin/tmux",
+      "PID": 1825,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/0",
+          "1": "/dev/pts/0",
+          "2": "/dev/pts/0",
+          "3": "socket:[1946913]",
+          "4": "socket:[1946914]",
+          "5": "socket:[1946915]"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 1826,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/13",
+          "1": "/dev/pts/13",
+          "10": "/dev/pts/13",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/13"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 2273,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 2959,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/12",
+          "1": "/dev/pts/12",
+          "10": "/dev/pts/12",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/12"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 4277,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 5516,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8872,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8874,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8875,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8876,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8877,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "postgres",
+      "PID": 8878,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/usr/bin/ruby2.3",
+      "PID": 9815,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/9",
+          "1": "/dev/pts/9",
+          "10": "pipe:[1215710]",
+          "11": "socket:[1215712]",
+          "12": "anon_inode:inotify",
+          "13": "socket:[1215728]",
+          "14": "pipe:[1215729]",
+          "15": "pipe:[1215729]",
+          "16": "socket:[1979175]",
+          "17": "socket:[1979176]",
+          "18": "socket:[1979177]",
+          "19": "socket:[1979178]",
+          "2": "/dev/pts/9",
+          "3": "pipe:[1215703]",
+          "4": "pipe:[1215703]",
+          "5": "pipe:[1215704]",
+          "6": "pipe:[1215704]",
+          "7": "anon_inode:inotify",
+          "8": "anon_inode:inotify",
+          "9": "pipe:[1215710]"
+        }
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 10276,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 12186,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 12540,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 12842,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 12850,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 13324,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/14",
+          "1": "/dev/pts/14",
+          "10": "/dev/pts/14",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/14"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 14056,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 14179,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 14905,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/dash",
+      "PID": 15236,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/tmp/babel-20638834/ob-input-206387eS",
+          "1": "pipe:[1979265]",
+          "2": "/tmp/emacs20638Vze"
+        }
+      }
+    },
+    {
+      "Exe": "/home/abhi/src/github.com/acksin/strum/strum",
+      "PID": 15237,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/tmp/babel-20638834/ob-input-206387eS",
+          "1": "pipe:[1979265]",
+          "2": "/tmp/emacs20638Vze"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 15757,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/6",
+          "1": "/dev/pts/6",
+          "10": "/dev/pts/6",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/6"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 15918,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/9",
+          "1": "/dev/pts/9",
+          "10": "/dev/pts/9",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/9"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 18432,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 19207,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/3",
+          "1": "/dev/pts/3",
+          "10": "/dev/pts/3",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/3"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 19694,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/usr/local/bin/emacs-25.1.50",
+      "PID": 20638,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/1",
+          "1": "/dev/pts/1",
+          "2": "/dev/pts/1",
+          "3": "anon_inode:[timerfd]",
+          "4": "/dev/tty",
+          "5": "socket:[346245]",
+          "7": "pipe:[1979265]"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 22081,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 22390,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/10",
+          "1": "/dev/pts/10",
+          "10": "/dev/pts/10",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/10"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 22616,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 24347,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 24927,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 25151,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "docker",
+      "PID": 25643,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 524288,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 28069,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/8",
+          "1": "/dev/pts/8",
+          "10": "/dev/pts/8",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/8"
+        }
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 28444,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "ssh",
+      "PID": 28697,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 29212,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/11",
+          "1": "/dev/pts/11",
+          "10": "/dev/pts/11",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/11"
+        }
+      }
+    },
+    {
+      "Exe": "/bin/zsh5",
+      "PID": 29369,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/pts/5",
+          "1": "/dev/pts/5",
+          "10": "/dev/pts/5",
+          "12": "/usr/share/zsh/functions/Completion.zwc",
+          "2": "/dev/pts/5"
+        }
+      }
+    },
+    {
+      "Exe": "kworker",
+      "PID": 31722,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": ""
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": null
+      }
+    }
+  ]
+}
+#+END_SRC
+
+* Information on a Process
+
+#+begin_src sh :results output code json :exports both :noweb
+./strum 1505
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC sh
+{
+  "System": {
+    "Memory": {
+      "Unit": "kb",
+      "Physical": {
+        "Total": 500244,
+        "Free": 32252,
+        "Used": 467992,
+        "Cached": 95388,
+        "Buffers": 10392
+      },
+      "Swap": {
+        "Total": 0,
+        "Free": 0,
+        "Used": 0,
+        "Cached": 0
+      },
+      "Virtual": {
+        "Total": 34359738367,
+        "Used": 8600,
+        "Chunk": 34359722892
+      },
+      "Dirty": 160,
+      "Writeback": 0,
+      "Mapped": 23620
+    },
+    "Network": {
+      "Total": 143,
+      "RAW": {},
+      "UDP": {},
+      "TCP": {
+        "Total": 0,
+        "Established": 9,
+        "Closed": 0,
+        "Orphaned": 1,
+        "Synrecv": 0,
+        "Timewait": 0
+      }
+    }
+  },
+  "Processes": [
+    {
+      "Exe": "/usr/bin/tmux",
+      "PID": 1505,
+      "Memory": {
+        "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+        }
+      },
+      "IO": {
+        "Limits": {
+          "OpenFiles": 1024,
+          "FileSize": 0,
+          "CPUTime": -1
+        },
+        "FD": {
+          "0": "/dev/null",
+          "1": "/dev/null",
+          "10": "/dev/ptmx",
+          "11": "/dev/ptmx",
+          "12": "/dev/ptmx",
+          "13": "/dev/ptmx",
+          "14": "/dev/ptmx",
+          "15": "/dev/ptmx",
+          "16": "/dev/ptmx",
+          "17": "/dev/ptmx",
+          "18": "/dev/ptmx",
+          "19": "/dev/ptmx",
+          "2": "/dev/null",
+          "3": "socket:[11566]",
+          "4": "socket:[11567]",
+          "5": "socket:[1946916]",
+          "6": "socket:[11568]",
+          "7": "/dev/pts/0",
+          "8": "/dev/ptmx",
+          "9": "/dev/ptmx"
+        }
+      }
+    }
+  ]
+}
+#+END_SRC
