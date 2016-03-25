@@ -15,8 +15,11 @@ deps:
 
 dev-deps:
 	# sudo apt-get install -y inkscape 
+	sudo add-apt-repository -y ppa:ubuntu-elisp/ppa && sudo apt-get -qq update && sudo apt-get -qq -f install && sudo apt-get -qq install emacs-snapshot && sudo apt-get -qq install emacs-snapshot-el;
+	emacs --version
+	emacs-snapshot --version
 	wget https://raw.githubusercontent.com/acksin/release-checklist/master/install-orgmode.el
-	emacs --batch -l ./install-orgmode.el
+	emacs-snapshot --batch -l ./install-orgmode.el
 
 test:
 	golint ./...
