@@ -13,7 +13,11 @@ deps:
 	go get ./...
 
 dev-deps:
-	sudo apt-get install -y inkscape 
+	# sudo apt-get install -y inkscape 
+	sudo add-apt-repository -y ppa:ubuntu-elisp/ppa && sudo apt-get -qq update && sudo apt-get -qq -f install && sudo apt-get -qq install emacs-snapshot && sudo apt-get -qq install emacs-snapshot-el;
+	emacs --version
+	wget https://raw.githubusercontent.com/acksin/release-checklist/master/install-orgmode.el
+	emacs-snapshot --batch -l ./install-orgmode.el
 
 test:
 	golint ./...
@@ -31,7 +35,13 @@ release: spell build archive
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
-	echo "None"
+	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
+	echo "---" > website/docs.html.erb
+	echo "title: Acksin STRUM Docs" >> website/docs.html.erb
+	echo "layout: docs" >> website/docs.html.erb
+	echo "---" >> website/docs.html.erb
+	cat DOCUMENTATION.html >> website/docs.html.erb
+	rm DOCUMENTATION.html
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
 
 website:
