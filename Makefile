@@ -9,6 +9,7 @@ build: deps test
 	$(MAKE) website-assets
 
 deps:
+	emacs --version
 	go get -u github.com/golang/lint/golint
 	go get ./...
 
