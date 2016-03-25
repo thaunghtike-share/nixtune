@@ -6,7 +6,7 @@ all: build
 
 build: deps test
 	go build -ldflags "-X main.version=$(VERSION)"
-	$(MAKE) website-assets
+	@$(MAKE) website-assets
 
 deps:
 	emacs --version
