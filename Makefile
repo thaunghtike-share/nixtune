@@ -6,10 +6,9 @@ all: build
 
 build: deps test
 	go build -ldflags "-X main.version=$(VERSION)"
-	@$(MAKE) website-assets
+	$(MAKE) website-assets
 
 deps:
-	emacs --version
 	go get -u github.com/golang/lint/golint
 	go get ./...
 
@@ -17,7 +16,6 @@ dev-deps:
 	# sudo apt-get install -y inkscape 
 	sudo add-apt-repository -y ppa:ubuntu-elisp/ppa && sudo apt-get -qq update && sudo apt-get -qq -f install && sudo apt-get -qq install emacs-snapshot && sudo apt-get -qq install emacs-snapshot-el;
 	emacs --version
-	emacs-snapshot --version
 	wget https://raw.githubusercontent.com/acksin/release-checklist/master/install-orgmode.el
 	emacs-snapshot --batch -l ./install-orgmode.el
 
