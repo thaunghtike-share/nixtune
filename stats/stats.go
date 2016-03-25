@@ -71,6 +71,7 @@ func (n *Stats) JSON() string {
 	return string(js)
 }
 
+// Flat returns a flattened results.
 func (n *Stats) Flat() string {
 	o, err := gojsonexplode.Explodejsonstr(n.JSON(), ".")
 	if err != nil {
@@ -89,7 +90,7 @@ func (n *Stats) Flat() string {
 	var o2 string
 	var keys []string
 
-	for k, _ := range out {
+	for k := range out {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)

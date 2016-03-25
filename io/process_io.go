@@ -12,15 +12,26 @@ import (
 	"github.com/acksin/procfs"
 )
 
+// ProcessIO is kernel level IO information about the process. This
+// can be used to debug various issues related to open files and
+// kernel limits on the process IO.
 type ProcessIO struct {
 	// Limits are the max limits either in time or size for the
-	// following resources.
+	// following resources on the process.x.
 	Limits struct {
+		// OpenFiles is the maximum number of files that this
+		// process can open at a time.
 		OpenFiles int
-		FileSize  int
-		CPUTime   int
+		// FileSize is the maximum file size that the process
+		// can make.
+		FileSize int
+		// CPUTime is the amount of time that the CPU has to
+		// run.
+		CPUTime int
 	}
 
+	// FD is the file descriptors that the process currently has
+	// open.
 	FD ProcessFD
 }
 
