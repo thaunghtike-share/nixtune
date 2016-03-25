@@ -13,7 +13,9 @@ deps:
 	go get ./...
 
 dev-deps:
-	sudo apt-get install -y inkscape 
+	# sudo apt-get install -y inkscape 
+	wget https://raw.githubusercontent.com/acksin/release-checklist/master/install-orgmode.el
+	emacs --batch -l ./install-orgmode.el
 
 test:
 	golint ./...
