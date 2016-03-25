@@ -4,7 +4,7 @@ go:
   - 1.6
 
 install:
-  make deps
-  make dev-deps
+  - make deps
+  - make dev-deps
 
 script: make
