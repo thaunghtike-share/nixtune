@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package instance
+package main
 
 import (
 	"encoding/json"
@@ -16,53 +16,38 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/acksin/strum/stats"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 )
 
-// CloudType represents ia cloud provider.
-type CloudType int
-
-// Supported Cloud Providers.
-const (
-	Aws CloudType = iota
-	Azure
-	Google
-	DigitalOcean
-)
-
-type awsCreds struct {
-	APIKey    string
-	SecretKey string
-	Region    string
-}
-
-type Instance struct {
+type Agent struct {
 	// CmdName is the subcommand used to access this feature.
-	CmdName string
+	CmdName string `json:"-"`
 	// APIKey is the Fugue key to send metrics.
-	APIKey string
+	APIKey string `json:"-"`
 	// MachineName represents how to find the machine on Fugue.
 	MachineName string
-	// Type is the current cloud provider.
-	Type CloudType
 	// Frequency that metrics are sent to Fugue
-	Every time.Duration
-	// aws contains the credentials for the Lambda function.
-	aws awsCreds
+	Every time.Duration `json:"-"`
+	// APIToken is the token used to send stats.
+	APIToken string
+	// Stats is the stats that are sent to the server.
+	Stats *stats.Stats
 }
 
-func (n *Instance) Synopsis() string {
+func (n *Agent) Synopsis() string {
 	return "Pro feature to recommend Instance sizes."
 }
 
-func (n *Instance) Help() string {
+func (n *Agent) Help() string {
 	return ""
 }
 
-func (n *Instance) Run(args []string) int {
+func (n *Agent) Run(args []string) int {
 	var err error
 
 	flags := flag.NewFlagSet(n.CmdName, flag.ContinueOnError)
@@ -70,6 +55,11 @@ func (n *Instance) Run(args []string) int {
 	flags.StringVar(&n.MachineName, "machine-name", "", "Machine name as to be found in Fugue.")
 
 	if err = flags.Parse(args); err != nil {
+		return -1
+	}
+
+	if n.APIKey == "" {
+		log.Println("need a Acksin Fugue API Key. Get it at http://www.acksin.com/fugue")
 		return -1
 	}
 
@@ -86,14 +76,14 @@ func (n *Instance) Run(args []string) int {
 		log.Println("no machine-name passed. using hostname", n.MachineName)
 	}
 
-	if !n.validAPIKey() {
-		log.Println("invalid API key.")
+	n.APIToken, err = n.getAPIToken()
+	if err != nil {
+		log.Println("invalid API token.")
 		return -1
 	}
 
-	// TODO: Support other than AWS.
-	if aws := NewAws(n.APIKey); aws == nil {
-		log.Println("only AWS supported currently.")
+	if n.APIToken == "" {
+		log.Println("invalid API token.")
 		return -1
 	}
 
@@ -105,8 +95,8 @@ func (n *Instance) Run(args []string) int {
 }
 
 // invokeLambda calls a AWS Lambda functions.
-func (n *Instance) invokeLambda(functionName string, payload []byte) ([]byte, error) {
-	config := aws.NewConfig().WithCredentials(credentials.NewStaticCredentials(n.aws.APIKey, n.aws.SecretKey, "")).WithRegion(n.aws.Region)
+func (n *Agent) invokeLambda(functionName string, payload []byte) ([]byte, error) {
+	config := aws.NewConfig().WithCredentials(credentials.NewStaticCredentials(awsAPIKey, awsSecretKey, "")).WithRegion(awsRegion)
 	svc := lambda.New(session.New(config))
 
 	params := &lambda.InvokeInput{
@@ -125,9 +115,9 @@ func (n *Instance) invokeLambda(functionName string, payload []byte) ([]byte, er
 	return resp.Payload, nil
 }
 
-func (n *Instance) validAPIKey() bool {
+func (n *Agent) getAPIToken() (apiToken string, err error) {
 	const (
-		functionName = "arn:aws:lambda:us-west-2:451305228097:function:auth_validate_apikey_POST"
+		functionName = "arn:aws:lambda:us-west-2:451305228097:function:auth_apikey_GET-dev"
 	)
 
 	var apiKey = struct {
@@ -137,31 +127,37 @@ func (n *Instance) validAPIKey() bool {
 	js, err := json.Marshal(apiKey)
 	if err != nil {
 		log.Println("failed to marshall API data", err)
-		return false
+		return "", err
 	}
 
 	payload, err := n.invokeLambda(functionName, js)
 	if err != nil {
 		log.Println("failed to call API to check API validity.", err)
-		return false
+		return "", err
 	}
 
 	var validity struct {
-		Retry int
-		Valid bool
+		ErrorMessage string `json:"errorMessage"`
+		Retry        int
+		Token        string
 	}
 	err = json.Unmarshal(payload, &validity)
 	if err != nil {
 		log.Println("failed to parse api payload", err)
-		return false
+		return "", err
 	}
 
-	return validity.Valid
+	if validity.ErrorMessage != "" {
+		log.Println("failed to get api token", err)
+		return "", err
+	}
+
+	return validity.Token, nil
 }
 
-func (n *Instance) sendStats(c2 chan struct{}) {
+func (n *Agent) sendStats(c2 chan struct{}) {
 	const (
-		functionName = "arn:aws:lambda:us-west-2:451305228097:function:autotune_fugueKey_instance_metrics_POST"
+		functionName = "arn:aws:lambda:us-west-2:451305228097:function:autotune_instance_metrics_POST-dev"
 	)
 
 	c := make(chan os.Signal, 1)
@@ -169,17 +165,19 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 
 	for {
 		log.Println("sending autotune metrics")
-		select {
-		case <-time.After(n.Every):
-			awsInstance := NewAws(n.APIKey)
-			if awsInstance == nil {
-				return
-			}
 
-			_, err := n.invokeLambda(functionName, awsInstance.Json())
+		n.Stats = stats.New([]int{})
+		payload := n.JSON()
+		if len(payload) > 0 {
+			_, err := n.invokeLambda(functionName, payload)
 			if err != nil {
 				log.Println(err)
 			}
+		}
+
+		select {
+		case <-time.After(n.Every):
+			continue
 		case <-c:
 			c2 <- struct{}{}
 		}
@@ -187,10 +185,18 @@ func (n *Instance) sendStats(c2 chan struct{}) {
 
 }
 
-func New(cmdName, apiKey, secretKey, region string) *Instance {
-	return &Instance{
+// JSON returns JSON string of Stats
+func (n *Agent) JSON() []byte {
+	js, err := json.MarshalIndent(n, "", "  ")
+	if err != nil {
+		return []byte("")
+	}
+
+	return js
+}
+
+func AgentNew(cmdName string) *Agent {
+	return &Agent{
 		CmdName: cmdName,
-		Type:    Aws,
-		aws:     awsCreds{apiKey, secretKey, region},
 	}
 }

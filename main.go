@@ -15,7 +15,6 @@ import (
 
 	"github.com/mitchellh/cli"
 
-	"github.com/acksin/autotune/instance"
 	"github.com/acksin/autotune/signatures"
 )
 
@@ -50,8 +49,8 @@ func main() {
 		"signature": func() (cli.Command, error) {
 			return signatures.New(subCmd("signature")), nil
 		},
-		"instance": func() (cli.Command, error) {
-			return instance.New(subCmd("instance"), awsAPIKey, awsSecretKey, awsRegion), nil
+		"agent": func() (cli.Command, error) {
+			return AgentNew(subCmd("agent")), nil
 		},
 	}
 
