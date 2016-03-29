@@ -21,6 +21,48 @@ dealing with fallible human memory (especially at 3am when the pager
 goes off). We hope that this tool will help.
 
 * Basic Usage
+** Syntax
+
+We will reference the different keys of the output with the following
+syntax.
+
+=.System.Attribute= refers to
+
+#+begin_src json
+{
+  "System": {
+    "Attribute": "foobar"
+  }
+}
+#+end_src
+
+=.Processes.0.PID= refers to the first item in the array Processes.
+
+#+begin_src json
+{
+  "Processes": [
+    {
+      "Exe": "systemd",
+      "PID": 1,
+      "Memory": {
+          "Swap": {
+          "Size": 0,
+          "Unit": "kb"
+          }
+      },
+      "IO": {
+          "Limits": {
+          "OpenFiles": 65536,
+          "FileSize": 0,
+          "CPUTime": -1
+          },
+          "FD": null
+      }
+    }
+  ]
+}
+#+end_src
+
 ** Getting Help
 
 #+begin_src sh :results output example :exports both
