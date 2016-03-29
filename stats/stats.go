@@ -1,5 +1,5 @@
 /* Acksin STRUM - Linux Diagnostics
- * Copyright (C) 2015 Acksin <hey@acksin.com>
+ * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,6 +19,8 @@ import (
 	"github.com/acksin/strum/io"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
+
+	"github.com/acksin/strum/cloud"
 )
 
 // Process is information about a Linux process
@@ -33,16 +35,20 @@ type Process struct {
 	IO *io.ProcessIO
 }
 
+// System contains information about the system
+type System struct {
+	// Memory stats of the system
+	Memory *memory.Memory
+	// Network stats of the system
+	Network *network.Network
+}
+
 // Stats contains both the system and process statistics.
 type Stats struct {
 	// System specific information
-	System struct {
-		// Memory stats of the system
-		Memory *memory.Memory
-		// Network stats of the system
-		Network *network.Network
-	}
-
+	System System
+	// Cloud specific information
+	Cloud *cloud.Cloud
 	// Processes are the process information of the system
 	Processes []Process
 }
@@ -119,6 +125,8 @@ func New(pids []int) (s *Stats) {
 
 	s.System.Memory = memory.New()
 	s.System.Network = network.New()
+
+	s.Cloud = cloud.New()
 
 	for _, proc := range s.processes() {
 		exe, err := proc.Executable()
