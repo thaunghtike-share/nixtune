@@ -2,6 +2,24 @@
 #+AUTHOR: Acksin
 #+OPTIONS: html-postamble:nil body-only: t
 
+#+begin_quote
+With my supervision,
+primordial nature
+brings forth the moving
+and the nonmoving.
+
+-- Bhagavad Gita
+#+end_quote
+
+* Introduction
+
+Acksin STRUM is the tool to diagnose Linux issues quickly. It gives
+you a complete picture of the CPU, Memory, IO, Networking, Processes,
+Kernel Limits, etc. of a system. STRUM was born out of the frustration
+that diagnosing an issue was to go through a mental checklist and
+dealing with fallible human memory (especially at 3am when the pager
+goes off). We hope that this tool will help.
+
 * Basic Usage
 ** Getting Help
 
@@ -14,7 +32,6 @@
 #+begin_src sh :results output code json :exports both :noweb
 ./strum
 #+end_src
-
 
 ** Information on a Process
 
