@@ -6,13 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package io
+package cloud
 
-// IO contains the aggregrate IO information for the entire system.
-type IO struct {
+type Cloud struct {
+	AWS *AWSStats
 }
 
-// New returns a new IO.
-func New() *IO {
-	return &IO{}
+func New() (c *Cloud) {
+	c = &Cloud{
+		AWS: NewAWS(),
+	}
+
+	return c
 }

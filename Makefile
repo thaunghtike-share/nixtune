@@ -42,7 +42,6 @@ website-assets:
 	echo "---" >> website/docs.html.erb
 	cat DOCUMENTATION.html >> website/docs.html.erb
 	rm DOCUMENTATION.html
-	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
 
 website:
 	echo "Nothin here govn'r"

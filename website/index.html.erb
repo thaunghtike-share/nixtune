@@ -16,11 +16,12 @@ title: STRUM - Home
   <div class="container">
     <div class="row">
       <div class="col-lg-6">
-        <h3>What is STRUM?</h3>
+        <h3>What is Acksin STRUM?</h3>
 
         <p>
-          STRUM is the tool to diagnose Linux issues quickly. It won't
-          give you everything but it tells you what to look at closer.
+          Acksin STRUM is the tool to diagnose Linux issues quickly
+          giving you a complete picture encompassing the CPU, Memory,
+          IO, Networking, Processes, Limits, etc.
         </p>
 
         <p>
@@ -31,16 +32,21 @@ title: STRUM - Home
         </p>
       </div>
       <div class="col-lg-6">
-        <h3>Install STRUM</h3>
+        <h3>Install</h3>
         <p>
           Run the curl command to install the binary into your current <code>$PWD</code>.
           <br>
           <code>\curl -sSL https://www.acksin.com/strum/install.sh | bash</code>
         </p>
 
+        <h3>Usage</h3>
+        <p>
+          <code>strum</code>
+        </p>
+
         <p>
           <a class="btn btn-default" href="https://github.com/acksin/strum"><i class="fa fa-github"> Github</i></a>
-          <a class="btn btn-default" href="./docs"><i class="fa fa-book"> Docs</i></a>
+          <a class="btn btn-default" href="/strum/docs"><i class="fa fa-book"> Docs</i></a>
         </p>
       </div>
     </div>
@@ -60,7 +66,7 @@ title: STRUM - Home
         </dd>
         <dt>Are other Unicies supported?</dt>
         <dd>
-          Currently we only support Linux but we wish to add the BSDs
+          Currently, we only support Linux but we wish to add the BSDs
           and Mac OS X in the future.
         </dd>
         </dl>
@@ -80,3 +86,14 @@ title: STRUM - Home
     </div>
   </div>
 </section>
+
+<script>
+  System.config({
+  transpiler: 'typescript',
+  typescriptOptions: { emitDecoratorMetadata: true },
+  packages: {'app': {defaultExtension: 'ts'}}
+  });
+  System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
+</script>
+
+<script src="/javascripts/subscribe.ts"></script>
