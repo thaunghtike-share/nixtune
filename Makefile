@@ -35,7 +35,7 @@ release: spell build archive
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
-	emacs DOCUMENTATION.org --batch --eval '(progn (org-babel-execute-buffer) (org-html-export-to-html nil nil nil t))'  --kill
+	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin STRUM Docs" >> website/docs.html.erb
 	echo "layout: docs" >> website/docs.html.erb
