@@ -34,6 +34,7 @@ type AWSStats struct {
 	ReservationID   string `metadata:"reservation-id"`
 	SecurityGroups  string `metadata:"security-groups"`
 
+	// TODO: These need to be converted into iteration tasks.
 	// block-device-mapping/
 	// metrics/
 	// network/

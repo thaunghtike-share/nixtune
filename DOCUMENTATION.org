@@ -46,8 +46,12 @@ goes off). We hope that this tool will help.
 #+end_src
 
 * Diagnostics
-** Memory
-** CPU
-** Networking
-** IO
-** Limits
+** System
+** Cloud
+*** AWS
+** Process
+*** Memory
+*** CPU
+*** Networking
+*** IO
+*** Limits
