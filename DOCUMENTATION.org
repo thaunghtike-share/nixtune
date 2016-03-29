@@ -39,28 +39,28 @@ syntax.
 =.Processes.0.PID= refers to the first item in the array Processes.
 
 #+begin_src json
-{
-  "Processes": [
-    {
-      "Exe": "systemd",
-      "PID": 1,
-      "Memory": {
-          "Swap": {
-          "Size": 0,
-          "Unit": "kb"
+  {
+      "Processes": [
+          {
+              "Exe": "systemd",
+              "PID": 1,
+              "Memory": {
+                  "Swap": {
+                      "Size": 0,
+                      "Unit": "kb"
+                  }
+              },
+              "IO": {
+                  "Limits": {
+                      "OpenFiles": 65536,
+                      "FileSize": 0,
+                      "CPUTime": -1
+                  },
+                  "FD": null
+              }
           }
-      },
-      "IO": {
-          "Limits": {
-          "OpenFiles": 65536,
-          "FileSize": 0,
-          "CPUTime": -1
-          },
-          "FD": null
-      }
-    }
-  ]
-}
+      ]
+  }
 #+end_src
 
 ** Getting Help
