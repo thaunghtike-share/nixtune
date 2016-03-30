@@ -75,6 +75,6 @@ func main() {
 	case FlatOutput:
 		fmt.Printf("%s", conf.stats.Flat())
 	case HumanOutput:
-		fmt.Println("Feature is not quite ready")
+		fmt.Printf("%s", conf.stats.Human())
 	}
 }
