@@ -17,26 +17,6 @@ import (
 	"github.com/acksin/strum/cloud"
 )
 
-// Process is information about a Linux process
-type Process struct {
-	// Exe is the executable that is running.
-	Exe string
-	// PID of the process
-	PID int
-	// Memory stats of the process
-	Memory *memory.ProcessMemory
-	// IO contains information about the IO of the machine.
-	IO *io.ProcessIO
-}
-
-// System contains information about the system
-type System struct {
-	// Memory stats of the system
-	Memory *memory.Memory
-	// Network stats of the system
-	Network *network.Network
-}
-
 // Stats contains both the system and process statistics.
 type Stats struct {
 	// System specific information
