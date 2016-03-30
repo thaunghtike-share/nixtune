@@ -47,6 +47,20 @@ func (n *Agent) Help() string {
 	return ""
 }
 
+func (n *Agent) verifyMachineName() (err error) {
+	if n.MachineName == "" {
+		n.MachineName, err = os.Hostname()
+		if err != nil {
+			log.Println("can't get hostname")
+			return err
+		}
+
+		log.Println("no machine-name passed. using hostname", n.MachineName)
+	}
+
+	return nil
+}
+
 func (n *Agent) Run(args []string) int {
 	var err error
 
@@ -66,14 +80,9 @@ func (n *Agent) Run(args []string) int {
 	n.Every = time.Minute
 	log.Println("sending metrics every minute.")
 
-	if n.MachineName == "" {
-		n.MachineName, err = os.Hostname()
-		if err != nil {
-			log.Println("can't get hostname")
-			return -1
-		}
-
-		log.Println("no machine-name passed. using hostname", n.MachineName)
+	err = n.verifyMachineName()
+	if err != nil {
+		return -1
 	}
 
 	n.APIToken, err = n.getAPIToken()
