@@ -8,6 +8,11 @@
 
 package stats
 
+import (
+	"github.com/acksin/strum/memory"
+	"github.com/acksin/strum/network"
+)
+
 // System contains information about the system
 type System struct {
 	// Memory stats of the system

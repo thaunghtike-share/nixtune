@@ -8,6 +8,11 @@
 
 package stats
 
+import (
+	"github.com/acksin/strum/io"
+	"github.com/acksin/strum/memory"
+)
+
 // Process is information about a Linux process
 type Process struct {
 	// Exe is the executable that is running.
