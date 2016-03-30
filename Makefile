@@ -38,7 +38,13 @@ release: spell build archive
 website-assets:
 	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
-
+	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
+	echo "---" > website/docs.html.erb
+	echo "title: Acksin Autotune Docs" >> website/docs.html.erb
+	echo "layout: docs" >> website/docs.html.erb
+	echo "---" >> website/docs.html.erb
+	cat DOCUMENTATION.html >> website/docs.html.erb
+	rm DOCUMENTATION.html
 
 website:
 	echo "Nothin here govn'r"

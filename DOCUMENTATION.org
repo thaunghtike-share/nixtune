@@ -1,0 +1,32 @@
+#+TITLE: Acksin Autotune
+#+AUTHOR: Acksin
+#+OPTIONS: html-postamble:nil body-only: t
+
+#+begin_quote
+
+#+end_quote
+
+* Introduction
+
+Acksin Autotune makes sure that your Linux servers are utilized as
+efficiently as possible. It does this by tuning your Linux kernel
+based on various criteria. The type of application profile, memory,
+CPUs, instance type to bring out the best performance for your
+machine.
+
+* Basic Usage
+
+#+begin_src sh
+autotune --help
+#+end_src
+
+* Tuning
+
+
+* Agent
+
+The agent allows Acksin to monitor and recommend even more ways of
+saving money on your server utilization costs. Agent requires a Fugue
+account.
+
+Agent needs to be run as a daemon with an API Key passed to it.
