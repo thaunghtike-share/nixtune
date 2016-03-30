@@ -1,5 +1,5 @@
 PRODUCT := autotune
-PROFILES := $(shell cd signatures && ls *.go | grep -v signature | grep -v networking | grep -v utils | grep -v doc | sed "s/.go$$//g")
+PROFILES := $(shell cd signatures && ls *.go | grep -v networking | sed "s/.go$$//g")
 VERSION := $(shell cat VERSION)
 WEBSITE := acksin.com
 

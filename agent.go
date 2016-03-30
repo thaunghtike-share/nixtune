@@ -204,7 +204,7 @@ func (n *Agent) JSON() []byte {
 	return js
 }
 
-func AgentNew(cmdName string) *Agent {
+func NewAgent(cmdName string) *Agent {
 	return &Agent{
 		CmdName: cmdName,
 	}

@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package signatures
+package main
 
 import (
 	"flag"
@@ -15,6 +15,8 @@ import (
 	"os"
 	"sort"
 	"strings"
+
+	sig "github.com/acksin/autotune/signatures"
 )
 
 const (
@@ -146,7 +148,7 @@ func (k *Signature) updateSysFS() {
 
 // NewSignature returns a new Signature object that we will use to
 // update the system settings.
-func New(cmdName string) *Signature {
+func NewSignature(cmdName string) *Signature {
 	// New returns a map of profile and system configurations that are
 	// currently supported.
 	s := &Signature{
@@ -156,16 +158,16 @@ func New(cmdName string) *Signature {
 	s.Profiles = make(map[string]SystemConfiger)
 
 	// Async Server configurations
-	s.Profiles["golang"] = NewGolangConfig()
-	s.Profiles["nodejs"] = NewNodejsConfig()
-	s.Profiles["nginx"] = NewNginxConfig()
-	s.Profiles["haproxy"] = NewHaproxyConfig()
+	s.Profiles["golang"] = sig.NewGolangConfig()
+	s.Profiles["nodejs"] = sig.NewNodejsConfig()
+	s.Profiles["nginx"] = sig.NewNginxConfig()
+	s.Profiles["haproxy"] = sig.NewHaproxyConfig()
 
 	// Forking server configurations
-	s.Profiles["apache"] = NewApacheConfig()
-	s.Profiles["postgresql"] = NewPostgresqlConfig()
+	s.Profiles["apache"] = sig.NewApacheConfig()
+	s.Profiles["postgresql"] = sig.NewPostgresqlConfig()
 
-	s.Profiles["java"] = NewJavaConfig()
+	s.Profiles["java"] = sig.NewJavaConfig()
 
 	return s
 }

@@ -14,8 +14,6 @@ import (
 	"strings"
 
 	"github.com/mitchellh/cli"
-
-	"github.com/acksin/autotune/signatures"
 )
 
 var (
@@ -47,10 +45,10 @@ func main() {
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		"signature": func() (cli.Command, error) {
-			return signatures.New(subCmd("signature")), nil
+			return NewSignature(subCmd("signature")), nil
 		},
 		"agent": func() (cli.Command, error) {
-			return AgentNew(subCmd("agent")), nil
+			return NewAgent(subCmd("agent")), nil
 		},
 	}
 
