@@ -39,6 +39,7 @@ website-assets:
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin STRUM Docs" >> website/docs.html.erb
 	echo "layout: docs" >> website/docs.html.erb
+	echo "description: Acksin STRUM documentation for tool that diagnoses Linux issues quickly giving you a complete picture encompassing the CPU, Memory, IO, Networking, Processes, Limits, etc." >> website/docs.html.erb
 	echo "---" >> website/docs.html.erb
 	cat DOCUMENTATION.html >> website/docs.html.erb
 	rm DOCUMENTATION.html
