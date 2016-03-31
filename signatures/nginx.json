@@ -1,5 +1,0 @@
-{
-    "Name": "nginx",
-    "Description": "Configuration for Nginx.",
-    "Deps": [ "golang"]
-}

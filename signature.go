@@ -11,6 +11,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"sort"
 	"strings"
@@ -21,14 +22,6 @@ const (
 	// stored for settings defined by the various signatures.
 	EnvFileName = "/etc/profile.d/99_acksin_autotune.sh"
 )
-
-type Profile struct {
-	Name        string
-	Description string
-	Kernel      map[string]map[string]string
-	Env         map[string]map[string]string
-	Deps        []string
-}
 
 // Signature is the command used to update the system settings based
 // on the profile specified by the user.
@@ -85,6 +78,12 @@ func (k *Signature) Run(args []string) int {
 	}
 
 	k.Signature = leftovers[0]
+
+	ymlData, err := Asset("signatures/" + k.Signature + ".yml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	ParseProfile(ymlData)
 
 	// k.Config = k.Profiles[k.signature]
 

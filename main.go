@@ -44,7 +44,7 @@ func main() {
 	c := cli.NewCLI(cmdName, version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
-		"signature": func() (cli.Command, error) {
+		"sig": func() (cli.Command, error) {
 			return NewSignature(subCmd("signature")), nil
 		},
 		"list": func() (cli.Command, error) {

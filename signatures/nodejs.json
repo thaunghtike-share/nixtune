@@ -1,5 +1,0 @@
-{
-    "Name": "nodejs",
-    "Description": "Configuration for Node.js servers.",
-    "Deps": [ "golang"]
-}

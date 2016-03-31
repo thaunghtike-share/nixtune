@@ -1,5 +1,5 @@
 PRODUCT := autotune
-PROFILES := $(shell cd signatures && ls *.json | grep -v networking | sed "s/.json$$//g")
+PROFILES := $(shell cd signatures && ls *.yml | grep -v networking | sed "s/.yml//g")
 VERSION := $(shell cat VERSION)
 WEBSITE := acksin.com
 

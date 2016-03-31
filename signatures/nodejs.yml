@@ -1,0 +1,4 @@
+name: nodejs
+description: Configuration for NodeJS.
+deps:
+  - networking

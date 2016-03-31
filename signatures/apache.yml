@@ -1,0 +1,16 @@
+name: apache
+description: Configuration for the Apache HTTP Server
+
+documentation: |
+ NewApacheConfig returns the configuration for the Apache HTTP Server.
+ TODO: Eventually it should be split into apache2-mpm and
+ apache2-fork.
+
+procfs:
+  kernel.sched_migration_cost_ns:
+    value: 5000000
+  kernel.sched_autogroup_enabled:
+    value: 0
+
+deps:
+  - networking
