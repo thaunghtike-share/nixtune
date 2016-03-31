@@ -9,6 +9,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -83,7 +84,13 @@ func (k *Signature) Run(args []string) int {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ParseProfile(ymlData)
+	profile := ParseProfile(ymlData)
+
+	e, err := json.MarshalIndent(&profile, "", "  ")
+	if err != nil {
+		return -1
+	}
+	os.Stdout.Write(e)
 
 	// k.Config = k.Profiles[k.signature]
 

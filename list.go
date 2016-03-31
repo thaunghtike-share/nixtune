@@ -9,7 +9,9 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
+	"os"
+	"sort"
 	"strings"
 )
 
@@ -28,37 +30,34 @@ func (k *List) Help() string {
 }
 
 func (k *List) Run(args []string) int {
-	var (
-		freeList []string
-		proList  []string
-	)
+	var listOutput struct {
+		Open []string
+		Pro  []string
+	}
 
 	for _, i := range AssetNames() {
 		if strings.HasPrefix(i, "signatures/pro") {
-			proList = append(proList, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".json"))
+			listOutput.Pro = append(listOutput.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
 		} else {
-			freeList = append(freeList, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/"), ".json"))
+			listOutput.Open = append(listOutput.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/"), ".yml"))
 		}
 
 	}
 
-	fmt.Println("Free Signatures")
-	for _, i := range freeList {
-		fmt.Println(i)
-	}
+	sort.Strings(listOutput.Pro)
+	sort.Strings(listOutput.Open)
 
-	fmt.Println("\nPro Signatures")
-	for _, i := range proList {
-		fmt.Println(i)
+	e, err := json.MarshalIndent(&listOutput, "", "  ")
+	if err != nil {
+		return -1
 	}
+	os.Stdout.Write(e)
 
 	return 0
 }
 
 // NewList returns a new List object
 func NewList(cmdName string) *List {
-	// New returns a map of profile and system configurations that are
-	// currently supported.
 	s := &List{
 		CmdName: cmdName,
 	}

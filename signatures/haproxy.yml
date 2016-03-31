@@ -2,4 +2,4 @@ name: haproxy
 description: Configuration for HAProxy
 
 deps:
-  networking
+  - networking

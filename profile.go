@@ -56,9 +56,5 @@ func ParseProfile(s []byte) (p Profile) {
 		log.Fatalf("error: %v", err)
 	}
 
-	e, _ := json.MarshalIndent(&p, "", "  ")
-
-	log.Println(string(e))
-
 	return
 }
