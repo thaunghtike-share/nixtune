@@ -50,3 +50,19 @@ func runCmdGetOutput(cmdName string, cmdArgs ...string) []byte {
 
 	return cmdOut
 }
+
+func procfsGet(k string) string {
+	return string(runCmdGetOutput("sysctl", "-b", k))
+}
+
+func procfsSet(k, v string) string {
+	return string(runCmdGetOutput("sysctl", "-w", fmt.Sprintf("%s=\"%s\"", k, v)))
+}
+
+func sysfsGet(k string) string {
+	return string(runCmdGetOutput("cat", k))
+}
+
+func sysfsSet(k, v string) string {
+	return string(runCmdGetOutput("echo", v, ">", k))
+}
