@@ -11,7 +11,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -75,8 +74,6 @@ Available signature profiles:
 func (k *Signature) Run(args []string) int {
 	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
 	flags.BoolVar(&k.write, "write", true, "Write the settings.")
-
-	log.Println(AssetNames())
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)

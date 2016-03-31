@@ -47,6 +47,9 @@ func main() {
 		"signature": func() (cli.Command, error) {
 			return NewSignature(subCmd("signature")), nil
 		},
+		"list": func() (cli.Command, error) {
+			return NewList(subCmd("list")), nil
+		},
 		"agent": func() (cli.Command, error) {
 			return NewAgent(subCmd("agent")), nil
 		},
