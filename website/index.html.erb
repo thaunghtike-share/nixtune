@@ -1,61 +1,52 @@
 ---
+product: autotune
 title: Autotune - Linux Performace Manager
+version: 0.5.4
 ---
 
 <header>
   <div class="container">
     <div class="jumbotron acksin-jumbotron acksin-header" id="autotune-header">
-      <h1 class="intro-heading">Autotune</h1>
-      <h2 class="intro-lead-in">Taking your servers to eleven.</h2>
-      <a href="#service" class="btn-success btn btn-xl">Tune My Machine</a>
     </div>
   </div>
 </header>
 
 <section id="service">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 center">
+        <h1 class="intro-heading">Acksin Autotune</h1>
+        <h2 class="intro-lead-in">Taking your servers to eleven.</h2>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
       <div class="col-lg-6">
-        <h3>What is Autotune?</h3>
+        <h3>What is Acksin Autotune?</h3>
 
         <p>
           Autotune is born out of the frustration that kernel tuning
-          is a black art. If you are running a Linux server it was
-          made for a world where multiple services are running on that
-          machine with the kernel giving preference to all of the
-          services. However, when running Service Oriented
-          architectures you want the machine to be greedy.
+          is a black art. Linux was made for a world where multiple
+          services are running on the machine with the kernel giving
+          preference to all of the services. However, when running
+          single services on Service Oriented architectures you want
+          the machine to be greedy.
         </p>
 
         <p>
-          Autotune optimized the Linux kernel for your application
-          profile. Pick a profile for your machine (e.g. Go, Nodejs,
-          Apache) and Autotune will set up for the best settings for
-          that application which will allow your machine to handle
-          many more times the load when it is not optimized.
-        </p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-12">
-        <h3>Install Autotune</h3>
-      </div>
-
-      <div class="col-lg-6">
-        <p>
-          Installation is easy. Specify the server profile of your
-          machine and run the curl command.
+          Autotune gives you the changes that should be done to give
+          your server the best performance. Pick a profile for your
+          machine (e.g. Go, Nodejs, Apache) and Autotune will set up
+          the best settings for that application profile.
         </p>
 
-        <p>
-          Note: It won't change your kernel settings it'll only show
-          you what will change. Please review the changes before
-          running the actual command to make your changes.
-        </p>
-      </div>
-      <div class="col-lg-6">
-        <autotune-curl>Loading...</autotune-curl>
+        <%= partial "download", locals: {
+          product: current_page.data.product,
+          version: current_page.data.version
+        } %>
       </div>
     </div>
 
@@ -110,12 +101,6 @@ title: Autotune - Linux Performace Manager
               <td>Custom Work</td>
               <td>N/A</td>
               <td><a href="/support/#custom-work">Yes</a></td>
-            </tr>
-
-            <tr>
-              <td>Feature Influence</td>
-              <td>N/A</td>
-              <td><a href="/support/#feature-influence">Yes</a></td>
             </tr>
 
             <tr>
