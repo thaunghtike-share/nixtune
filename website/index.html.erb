@@ -52,7 +52,10 @@ version: 0.2.2
         <code>sudo strum</code>
         </p>
 
-        <%= partial "download", :locals => { :product => current_page.data.product, :version => current_page.data.version } %>
+        <%= partial "download", locals: {
+          product: current_page.data.product,
+          version: current_page.data.version
+        } %>
 
       </div>
 
