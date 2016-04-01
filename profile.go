@@ -9,6 +9,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"gopkg.in/yaml.v2"
@@ -38,7 +39,19 @@ type Profile struct {
 	Vars map[string]string
 
 	// Deps of other profiles.
-	Deps []string
+	Deps []string `json:",omitempty"`
+}
+
+func (p *Profile) PrintEnv() {
+	for k, v := range p.Env {
+		fmt.Printf("%s=%s\n", k, v.Value)
+	}
+}
+
+func (p *Profile) PrintKernel() {
+	for k, v := range p.Env {
+		fmt.Printf("%s=%s\n", k, v.Value)
+	}
 }
 
 func ParseProfile(s []byte) (p *Profile) {
@@ -53,6 +66,17 @@ func ParseProfile(s []byte) (p *Profile) {
 }
 
 type Profiles []*Profile
+
+func (p Profiles) GetWithDeps(s string) (profile *Profile) {
+	for _, k := range p {
+		if k.Name == s {
+			profile = k
+			break
+		}
+	}
+
+	return
+}
 
 func (p Profiles) Get(s string) *Profile {
 	var profile *Profile
