@@ -56,7 +56,8 @@ func (k *Signature) loadProfiles() {
 func (k *Signature) Run(args []string) int {
 	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
 	envOnly := flags.BoolP("env", "e", false, "Show the env changes for the profile.")
-	kernelOnly := flags.BoolP("kernel", "k", false, "Show the kernel changes that need to be updated.")
+	procfsOnly := flags.BoolP("procfs", "p", false, "Show the procfs changes that need to be updated.")
+	sysfsOnly := flags.BoolP("sysfs", "s", false, "Show the sysfs changes that need to be updated.")
 	withDeps := flags.BoolP("deps", "d", false, "Show the signature with deps.")
 
 	if err := flags.Parse(args); err != nil {
@@ -82,8 +83,10 @@ func (k *Signature) Run(args []string) int {
 	switch {
 	case *envOnly:
 		profile.PrintEnv()
-	case *kernelOnly:
-
+	case *procfsOnly:
+		profile.PrintProcFS()
+	case *sysfsOnly:
+		profile.PrintSysFS()
 	default:
 		e, err := json.MarshalIndent(&profile, "", "  ")
 		if err != nil {

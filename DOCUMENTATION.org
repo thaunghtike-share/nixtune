@@ -14,13 +14,188 @@ based on various criteria. The type of application profile, memory,
 CPUs, instance type to bring out the best performance for your
 machine.
 
-* Basic Usage
+* Usage
 
+** Help
 #+begin_src sh
 autotune --help
 #+end_src
 
-* Tuning
+** List Signatures
+
+#+begin_src sh :results output code :exports both
+autotune list
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC sh
+{
+  "Open": [
+    "apache",
+    "golang",
+    "haproxy",
+    "java",
+    "networking",
+    "nginx",
+    "nodejs",
+    "postgresql"
+  ],
+  "Pro": null
+}
+#+END_SRC
+
+
+** Tuning
+
+*** Show Signature
+
+#+begin_src sh :results output code :exports both
+autotune sig golang
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC sh
+{
+  "Name": "golang",
+  "Description": "Configuration for high throughput Golang apps",
+  "Documentation": "Linux Optimizations for High Throughput Golang Apps\n\nGo applications have unique characteristics which require certain\nLinux kernel tuning to achieve high throughput.\n\nGo's Utilization Profile\n\nCPU will not be a bottleneck with Golang applications. Our research\nshows that applications, even those that utilize CGO, do no see CPU be\na bottleneck. The places where performance become bottlenecks are the\nfollowing:\n\n - Garbage Collection\n - Default ulimits\n - Networking\n\nAssumptions\n\nWe will be under the assumption that there will be one primary Go\napplication running on the machine and can have access to all of the\nresources. We also assume that we want high network throughput as the\ngoal is to have high response rate. We want to be able to handle\nmillions of requests.\n\nGC Optimizations\n\nFor all intents and purposes we should be able to increase the GOGC to\na number based on the size of the machine. If I am using a m4.large\ninstance on Amazon I use GOGC=10000. The higher the GOGC value the\nless frequent the Garbage Collection will run. Further, since we are\noptimizing the server to be heavily utilized for a primary Golang\nservice we want to use up all the RAM available to us.\n\nUlimits\n\nUlimits are a security mechanism in POSIX based systems which gives\neach user a certain amount of allocation of various\nresources. However, the resource we are concerned with is file\ndescriptors. (ulimit -n) Since a file descriptor can be a file or a\nsocket we can quickly saturate how many connections an app not running\nas root can use. Further, the default open files ulimit on an Ubuntu\nServer 14.04 are ridiculously low at 1024.\n\nThe server will reach network saturation quickly if this is not dealt\nwith. Further, since we want to optimize for the single Golang\napplication we will give every user on the Linux machine unlimited\nopen files.\n\n# Networking\n\nhttps://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads\n\nNewGolangConfig returns the configuration for applications written\nin Go. There is an assumption that the application is going to use\nall the memory on the system as well it being a high throughput\nnetwork application.\n",
+  "ProcFS": {
+    "net.core.netdev_max_backlog": {
+      "Value": "30000",
+      "Description": ""
+    },
+    "net.core.rmem_max": {
+      "Value": "16777216",
+      "Description": "16MB per socket."
+    },
+    "net.core.somaxconn": {
+      "Value": "16096",
+      "Description": "The maximum number of \"backlogged sockets\""
+    },
+    "net.core.wmem_max": {
+      "Value": "16777216",
+      "Description": "16MB per socket."
+    },
+    "net.ipv4.ip_local_port_range": {
+      "Value": "1024 65535",
+      "Description": "On Linux, the client port has a range of about 30,000 ports. This\nmeans that only 30,000 connections can be established between the\nweb server and the load-balancer every minute, so about 500\nconnections per second. We can increase the amount of available\nports.\n"
+    },
+    "net.ipv4.tcp_fin_timeout": {
+      "Value": "15",
+      "Description": "tcp_fin_timeout - INTEGER\nTime to hold socket in state FIN-WAIT-2, if it was closed\nby our side. Peer can be broken and never close its side,\nor even died unexpectedly. Default value is 60sec.\nUsual value used in 2.2 was 180 seconds, you may restore\nit, but remember that if your machine is even underloaded WEB server,\nyou risk to overflow memory with kilotons of dead sockets,\nFIN-WAIT-2 sockets are less dangerous than FIN-WAIT-1,\nbecause they eat maximum 1.5K of memory, but they tend\nto live longer. Cf. tcp_max_orphans.\n"
+    },
+    "net.ipv4.tcp_max_syn_backlog": {
+      "Value": "20480",
+      "Description": "Increase the number syn requests allowed."
+    },
+    "net.ipv4.tcp_max_tw_buckets": {
+      "Value": "400000",
+      "Description": "Maximal number of timewait sockets held by the system\nsimultaneously. If this number is exceeded time-wait socket\nis immediately destroyed and a warning is printed. This\nlimit exists only to prevent simple DoS attacks, you must\nnot lower the limit artificially, but rather increase it\n(probably, after increasing installed memory), if network\nconditions require more than the default value.\n"
+    },
+    "net.ipv4.tcp_no_metrics_save": {
+      "Value": "1",
+      "Description": ""
+    },
+    "net.ipv4.tcp_rmem": {
+      "Value": "4096 87380 67108864",
+      "Description": ""
+    },
+    "net.ipv4.tcp_syn_retries": {
+      "Value": "2",
+      "Description": ""
+    },
+    "net.ipv4.tcp_synack_retries": {
+      "Value": "2",
+      "Description": ""
+    },
+    "net.ipv4.tcp_syncookies": {
+      "Value": "1",
+      "Description": ""
+    },
+    "net.ipv4.tcp_wmem": {
+      "Value": "4096 65536 67108864",
+      "Description": ""
+    },
+    "net.netfilter.nf_conntrack_max": {
+      "Value": "{{ index \"Vars\" \"nfConntrackMax\" }}",
+      "Description": "https://wiki.khnet.info/index.php/Conntrack_tuning\nnf_conntrack. This max should usually double the value of\nthe previous number.\n"
+    },
+    "proc.file-max": {
+      "Value": "2097152",
+      "Description": "http://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ\nThis needs to be higher.\n"
+    },
+    "proc.min_free_kbytes": {
+      "Value": "65536",
+      "Description": "Amount of memory to keep free. Don't want to make this too high\nas Linux will spend more time trying to reclaim memory.\n"
+    }
+  },
+  "SysFS": {
+    "/sys/module/nf_conntrack/parameters/hashsize": {
+      "Value": "{{ index \"Vars\" \"nfConntrackMax\" / 4 }}",
+      "Description": ""
+    }
+  },
+  "Env": {
+    "GOGC": {
+      "Value": "2000",
+      "Description": "Set the value of GOGC to be really high.\n\nTODO: Consider how this is being used as part of a bigger\nsetting. Based on RAM etc.\n"
+    }
+  },
+  "Vars": {
+    "nfConntrackMax": "200000"
+  }
+}
+#+END_SRC
+
+*** ProcFS Changes
+
+ #+begin_src sh :results output code :exports both
+ autotune sig --procfs golang
+ #+end_src
+
+ #+RESULTS:
+ #+BEGIN_SRC sh
+ net.ipv4.ip_local_port_range=1024 65535
+ net.ipv4.tcp_wmem=4096 65536 67108864
+ net.ipv4.tcp_max_syn_backlog=20480
+ net.ipv4.tcp_syncookies=1
+ net.ipv4.tcp_max_tw_buckets=400000
+ net.core.rmem_max=16777216
+ proc.file-max=2097152
+ proc.min_free_kbytes=65536
+ net.ipv4.tcp_syn_retries=2
+ net.ipv4.tcp_fin_timeout=15
+ net.core.netdev_max_backlog=30000
+ net.ipv4.tcp_no_metrics_save=1
+ net.ipv4.tcp_rmem=4096 87380 67108864
+ net.core.wmem_max=16777216
+ net.core.somaxconn=16096
+ net.ipv4.tcp_synack_retries=2
+ net.netfilter.nf_conntrack_max={{ index "Vars" "nfConntrackMax" }}
+ #+END_SRC
+
+*** SysFS Changes
+
+ #+begin_src sh :results output code :exports both
+ autotune sig --sysfs golang
+ #+end_src
+
+ #+RESULTS:
+ #+BEGIN_SRC sh
+ /sys/module/nf_conntrack/parameters/hashsize={{ index "Vars" "nfConntrackMax" / 4 }}
+ #+END_SRC
+
+*** Environment Variable Changes
+
+ #+begin_src sh :results output code :exports both
+ autotune sig --env golang
+ #+end_src
+
+ #+RESULTS:
+ #+BEGIN_SRC sh
+ GOGC=2000
+ #+END_SRC
+
 
 * Agent
 

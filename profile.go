@@ -48,8 +48,14 @@ func (p *Profile) PrintEnv() {
 	}
 }
 
-func (p *Profile) PrintKernel() {
-	for k, v := range p.Env {
+func (p *Profile) PrintProcFS() {
+	for k, v := range p.ProcFS {
+		fmt.Printf("%s=%s\n", k, v.Value)
+	}
+}
+
+func (p *Profile) PrintSysFS() {
+	for k, v := range p.SysFS {
 		fmt.Printf("%s=%s\n", k, v.Value)
 	}
 }
