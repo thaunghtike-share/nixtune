@@ -2,8 +2,8 @@ name: postgresql
 description: PostgreSQL optimizations
 
 documentation: |
- http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
- http://www.postgresql.org/docs/9.1/static/kernel-resources.html
+  - http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
+  - http://www.postgresql.org/docs/9.1/static/kernel-resources.html
 
 procfs:
   kernel.sched_migration_cost_ns:
