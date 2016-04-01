@@ -29,7 +29,9 @@ saving money on your server utilization costs. Agent requires a Fugue
 account.
 
 Agent needs to be run as a daemon with an API Key passed to it.
+
 * Open Signatures
+
 #+begin_src ruby :results output drawer :exports results
   require 'json'
 
