@@ -4,25 +4,44 @@
 
 Autotune the Linux kernel to get optimal server performance.
 
-Acksin Autotune tunes the Linux kernel and other environment variables
-to achieve maximum performance for you applications. The goal is to
-support most common use cases such a Golang, Node, Java, Various
-databases, and so on. These are an alternate to manually tuning the
-kernel for performance which is a matter of trial and error.
+Acksin Autotune gives you the Linux kernel turning and environment
+variables to get maximum performance for you applications and to
+utilize the machine to its fullest.
 
-The tool will attempt to figure out the best settings and if there is
-a degration will rollback changes to their existing settings.
+Autotune figures out the best settings for you to use when running
+your applications.
 
 ## Usage
 
 Using the signatures is straightforward. Just pass the names of the
-signatures as part of the command and it will tune it correctly.
+signatures as part of the command and it will give you the appropriate
+values to tune.
+
+### Output the Raw signature as JSON
 
 ```
-autotune signature golang
+autotune sig golang
 ```
 
-### Signatures
+### Kernel changes
+
+```
+autotune sig --kernel golang
+```
+
+### Environment Variables
+
+```
+autotune sig --env golang
+```
+
+## Documentation
+
+Documentation as well as the descriptions of each of the changes for
+the signatures that are taken into account are located
+[https://www.acksin.com/autotune/docs](Acksin Autotune Docs) website
+
+## Open Signatures
 
  - [X] golang
  - [X] nodejs
@@ -31,7 +50,7 @@ autotune signature golang
  - [X] apache
  - [X] postgresql
 
-### Future Signatures
+## Pro Signatures
 
  - [ ] mysql
  - [ ] redis
@@ -43,10 +62,9 @@ autotune signature golang
  - [ ] docker
  - [ ] mesos
  - [ ] spark
-
-## Authors
-
- Abhi Yerra @abhiyerra
+ - [ ] ruby
+ - [ ] python
+ - [ ] mod_passenger
 
 ## License
 

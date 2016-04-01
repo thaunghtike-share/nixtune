@@ -11,9 +11,13 @@ package main
 import (
 	"log"
 
-	"encoding/json"
 	"gopkg.in/yaml.v2"
 )
+
+type ProfileKV struct {
+	Value       string
+	Description string
+}
 
 type Profile struct {
 	// Name of the profile
@@ -23,22 +27,13 @@ type Profile struct {
 	// Documentation is the documentation for this profile
 	Documentation string
 	// ProcFS contains the kernel key values that will be changed.
-	ProcFS map[string]struct {
-		Value       string
-		Description string
-	} `yaml:"procfs"`
+	ProcFS map[string]ProfileKV `yaml:"procfs"`
 
-	SysFS map[string]struct {
-		Value       string
-		Description string
-	} `yaml:"sysfs"`
+	SysFS map[string]ProfileKV `yaml:"sysfs"`
 
 	// Env is the environment variables that should be changed for
 	// maximum performance.
-	Env map[string]struct {
-		Value       string
-		Description string
-	}
+	Env map[string]ProfileKV
 
 	Vars map[string]string
 
@@ -46,15 +41,76 @@ type Profile struct {
 	Deps []string
 }
 
-func ParseProfile(s []byte) (p Profile) {
-	p = Profile{}
+func ParseProfile(s []byte) (p *Profile) {
+	p = &Profile{}
 
-	log.Println(string(s))
-
-	err := yaml.Unmarshal(s, &p)
+	err := yaml.Unmarshal(s, p)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
 
 	return
+}
+
+type Profiles []*Profile
+
+func (p Profiles) Get(s string) *Profile {
+	var profile *Profile
+
+	for _, k := range p {
+		if k.Name == s {
+			profile = k
+			break
+		}
+	}
+
+	if profile == nil {
+		return nil
+	}
+
+	// Get the dependency profiles as we will construct a new
+	// profile with everything as one.
+	var depProfiles Profiles
+	for _, dep := range profile.Deps {
+		depProfiles = append(depProfiles, p.Get(dep))
+	}
+
+	if profile.ProcFS == nil {
+		profile.ProcFS = make(map[string]ProfileKV)
+	}
+
+	if profile.SysFS == nil {
+		profile.SysFS = make(map[string]ProfileKV)
+	}
+
+	if profile.Env == nil {
+		profile.Env = make(map[string]ProfileKV)
+	}
+
+	for _, dep := range depProfiles {
+		for k, v := range dep.ProcFS {
+			_, ok := profile.ProcFS[k]
+			if !ok {
+				profile.ProcFS[k] = v
+			}
+		}
+
+		for k, v := range dep.SysFS {
+			_, ok := profile.SysFS[k]
+			if !ok {
+				profile.SysFS[k] = v
+			}
+		}
+
+		for k, v := range dep.Env {
+			_, ok := profile.Env[k]
+			if !ok {
+				profile.Env[k] = v
+			}
+		}
+	}
+
+	profile.Deps = []string{}
+
+	return profile
 }

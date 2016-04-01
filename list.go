@@ -18,7 +18,10 @@ import (
 // List is the command used to update the system settings based
 // on the profile specified by the user.
 type List struct {
-	CmdName string
+	CmdName string `json:"-"`
+
+	Open []string
+	Pro  []string
 }
 
 func (k *List) Synopsis() string {
@@ -29,25 +32,23 @@ func (k *List) Help() string {
 	return ""
 }
 
-func (k *List) Run(args []string) int {
-	var listOutput struct {
-		Open []string
-		Pro  []string
-	}
-
+func (k *List) UpdateProfiles() {
 	for _, i := range AssetNames() {
 		if strings.HasPrefix(i, "signatures/pro") {
-			listOutput.Pro = append(listOutput.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
+			k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
 		} else {
-			listOutput.Open = append(listOutput.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/"), ".yml"))
+			k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/"), ".yml"))
 		}
-
 	}
 
-	sort.Strings(listOutput.Pro)
-	sort.Strings(listOutput.Open)
+	sort.Strings(k.Open)
+	sort.Strings(k.Pro)
+}
 
-	e, err := json.MarshalIndent(&listOutput, "", "  ")
+func (k *List) Run(args []string) int {
+	k.UpdateProfiles()
+
+	e, err := json.MarshalIndent(k, "", "  ")
 	if err != nil {
 		return -1
 	}

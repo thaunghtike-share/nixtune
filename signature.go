@@ -10,18 +10,10 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
-	"fmt"
 	"log"
 	"os"
-	"sort"
-	"strings"
-)
 
-const (
-	// EnvFileName is the file where Environment variables will be
-	// stored for settings defined by the various signatures.
-	EnvFileName = "/etc/profile.d/99_acksin_autotune.sh"
+	flag "github.com/ogier/pflag"
 )
 
 // Signature is the command used to update the system settings based
@@ -29,7 +21,7 @@ const (
 type Signature struct {
 	CmdName string `json:"-"`
 
-	Profiles []Profile
+	Profiles Profiles
 
 	Signature string
 
@@ -40,25 +32,21 @@ type Signature struct {
 
 func (k *Signature) Synopsis() string {
 	return "Tune the kernel for server profile."
-
 }
 
 func (k *Signature) Help() string {
-	var (
-		sigs []string
-	)
+	return ""
+}
 
-	for k, _ := range k.Profiles {
-		sigs = append(sigs, fmt.Sprintf(" - %s", k))
+func (k *Signature) loadProfiles() {
+	for _, i := range AssetNames() {
+		ymlData, err := Asset(i)
+		if err != nil {
+			log.Fatal(err)
+		}
+		p := ParseProfile(ymlData)
+		k.Profiles = append(k.Profiles, p)
 	}
-	sort.Strings(sigs)
-
-	return fmt.Sprintf(`
-Available signature profiles:
-
-%s
-`, strings.Join(sigs, "\n"))
-
 }
 
 // ParseArgs parses the commandline arguments passed for the Signature
@@ -67,7 +55,8 @@ Available signature profiles:
 // settings with the new values.
 func (k *Signature) Run(args []string) int {
 	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
-	flags.BoolVar(&k.write, "write", true, "Write the settings.")
+	envOnly := flags.BoolP("env", "e", false, "Show the env changes for the profile.")
+	kernelOnly := flags.BoolP("kernel", "k", false, "Show the kernel changes that need to be updated.")
 
 	if err := flags.Parse(args); err != nil {
 		os.Exit(-1)
@@ -80,17 +69,22 @@ func (k *Signature) Run(args []string) int {
 
 	k.Signature = leftovers[0]
 
-	ymlData, err := Asset("signatures/" + k.Signature + ".yml")
-	if err != nil {
-		log.Fatal(err)
-	}
-	profile := ParseProfile(ymlData)
+	k.loadProfiles()
 
-	e, err := json.MarshalIndent(&profile, "", "  ")
-	if err != nil {
-		return -1
+	profile := k.Profiles.Get(k.Signature)
+
+	switch {
+	case *envOnly:
+
+	case *kernelOnly:
+
+	default:
+		e, err := json.MarshalIndent(&profile, "", "  ")
+		if err != nil {
+			return -1
+		}
+		os.Stdout.Write(e)
 	}
-	os.Stdout.Write(e)
 
 	// k.Config = k.Profiles[k.signature]
 
