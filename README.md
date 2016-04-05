@@ -23,10 +23,16 @@ values to tune.
 autotune sig golang
 ```
 
-### Kernel changes
+### ProcFS changes
 
 ```
-autotune sig --kernel golang
+autotune sig --procfs golang
+```
+
+### SysFS changes
+
+```
+autotune sig --sysfs golang
 ```
 
 ### Environment Variables
@@ -43,28 +49,34 @@ the signatures that are taken into account are located
 
 ## Open Signatures
 
- - [X] golang
- - [X] nodejs
- - [X] nginx
- - [X] haproxy
- - [X] apache
- - [X] postgresql
+ - apache
+ - golang
+ - haproxy
+ - nginx
+ - nodejs
+ - postgresql
 
 ## Pro Signatures
 
- - [ ] mysql
- - [ ] redis
- - [ ] mongodb-wiredtiger
- - [ ] mongodb
- - [ ] cassandra
- - [ ] java
- - [ ] hadoop
  - [ ] docker
- - [ ] mesos
- - [ ] spark
- - [ ] ruby
- - [ ] python
+ - [ ] java
+ - [ ] memcached
  - [ ] mod_passenger
+ - [ ] mysql
+ - [ ] php
+ - [ ] python
+ - [ ] redis
+ - [ ] ruby
+ - [ ] rails
+
+## Premium Signatures
+ - [ ] cassandra
+ - [ ] hadoop
+ - [ ] mesos
+ - [ ] mongodb
+ - [ ] mongodb-wiredtiger
+ - [ ] spark
+
 
 ## License
 

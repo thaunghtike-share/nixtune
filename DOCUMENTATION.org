@@ -40,7 +40,9 @@ autotune list
     "nodejs",
     "postgresql"
   ],
-  "Pro": null
+  "Pro": [
+    "java"
+  ]
 }
 #+END_SRC
 

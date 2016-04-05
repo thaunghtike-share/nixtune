@@ -1,6 +1,6 @@
 ---
 product: autotune
-title: Autotune - Linux Performace Manager
+title: Autotune - Linux Performace Tool
 version: 0.5.4
 ---
 
@@ -29,114 +29,32 @@ version: 0.5.4
 
         <p>
           Autotune is born out of the frustration that kernel tuning
-          is a black art. Linux was made for a world where multiple
-          services are running on the machine with the kernel giving
-          preference to all of the services. However, when running
-          single services on Service Oriented architectures you want
-          the machine to be greedy.
+          is a black art. Many services could use the kernel and other
+          settings to be tuned to get the optimial performance. We are
+          building this tool.
         </p>
-
-        <p>
-          Autotune gives you the changes that should be done to give
-          your server the best performance. Pick a profile for your
-          machine (e.g. Go, Nodejs, Apache) and Autotune will set up
-          the best settings for that application profile.
-        </p>
-
-        <%= partial "download", locals: {
-          product: current_page.data.product,
-          version: current_page.data.version
-        } %>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-12">
-        <h3>Pricing</h3>
       </div>
 
       <div class="col-lg-6">
+        <h3>Subscribe for Updates</h3>
         <p>
-          Autotune is completely free. The Autotune Pro allows you to
-          watch your machine and get recommendations to change
-          instance types if necessary. It'll watch your network, IO,
-          CPU, and memory utilization with the profile you specified
-          and recommend the best instance type to use. If we see that
-          the machine is underutilized we will also recommend going to
-          a serverless architecture if we see that you can save more
-          money.
+          We are still putting the finishing touches on Autotune. It
+          will be available shortly.
+
+          <acksin-subscribe></acksin-subscribe>
         </p>
-      </div>
 
-      <div class="col-lg-12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Open</th>
-              <th>Pro</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>License</td>
-              <td><a href="http://mozilla.org/MPL/2.0/">MPL 2.0</a></td>
-              <td>Commercial</td>
-            </tr>
-
-            <tr>
-              <td>Kernels</td>
-              <td>Linux 2.6+</td>
-              <td>Linux 2.6+</td>
-            </tr>
-
-            <tr>
-              <td>Support</td>
-              <td>Github Issues</td>
-              <td>Email</td>
-            </tr>
-
-            <tr>
-              <td>Custom Work</td>
-              <td>N/A</td>
-              <td><a href="/support/#custom-work">Yes</a></td>
-            </tr>
-
-            <tr>
-              <td>Pricing</td>
-              <td>Open</td>
-              <td>$949/year</td>
-            </tr>
-
-            <tr>
-              <td></td>
-              <td><a class="btn btn-success">Get Started</a></td>
-              <td>
-                <script src="https://gumroad.com/js/gumroad.js"></script>
-                <a class="btn btn-success gumroad-button" href="https://gum.co/autotune">Purchase</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2. Configure SystemJS -->
 <script>
-System.config({
-  transpiler: 'typescript',
-  typescriptOptions: { emitDecoratorMetadata: true },
-  packages: {'src': {defaultExtension: 'ts'}}
-});
+ System.config({
+   transpiler: 'typescript',
+   typescriptOptions: { emitDecoratorMetadata: true },
+   packages: {'app': {defaultExtension: 'ts'}}
+ });
+ System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
 </script>
-<!-- 3. Bootstrap -->
-<script>
-System.import('angular2/platform/browser').then(function(ng){
-  System.import('/autotune/js/autotune_curl.ts').then(function(src) {
-    ng.bootstrap(src.AutotuneCurl);
-  });
-});
-</script>
+<script src="/javascripts/subscribe.ts"></script>
