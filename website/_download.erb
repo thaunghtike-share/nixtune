@@ -1,0 +1,22 @@
+<h3>Install Autotune</h3>
+
+<p>
+  Specify the server profile of your machine and run the curl command
+  to see what will change.
+</p>
+
+<autotune-curl>Loading...</autotune-curl>
+
+<h3>Download</h3>
+<p>
+  <ul>
+    <% ["Linux"].each do |os| %>
+      <% ["x86_64"].each do |arch| %>
+        <li>
+          <a onclick="ga('send', 'event', 'Download', '<%= product.upcase %>', 'Download <%= product.upcase %> <%= version %>');"
+             href="https://assets.acksin.com/<%= product %>/<%= version %>/<%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz"><%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz</a>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</p>
