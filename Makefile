@@ -14,7 +14,7 @@ build: deps test
 deps:
 	go get -u github.com/golang/lint/golint
 	go get -u github.com/jteeuwen/go-bindata/...
-	go-bindata -ignore="signatures/README.md" -o sigfiles.go signatures/ 
+	go-bindata -ignore="signatures/README.md" -o sigfiles.go signatures/open signatures/pro signatures/premium 
 	go get ./...
 
 dev-deps:
@@ -38,7 +38,7 @@ release: spell build archive
 
 website-assets:
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
-	./autotune list > website/js/profiles.json
+	./autotune list > website/signatures.json
 	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin Autotune Docs" >> website/docs.html.erb

@@ -9,5 +9,10 @@
     "nodejs",
     "postgresql"
   ],
-  "Pro": null
+  "Pro": [
+    "java"
+  ],
+  "Premium": [
+    "cassandra"
+  ]
 }

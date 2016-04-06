@@ -37,13 +37,16 @@ func (k *List) UpdateProfiles() {
 	for _, i := range AssetNames() {
 		if strings.HasPrefix(i, "signatures/pro") {
 			k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
+		} else if strings.HasPrefix(i, "signatures/premium") {
+			k.Premium = append(k.Premium, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/premium/"), ".yml"))
 		} else {
-			k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/"), ".yml"))
+			k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/open/"), ".yml"))
 		}
 	}
 
 	sort.Strings(k.Open)
 	sort.Strings(k.Pro)
+	sort.Strings(k.Premium)
 }
 
 func (k *List) Run(args []string) int {
