@@ -1,5 +1,4 @@
 PRODUCT := autotune
-PROFILES := $(shell cd signatures && ls *.yml | grep -v networking | sed "s/.yml//g")
 VERSION := $(shell cat VERSION)
 WEBSITE := acksin.com
 
@@ -38,8 +37,8 @@ release: spell build archive
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
 
 website-assets:
-	jq -n --arg PROFILES "$(PROFILES)" '$$PROFILES | split(" ")' > website/js/profiles.json
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
+	./autotune list > website/js/profiles.json
 	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin Autotune Docs" >> website/docs.html.erb

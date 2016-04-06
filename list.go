@@ -20,8 +20,9 @@ import (
 type List struct {
 	CmdName string `json:"-"`
 
-	Open []string
-	Pro  []string
+	Open    []string
+	Pro     []string
+	Premium []string
 }
 
 func (k *List) Synopsis() string {

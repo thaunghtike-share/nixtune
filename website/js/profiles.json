@@ -1,9 +1,13 @@
-[
-  "apache",
-  "golang",
-  "haproxy",
-  "java",
-  "nginx",
-  "nodejs",
-  "postgresql"
-]
+{
+  "Open": [
+    "apache",
+    "golang",
+    "haproxy",
+    "java",
+    "networking",
+    "nginx",
+    "nodejs",
+    "postgresql"
+  ],
+  "Pro": null
+}
