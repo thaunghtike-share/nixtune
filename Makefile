@@ -55,8 +55,8 @@ website-dev:  website
 	cp -r ./website $$GOPATH/src/github.com/acksin/$(WEBSITE)/content/$(PRODUCT)
 
 spell:
-	for i in $(shell ls website/*.html); do \
-		aspell check --mode=html $$i; \
+	for i in website/_download.erb website/index.html.erb DOCUMENTATION.org README.md; do \
+		aspell check --dont-backup --mode=html $$i; \
 	done
 
 .PHONY: website website-dev
