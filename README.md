@@ -11,7 +11,7 @@ help debug and assess problems.
 System Admins turn to tools like `vmstat`, `free`, `top`, `ps`,
 etc. to quickly figure out what the issues are with a Linux and UNIX
 machines. However, as common as these tools are they are still limited
-insofar as they need to be strung togehter to give a complete picture
+insofar as they need to be strung together to give a complete picture
 of what is happening.
 
 If a MySQL machine is high CPU your workflow may be running `top` to

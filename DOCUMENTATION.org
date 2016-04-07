@@ -89,7 +89,7 @@ syntax.
 
 * Diagnostics
 
-Ackin STRUM is a tool for diagnosing issues quickly. It deals with
+Acksin STRUM is a tool for diagnosing issues quickly. It deals with
 things at the system level, the cloud level, and at the process level.
 The output of STRUM therefore has the following output:
 
@@ -211,8 +211,8 @@ NOT IMPLEMENTED
 
 The Cloud section gives various information about the cloud provider
 and cloud attributes that the machine has. This information can be
-useful for quickly figuring out if the machine is on an underpowered
-machine for the tasks of te application.
+useful for quickly figuring out if the machine is on an under powered
+machine for the tasks of the application.
 
 *** AWS
 

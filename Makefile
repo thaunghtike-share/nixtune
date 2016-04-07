@@ -49,8 +49,8 @@ website:
 	echo "Nothin here govn'r"
 
 spell:
-	for i in $(shell ls website/*.html); do \
-		aspell check --mode=html $$i; \
+	for i in DOCUMENTATION.org README.md website/index.html.erb website/_download.erb; do \
+		aspell check --dont-backup --mode=html $$i; \
 	done
 
 .PHONY: website website-dev
