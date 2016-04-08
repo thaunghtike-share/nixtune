@@ -49,8 +49,6 @@ func (k *Signature) loadProfiles() {
 	}
 }
 
-// ParseArgs parses the commandline arguments passed for the Signature
-// command.
 // Run gets the configuration for the profile and updates the system
 // settings with the new values.
 func (k *Signature) Run(args []string) int {

@@ -29,6 +29,10 @@ var (
 	awsRegion    = ""
 )
 
+var (
+	subscription Subscription
+)
+
 func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
@@ -41,6 +45,8 @@ https://acksin.com/autotune
 }
 
 func main() {
+	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
+
 	c := cli.NewCLI(cmdName, version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
@@ -50,9 +56,9 @@ func main() {
 		"list": func() (cli.Command, error) {
 			return NewList(subCmd("list")), nil
 		},
-		"agent": func() (cli.Command, error) {
-			return NewAgent(subCmd("agent")), nil
-		},
+		// "agent": func() (cli.Command, error) {
+		// 	return NewAgent(subCmd("agent")), nil
+		// },
 	}
 
 	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
