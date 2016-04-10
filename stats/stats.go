@@ -11,6 +11,7 @@ package stats
 import (
 	"github.com/acksin/procfs"
 	"github.com/acksin/strum/io"
+	"github.com/acksin/strum/kernel"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
 
@@ -58,6 +59,8 @@ func New(pids []int) (s *Stats) {
 
 	s.System.Memory = memory.New()
 	s.System.Network = network.New()
+
+	s.System.Kernel = kernel.New()
 
 	s.Cloud = cloud.New()
 

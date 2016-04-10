@@ -19,4 +19,7 @@ type System struct {
 	Memory *memory.Memory
 	// Network stats of the system
 	Network *network.Network
+	// Kernel represents the kernel parameters of the current
+	// system. On Linux this is the output of `sysctl -a`
+	Kernel map[string]string
 }
