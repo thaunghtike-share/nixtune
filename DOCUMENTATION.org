@@ -1102,6 +1102,13 @@ NOT IMPLEMENTED
 
 NOT IMPLEMENTED
 
+*** Kernel
+
+The =.System.Kernel= output gives you all the key value information
+about the running kernel parameters. It is akin to the =sysctl -a=
+output. The key is the full path to the change. On the Linux kernel
+that is somewhere in =/proc/sys/=.
+
 ** Cloud
 
 The Cloud section gives various information about the cloud provider
