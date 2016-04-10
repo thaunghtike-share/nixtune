@@ -12,6 +12,8 @@ import (
 	"github.com/acksin/procfs"
 )
 
+// New returns a map object which contains the kernel keys and the
+// values associated with them on the system.
 func New() map[string]string {
 	fs, err := procfs.NewFS(procfs.DefaultMountPoint)
 	if err != nil {

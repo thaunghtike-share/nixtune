@@ -9,13 +9,14 @@
 package stats
 
 import (
+	"encoding/json"
+
 	"github.com/acksin/procfs"
+	"github.com/acksin/strum/cloud"
 	"github.com/acksin/strum/io"
 	"github.com/acksin/strum/kernel"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
-
-	"github.com/acksin/strum/cloud"
 )
 
 // Stats contains both the system and process statistics.
@@ -50,6 +51,12 @@ func (n *Stats) containsPid(pids []int, proc procfs.Proc) bool {
 	}
 
 	return false
+}
+
+// UnmarshalJSON converts a byte blob into the Stats object
+// representation.
+func (n *Stats) UnmarshalJSON(d []byte) error {
+	return json.Unmarshal(d, n)
 }
 
 // New returns stats of the machine with pids filtering for
