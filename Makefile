@@ -27,9 +27,9 @@ test:
 archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
 
-release: spell build archive
+release: website-assets spell build archive
 	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
-	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/index.html
+	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/index.html.erb
 	git add website/install.sh
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
