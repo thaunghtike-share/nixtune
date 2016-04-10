@@ -3,18 +3,18 @@
 VERSION=0.5.4
 
 function welcome_autotune {
-    echo "Welcome to Anatma Autotune ($VERSION) Installation"
-    echo "Copyright (c) 2015-2016. Abhi Yerra."
-    echo "https://anatma.co/autotune"
+    echo "Welcome to Acksin Autotune ($VERSION) Installation"
+    echo "Copyright (c) 2016. Acksin, LLC."
+    echo "https://acksin.co/autotune"
     echo ""
-    echo "We will be installing Autotune on your system into the following location:"
+    echo "Autotune will be installed in the following location:"
     echo ""
-    echo "  - /usr/local/bin/autotune"
+    echo "    /usr/local/bin/autotune"
     echo ""
 }
 
 function download_autotune {
-    curl -s -o /tmp/autotune.tar.gz https://assets.anatma.co/autotune/${VERSION}/autotune-${VERSION}.tar.gz
+    curl -s -o /tmp/autotune.tar.gz https://assets.acksin.com/autotune/${VERSION}/autotune-${VERSION}-$(uname -i).tar.gz
     cd /tmp && tar zxf autotune.tar.gz
     sudo mv autotune /usr/local/bin/autotune
 }
@@ -25,6 +25,7 @@ function install_autotune {
     echo "These are the kernel values that will be changing on this machine"
     echo "for the ${profile} profile."
     echo ""
+
     autotune signature -write=false $profile
 
     echo ""

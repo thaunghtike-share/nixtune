@@ -1,54 +1,86 @@
-# Anatma Autotune
+![](website/autotune.png)
+
+# Acksin Autotune
 
 Autotune the Linux kernel to get optimal server performance.
 
-Anatma Autotune tunes the Linux kernel and other environment variables
-to achieve maximum performance for you applications. The goal is to
-support most common use cases such a Golang, Node, Java, Various
-databases, and so on. These are an alternate to manually tuning the
-kernel for performance which is a matter of trial and error.
+Acksin Autotune gives you the Linux kernel turning and environment
+variables to get maximum performance for you applications and to
+utilize the machine to its fullest.
 
-The tool will attempt to figure out the best settings and if there is
-a degration will rollback changes to their existing settings.
+Autotune figures out the best settings for you to use when running
+your applications.
 
 ## Usage
 
 Using the signatures is straightforward. Just pass the names of the
-signatures as part of the command and it will tune it correctly.
+signatures as part of the command and it will give you the appropriate
+values to tune.
+
+### Output the Raw signature as JSON
 
 ```
-autotune signature golang
+autotune sig golang
 ```
 
-### Signatures
+### ProcFS changes
 
- - [X] golang
- - [X] nodejs
- - [X] nginx
- - [X] haproxy
- - [X] apache
- - [X] postgresql
+```
+autotune sig --procfs golang
+```
 
-### Future Signatures
+### SysFS changes
 
- - [ ] mysql
- - [ ] redis
- - [ ] mongodb-wiredtiger
- - [ ] mongodb
- - [ ] cassandra
- - [ ] java
- - [ ] hadoop
+```
+autotune sig --sysfs golang
+```
+
+### Environment Variables
+
+```
+autotune sig --env golang
+```
+
+## Documentation
+
+Documentation as well as the descriptions of each of the changes for
+the signatures that are taken into account are located
+[https://www.acksin.com/autotune/docs](Acksin Autotune Docs) website
+
+## Open Signatures
+
+ - apache
+ - golang
+ - haproxy
+ - nginx
+ - nodejs
+ - postgresql
+
+## Pro Signatures
+
  - [ ] docker
+ - [ ] java
+ - [ ] memcached
+ - [ ] mod_passenger
+ - [ ] mysql
+ - [ ] php
+ - [ ] python
+ - [ ] redis
+ - [ ] ruby
+ - [ ] rails
+
+## Premium Signatures
+ - [ ] cassandra
+ - [ ] hadoop
  - [ ] mesos
+ - [ ] mongodb
+ - [ ] mongodb-wiredtiger
  - [ ] spark
 
-## Authors
-
- Abhi Yerra @abhiyerra
 
 ## License
 
-Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
+Copyright (C) 2016 Acksin <hey@acksin.com>
 
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this

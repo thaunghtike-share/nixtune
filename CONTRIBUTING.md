@@ -1,6 +1,6 @@
 # Contributing
 
-Anatma uses GitHub to manage reviews of pull requests.
+Acksin uses GitHub to manage reviews of pull requests.
 
 * Pull Requests should describe what the patch does and include tests.
     - We prefer patches which are smaller to larger ones.

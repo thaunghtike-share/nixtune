@@ -1,12 +1,10 @@
-/* Anatma Autotune - Kernel Autotuning
- * Copyright (C) 2015 Abhi Yerra <abhi@berkeley.edu>
+/* Acksin Autotune - Kernel Autotuning
+ * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
-// +build open
 
 package main
 
@@ -15,9 +13,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/anatma/autotune/instance"
-	"github.com/anatma/autotune/signatures"
-	"github.com/anatma/autotune/stats"
+	"github.com/mitchellh/cli"
 )
 
 var (
@@ -25,55 +21,55 @@ var (
 	version = "v0.0.0"
 )
 
+// Keys for invoking the Lambda scripts. Should only have policies for
+// invoking the single lambda script and nothing else.
+var (
+	awsAPIKey    = ""
+	awsSecretKey = ""
+	awsRegion    = ""
+)
+
+var (
+	subscription Subscription
+)
+
 func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
 }
 
-func usage() {
-	usage := `Usage: %s [command]
-
-Available commands:
-    signature [profile]     Update settings based on signature of man application.
-    stats                   Gives a quick diagnostics about the state of the machine.
-    instance [api_key]      PRO. Recommended instance size for this machine.
-
-Autotune %s by Anatma.
-Copyright (c) 2015-2016. Abhi Yerra.
-https://anatma.co/autotune
-`
-	fmt.Printf(usage, cmdName, version)
+func copyright() string {
+	return fmt.Sprintf(`Acksin Autotune %s.
+Copyright (c) 2015-2016. Acksin.
+https://acksin.com/autotune
+`, version)
 }
 
 func main() {
-	var (
-		err error
-	)
+	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
 
-	if len(os.Args) < 2 {
-		usage()
-		os.Exit(0)
+	c := cli.NewCLI(cmdName, version)
+	c.Args = os.Args[1:]
+	c.Commands = map[string]cli.CommandFactory{
+		"sig": func() (cli.Command, error) {
+			return NewSignature(subCmd("signature")), nil
+		},
+		"list": func() (cli.Command, error) {
+			return NewList(subCmd("list")), nil
+		},
+		// "agent": func() (cli.Command, error) {
+		// 	return NewAgent(subCmd("agent")), nil
+		// },
 	}
 
-	switch os.Args[1] {
-	case "signature":
-		sig := signatures.New(subCmd("signature"))
-		sig.ParseArgs(os.Args[2:])
-		err = sig.Run()
-	case "stats":
-		stats := stats.New(subCmd("stats"))
-		stats.ParseArgs(os.Args[2:])
-		err = stats.Run()
-	case "instance":
-		ins := instance.New(subCmd("instance"))
-		ins.ParseArgs(os.Args[2:])
-		err = ins.Run()
-	default:
-		usage()
-		os.Exit(-1)
+	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
+		return fmt.Sprintf("%s\n%s", cli.BasicHelpFunc(cmdName)(commands), copyright())
 	}
 
+	exitStatus, err := c.Run()
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(-1)
 	}
+
+	os.Exit(exitStatus)
+
 }
