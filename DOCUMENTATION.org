@@ -1107,7 +1107,7 @@ NOT IMPLEMENTED
 The =.System.Kernel= output gives you all the key value information
 about the running kernel parameters. It is akin to the =sysctl -a=
 output. The key is the full path to the change. On the Linux kernel
-that is somewhere in =/proc/sys/=.
+that is in =/proc/sys/=.
 
 ** Cloud
 
