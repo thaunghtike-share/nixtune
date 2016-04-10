@@ -9,7 +9,6 @@
 package stats
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"sort"
@@ -56,26 +55,4 @@ func (n *Stats) Flat() string {
 	}
 
 	return o2
-}
-
-func (n *Stats) Human() string {
-	var b bytes.Buffer
-
-	fmt.Fprintf(&b, "Memory\n")
-	if n.System.Memory.Swap.Used > 0 {
-		fmt.Fprintf(&b, "Swapping: true\n")
-		fmt.Fprintf(&b, "Swapping Processes:\n")
-
-		for _, p := range n.Processes {
-			if p.Memory.Swap.Size > 0 {
-				fmt.Fprintf(&b, " - %d\n", p.PID)
-			}
-		}
-	}
-
-	// Cloud
-
-	// Memory
-
-	return b.String()
 }
