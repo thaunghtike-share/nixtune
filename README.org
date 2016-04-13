@@ -11,6 +11,26 @@ and the nonmoving.
 -- Bhagavad Gita
 #+end_quote
 
+#+begin_html
+<img src="https://travis-ci.org/acksin/strum.svg?branch=master" />
+#+end_html
+
+* tl;dr
+
+While the tool can be used without =sudo= there may be information
+that is left out because of a lack of permissions. As such it is
+better to run the tool as =sudo=.
+
+#+begin_src sh
+sudo strum
+#+end_src
+
+If you just want info on a single PID run the following:
+
+#+begin_src sh
+sudo strum [pid]
+#+end_src
+
 * Introduction
 
 Acksin STRUM is the tool to diagnose Linux issues quickly. It gives
@@ -19,6 +39,21 @@ Kernel Limits, etc. of a system. STRUM was born out of the frustration
 that diagnosing an issue was to go through a mental checklist and
 dealing with fallible human memory (especially at 3am when the pager
 goes off). We hope that this tool will help.
+
+* Use Case
+
+System Admins turn to tools like `vmstat`, `free`, `top`, `ps`,
+etc. to quickly figure out what the issues are with a Linux and UNIX
+machines. However, as common as these tools are they are still limited
+insofar as they need to be strung together to give a complete picture
+of what is happening.
+
+If a MySQL machine is high CPU your workflow may be running `top` to
+see what the CPUs are like, `free` to see if the machine is swapping,
+`ss` to see if there are a lot of connections, etc.
+
+STRUM will give you a birds eye view of the system and a process
+quickly.
 
 * Basic Usage
 ** Syntax
@@ -1268,3 +1303,11 @@ strum 2277 | jq '.Processes[0].IO.Limits'
   "CPUTime": -1
 }
 #+END_SRC
+
+* License
+
+Copyright (C) 2016 Acksin <hey@acksin.com>
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
