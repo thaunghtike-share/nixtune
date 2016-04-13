@@ -12,7 +12,8 @@ and the nonmoving.
 #+end_quote
 
 #+begin_html
-<img src="https://travis-ci.org/acksin/strum.svg?branch=master" />
+<a href="https://travis-ci.org/acksin/strum"><img src="https://travis-ci.org/acksin/strum.svg?branch=master" /></a>
+<a href="https://godoc.org/github.com/acksin/strum"><img src="https://godoc.org/github.com/acksin/strum?status.svg" alt="GoDoc"></a>
 #+end_html
 
 * tl;dr
