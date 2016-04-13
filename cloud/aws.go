@@ -18,7 +18,7 @@ import (
 // AWSStats returns the relevant AWS information about the current
 // instance via the machine's EC2 Metadata IP interface.
 type AWSStats struct {
-	AmiID           string `metadata:"ami-id"`
+	AmiID           string `metadata:"ami-id" `
 	AmiLaunchIndex  string `metadata:"ami-launch-index"`
 	AmiManifestPath string `metadata:"ami-manifest-path"`
 	Hostname        string `metadata:"hostname"`
