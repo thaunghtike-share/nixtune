@@ -8,10 +8,15 @@
 
 package cloud
 
+// Cloud contains the metadata provided by the cloud providers.
 type Cloud struct {
+	// AWS provides information about AWS EC2 metadata.
+	// http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 	AWS *AWSStats
 }
 
+// New creates a new Cloud object and fills in any metadata from the
+// cloud providers.
 func New() (c *Cloud) {
 	c = &Cloud{
 		AWS: NewAWS(),

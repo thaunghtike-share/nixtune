@@ -14,11 +14,18 @@ import (
 	"golang.org/x/net/context"
 )
 
+// Docker contains information about the current Docker service on the
+// machine.
 type Docker struct {
+	// Containers are all the active and inactive containers that
+	// are on the system.
 	Containers []types.Container
-	Images     []types.Image
+	// Images are all the images that exist on the Docker Images
+	// that exist on the machine.
+	Images []types.Image
 }
 
+// NewDocker creates a new Docker object.
 func NewDocker() (c *Docker) {
 	c = &Docker{}
 

@@ -26,8 +26,8 @@ var (
 )
 
 const (
-	BridgeService = "fugue.strum"
-	BridgeAPIURL  = "http://bridge-api.acksin.com/lambda"
+	bridgeService = "fugue.strum"
+	bridgeAPIURL  = "http://bridge-api.acksin.com/lambda"
 )
 
 func copyright() string {
@@ -102,7 +102,7 @@ https://www.acksin.com/fugue/console/#/credentials`)
 		}
 
 		resp, err := bridge.Request{
-			Service: BridgeService,
+			Service: bridgeService,
 			Action:  "NewStats",
 			Method:  "POST",
 			Version: "1.0",
@@ -111,7 +111,7 @@ https://www.acksin.com/fugue/console/#/credentials`)
 				SessionID string
 				Stats     *stats.Stats
 			}{conf.sessionID, conf.stats},
-		}.POST(BridgeAPIURL)
+		}.POST(bridgeAPIURL)
 
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s", err)

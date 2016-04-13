@@ -8,10 +8,15 @@
 
 package container
 
+// Container information from various container services.
 type Container struct {
+	// Docker provides information about Containers and Images on
+	// the machine.
 	Docker *Docker
 }
 
+// New creates a new Container object filling in information about
+// various containers we support.
 func New() (c *Container) {
 	c = &Container{
 		Docker: NewDocker(),

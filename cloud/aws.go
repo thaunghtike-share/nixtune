@@ -43,7 +43,7 @@ type AWSStats struct {
 	// services/
 }
 
-func (a *AWSStats) ParseMetadata(m *ec2metadata.EC2Metadata) {
+func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
 	st := reflect.TypeOf(*a)
 
 	for i := 0; i < st.NumField(); i++ {
@@ -57,7 +57,7 @@ func (a *AWSStats) ParseMetadata(m *ec2metadata.EC2Metadata) {
 
 // NewAWS returns an AWSStats if the current machine is an AWS
 // instance otherwise it returns nil.
-func NewAWS() *AWSStats {
+func NewAWS() (i *AWSStats) {
 	metadata := ec2metadata.New(session.New())
 
 	// Verify that this is in fact an AWS machine.
@@ -65,8 +65,7 @@ func NewAWS() *AWSStats {
 		return nil
 	}
 
-	i := &AWSStats{}
-	i.ParseMetadata(metadata)
-
-	return i
+	i = &AWSStats{}
+	i.parseMetadata(metadata)
+	return
 }
