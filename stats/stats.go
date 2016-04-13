@@ -12,7 +12,9 @@ import (
 	"encoding/json"
 
 	"github.com/acksin/procfs"
+
 	"github.com/acksin/strum/cloud"
+	"github.com/acksin/strum/container"
 	"github.com/acksin/strum/io"
 	"github.com/acksin/strum/kernel"
 	"github.com/acksin/strum/memory"
@@ -23,6 +25,8 @@ import (
 type Stats struct {
 	// System specific information
 	System System
+	// Container specific information
+	Container *container.Container
 	// Cloud specific information
 	Cloud *cloud.Cloud
 	// Processes are the process information of the system
@@ -69,6 +73,7 @@ func New(pids []int) (s *Stats) {
 
 	s.System.Kernel = kernel.New()
 
+	s.Container = container.New()
 	s.Cloud = cloud.New()
 
 	for _, proc := range s.processes() {

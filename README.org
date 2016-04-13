@@ -132,6 +132,7 @@ The output of STRUM therefore has the following output:
 #+begin_src json
   {
       "System": ...
+      "Container": ...
       "Cloud": ...
       "Processes": ...
   }
@@ -2453,6 +2454,77 @@ strum | jq '.System.Kernel'
   "/proc/sys/xen/balloon/hotplug_unpopulated": "0"
 }
 #+END_SRC
+
+** Container
+
+The container portion contains various information about the
+containers that are running on the machine as well as any quick
+diagnostic information that can be immediately useful.
+
+*** Docker
+
+#+begin_src sh :results output code :exports both :noweb
+strum | jq '.Container.Docker'
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC sh
+  {
+      "Containers": [
+          {
+              "Id": "3364ca00225b54080675e24aea8bf85b2d6a59985ea4c50d7a9390cca92f9d75",
+              "Names": [
+                  "/naughty_bose"
+              ],
+              "Image": "busybox",
+              "ImageID": "sha256:47bcc53f74dc94b1920f0b34f6036096526296767650f223433fe65c35f149eb",
+              "Command": "sh",
+              "Created": 1460584455,
+              "Ports": [],
+              "Labels": {},
+              "State": "",
+              "Status": "Exited (0) 5 seconds ago",
+              "HostConfig": {
+                  "NetworkMode": "default"
+              },
+              "NetworkSettings": {
+                  "Networks": {
+                      "bridge": {
+                          "IPAMConfig": null,
+                          "Links": null,
+                          "Aliases": null,
+                          "NetworkID": "",
+                          "EndpointID": "",
+                          "Gateway": "",
+                          "IPAddress": "",
+                          "IPPrefixLen": 0,
+                          "IPv6Gateway": "",
+                          "GlobalIPv6Address": "",
+                          "GlobalIPv6PrefixLen": 0,
+                          "MacAddress": ""
+                      }
+                  }
+              },
+              "Mounts": null
+          }
+      ],
+      "Images": [
+          {
+              "Id": "sha256:47bcc53f74dc94b1920f0b34f6036096526296767650f223433fe65c35f149eb",
+              "ParentId": "",
+              "RepoTags": [
+                  "busybox:latest"
+              ],
+              "RepoDigests": null,
+              "Created": 1458325368,
+              "Size": 1112820,
+              "VirtualSize": 1112820,
+              "Labels": {}
+          }
+      ]
+  }
+#+END_SRC
+
 
 ** Cloud
 
