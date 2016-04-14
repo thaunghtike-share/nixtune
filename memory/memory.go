@@ -28,10 +28,13 @@ type Memory struct {
 		Free int64
 		// Used physical memory of the system.
 		Used int64
-		// Cached is the physical memory that is used for cached.
+		// Cached is the physical memory that is used for cache.
 		Cached int64
 		// Buffers is the amount of memory used for file buffers.
 		Buffers int64
+		// TotalFree is Free memory + Used + Cached which is the real
+		// amount of memory that Linux has available
+		TotalFree int64
 	}
 
 	// Swap is information on swap usage on the system.
@@ -70,6 +73,7 @@ func (m *Memory) physical(meminfo *procfs.Meminfo) {
 	m.Physical.Used = meminfo.MemTotal - meminfo.MemFree
 	m.Physical.Cached = meminfo.Cached
 	m.Physical.Buffers = meminfo.Buffers
+	m.Physical.TotalFree = m.Physical.Free + m.Physical.Cached + m.Physical.Buffers
 }
 
 func (m *Memory) swap(meminfo *procfs.Meminfo) {

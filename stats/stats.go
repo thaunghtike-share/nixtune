@@ -10,43 +10,23 @@ package stats
 
 import (
 	"encoding/json"
-	"fmt"
-	"sort"
-
-	"github.com/abhiyerra/gojsonexplode"
 
 	"github.com/acksin/procfs"
-	"github.com/acksin/strum/io"
-	"github.com/acksin/strum/memory"
-	"github.com/acksin/strum/network"
 
 	"github.com/acksin/strum/cloud"
+	"github.com/acksin/strum/container"
+	"github.com/acksin/strum/io"
+	"github.com/acksin/strum/kernel"
+	"github.com/acksin/strum/memory"
+	"github.com/acksin/strum/network"
 )
-
-// Process is information about a Linux process
-type Process struct {
-	// Exe is the executable that is running.
-	Exe string
-	// PID of the process
-	PID int
-	// Memory stats of the process
-	Memory *memory.ProcessMemory
-	// IO contains information about the IO of the machine.
-	IO *io.ProcessIO
-}
-
-// System contains information about the system
-type System struct {
-	// Memory stats of the system
-	Memory *memory.Memory
-	// Network stats of the system
-	Network *network.Network
-}
 
 // Stats contains both the system and process statistics.
 type Stats struct {
 	// System specific information
 	System System
+	// Container specific information
+	Container *container.Container
 	// Cloud specific information
 	Cloud *cloud.Cloud
 	// Processes are the process information of the system
@@ -67,47 +47,6 @@ func (n *Stats) processes() procfs.Procs {
 	return procs
 }
 
-// JSON returns JSON string of Stats
-func (n *Stats) JSON() string {
-	js, err := json.MarshalIndent(n, "", "  ")
-	if err != nil {
-		return ""
-	}
-
-	return string(js)
-}
-
-// Flat returns a flattened results.
-func (n *Stats) Flat() string {
-	o, err := gojsonexplode.Explodejsonstr(n.JSON(), ".")
-	if err != nil {
-		fmt.Println(err)
-		return ""
-	}
-
-	var out map[string]interface{}
-
-	err = json.Unmarshal([]byte(o), &out)
-	if err != nil {
-		fmt.Println(err)
-		return ""
-	}
-
-	var o2 string
-	var keys []string
-
-	for k := range out {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-
-	for _, k := range keys {
-		o2 += fmt.Sprintf("%s = %v\n", k, out[k])
-	}
-
-	return o2
-}
-
 func (n *Stats) containsPid(pids []int, proc procfs.Proc) bool {
 	for _, pid := range pids {
 		if proc.PID == pid {
@@ -118,6 +57,12 @@ func (n *Stats) containsPid(pids []int, proc procfs.Proc) bool {
 	return false
 }
 
+// UnmarshalJSON converts a byte blob into the Stats object
+// representation.
+func (n *Stats) UnmarshalJSON(d []byte) error {
+	return json.Unmarshal(d, n)
+}
+
 // New returns stats of the machine with pids filtering for
 // processes. If pids are empty then it returns all process stats.
 func New(pids []int) (s *Stats) {
@@ -126,6 +71,9 @@ func New(pids []int) (s *Stats) {
 	s.System.Memory = memory.New()
 	s.System.Network = network.New()
 
+	s.System.Kernel = kernel.New()
+
+	s.Container = container.New()
 	s.Cloud = cloud.New()
 
 	for _, proc := range s.processes() {

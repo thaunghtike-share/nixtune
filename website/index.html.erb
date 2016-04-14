@@ -1,18 +1,28 @@
 ---
 product: strum
-title: STRUM - Home
+title: STRUM - Linux Diagnostic Tool
+description: Acksin STRUM is the tool to diagnose Linux issues quickly giving you a complete picture encompassing the CPU, Memory, IO, Networking, Processes, Limits, etc.
+version: 0.2.3
 ---
 
 <header>
   <div class="container">
     <div class="jumbotron acksin-jumbotron acksin-header" id="strum-header">
-      <h1 class="intro-heading white-text">STRUM</h1>
-      <h2 class="intro-lead-in white-text">Linux Diagnostic Tool</h2>
     </div>
   </div>
 </header>
 
 <section id="service">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="intro-heading center">Acksin STRUM</h1>
+        <h2 class="intro-lead-in center">Linux  Diagnostic Tool</h2>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="row">
       <div class="col-lg-6">
@@ -30,24 +40,27 @@ title: STRUM - Home
           commands to figure out what is wrong may lead to issues that
           are not diagnosed.
         </p>
-      </div>
-      <div class="col-lg-6">
-        <h3>Install</h3>
-        <p>
-          Run the curl command to install the binary into your current <code>$PWD</code>.
-          <br>
-          <code>\curl -sSL https://www.acksin.com/strum/install.sh | bash</code>
-        </p>
-
-        <h3>Usage</h3>
-        <p>
-          <code>strum</code>
-        </p>
 
         <p>
           <a class="btn btn-default" href="https://github.com/acksin/strum"><i class="fa fa-github"> Github</i></a>
           <a class="btn btn-default" href="/strum/docs"><i class="fa fa-book"> Docs</i></a>
+          <a class="btn btn-success" href="https://docs.google.com/a/acksin.com/forms/d/1P6rdTUknctwetou0IpPbjs-T9G4z5nvP-x_q3bPc9Cg/viewform"><i class="fa fa-comment"></i> Feedback</a>
         </p>
+
+        <h3>Usage</h3>
+        <p>
+        <code>sudo strum</code>
+        </p>
+
+        <%= partial "download", locals: {
+          product: current_page.data.product,
+          version: current_page.data.version
+        } %>
+
+      </div>
+
+      <div class="col-lg-6">
+        <%= image_tag "/imgs/screenshots/strum.png" %>
       </div>
     </div>
 
@@ -56,19 +69,19 @@ title: STRUM - Home
         <h3>FAQ</h3>
 
         <dl>
-        <dt>How does STRUM gather data?</dt>
-        <dd>
-          STRUM uses the Linux system's <code>/proc</code> file system
-          to gather data. However, traversing /proc and understanding
-          the jargon is quite a hurdle. So we have created a tool to
-          traverse the file system and give you the relevant
-          diagnostics.
-        </dd>
-        <dt>Are other Unicies supported?</dt>
-        <dd>
-          Currently, we only support Linux but we wish to add the BSDs
-          and Mac OS X in the future.
-        </dd>
+          <dt>How does STRUM gather data?</dt>
+          <dd>
+            STRUM uses the Linux system's <code>/proc</code> file system
+            to gather data. However, traversing <code>/proc</code> and
+            understanding the jargon is quite a hurdle. So we have
+            created a tool to traverse the file system and give you the
+            relevant diagnostics.
+          </dd>
+          <dt>Are other Unicies supported?</dt>
+          <dd>
+            Currently, we only support Linux but we wish to add the BSDs
+            and Mac OS X in the future.
+          </dd>
         </dl>
       </div>
 
@@ -77,8 +90,7 @@ title: STRUM - Home
 
         <p>
           Thanks for your interest in Acksin STRUM. If you want to get
-          more updates as we build out STRUM with more features
-          subscribe below.
+          updates as we build out STRUM with features subscribe below.
         </p>
 
         <acksin-subscribe></acksin-subscribe>
@@ -88,12 +100,12 @@ title: STRUM - Home
 </section>
 
 <script>
-  System.config({
-  transpiler: 'typescript',
-  typescriptOptions: { emitDecoratorMetadata: true },
-  packages: {'app': {defaultExtension: 'ts'}}
-  });
-  System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
+ System.config({
+   transpiler: 'typescript',
+   typescriptOptions: { emitDecoratorMetadata: true },
+   packages: {'app': {defaultExtension: 'ts'}}
+ });
+ System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
 </script>
 
 <script src="/javascripts/subscribe.ts"></script>
