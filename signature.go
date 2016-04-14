@@ -12,30 +12,21 @@ import (
 	"encoding/json"
 	"log"
 	"os"
-
-	flag "github.com/ogier/pflag"
 )
 
 // Signature is the command used to update the system settings based
 // on the profile specified by the user.
 type Signature struct {
-	CmdName string `json:"-"`
+	Profile string
+
+	Show     string
+	ShowDeps bool
 
 	Profiles Profiles
-
-	Signature string
 
 	// write dictates if we want to actually write the settings to
 	// kernel.
 	write bool
-}
-
-func (k *Signature) Synopsis() string {
-	return "Tune the kernel for server profile."
-}
-
-func (k *Signature) Help() string {
-	return ""
 }
 
 func (k *Signature) loadProfiles() {
@@ -51,39 +42,22 @@ func (k *Signature) loadProfiles() {
 
 // Run gets the configuration for the profile and updates the system
 // settings with the new values.
-func (k *Signature) Run(args []string) int {
-	flags := flag.NewFlagSet(k.CmdName, flag.ContinueOnError)
-	envOnly := flags.BoolP("env", "e", false, "Show the env changes for the profile.")
-	procfsOnly := flags.BoolP("procfs", "p", false, "Show the procfs changes that need to be updated.")
-	sysfsOnly := flags.BoolP("sysfs", "s", false, "Show the sysfs changes that need to be updated.")
-	withDeps := flags.BoolP("deps", "d", false, "Show the signature with deps.")
-
-	if err := flags.Parse(args); err != nil {
-		os.Exit(-1)
-	}
-
-	leftovers := flags.Args()
-	if len(leftovers) == 0 {
-		return -1
-	}
-
-	k.Signature = leftovers[0]
-
+func (k *Signature) Run() int {
 	k.loadProfiles()
 
 	var profile *Profile
-	if *withDeps {
-		profile = k.Profiles.GetWithDeps(k.Signature)
+	if k.ShowDeps {
+		profile = k.Profiles.GetWithDeps(k.Profile)
 	} else {
-		profile = k.Profiles.Get(k.Signature)
+		profile = k.Profiles.Get(k.Profile)
 	}
 
-	switch {
-	case *envOnly:
+	switch k.Show {
+	case "env":
 		profile.PrintEnv()
-	case *procfsOnly:
+	case "procfs":
 		profile.PrintProcFS()
-	case *sysfsOnly:
+	case "sysfs":
 		profile.PrintSysFS()
 	default:
 		e, err := json.MarshalIndent(&profile, "", "  ")
@@ -145,11 +119,11 @@ func (k *Signature) Run(args []string) int {
 
 // NewSignature returns a new Signature object that we will use to
 // update the system settings.
-func NewSignature(cmdName string) *Signature {
-	// New returns a map of profile and system configurations that are
-	// currently supported.
+func NewSignature(profile, showFlag string, showDepsFlag bool) *Signature {
 	s := &Signature{
-		CmdName: cmdName,
+		Profile:  profile,
+		Show:     showFlag,
+		ShowDeps: showDepsFlag,
 	}
 
 	return s

@@ -1,18 +1,1 @@
-{
-  "Open": [
-    "apache",
-    "golang",
-    "haproxy",
-    "java",
-    "networking",
-    "nginx",
-    "nodejs",
-    "postgresql"
-  ],
-  "Pro": [
-    "java"
-  ],
-  "Premium": [
-    "cassandra"
-  ]
-}
+null

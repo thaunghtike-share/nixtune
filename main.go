@@ -9,24 +9,15 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/mitchellh/cli"
 )
 
 var (
 	cmdName = "autotune"
 	version = "v0.0.0"
-)
-
-// Keys for invoking the Lambda scripts. Should only have policies for
-// invoking the single lambda script and nothing else.
-var (
-	awsAPIKey    = ""
-	awsSecretKey = ""
-	awsRegion    = ""
 )
 
 var (
@@ -39,37 +30,36 @@ func subCmd(cmds ...string) string {
 
 func copyright() string {
 	return fmt.Sprintf(`Acksin Autotune %s.
-Copyright (c) 2015-2016. Acksin.
+Copyright (c) 2016. Acksin.
 https://acksin.com/autotune
 `, version)
 }
 
 func main() {
+	listMode := flag.Bool("list", false, "List all the signatures available.")
+	showFlag := flag.String("show", "all", "What settings to show: procfs, sysfs, env, software, all.")
+	flag.String("output", "json", "Type of output.")
+	showDepsFlag := flag.Bool("deps", true, "Merge deps into this signature.")
+
+	flag.Usage = func() {
+		fmt.Fprintln(os.Stderr, "autotune [flags] [profile]")
+		fmt.Fprintln(os.Stderr, "")
+		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\n%s", copyright())
+	}
+	flag.Parse()
+
+	if *listMode {
+		os.Exit(NewList().Run())
+	}
+
 	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
 
-	c := cli.NewCLI(cmdName, version)
-	c.Args = os.Args[1:]
-	c.Commands = map[string]cli.CommandFactory{
-		"sig": func() (cli.Command, error) {
-			return NewSignature(subCmd("signature")), nil
-		},
-		"list": func() (cli.Command, error) {
-			return NewList(subCmd("list")), nil
-		},
-		// "agent": func() (cli.Command, error) {
-		// 	return NewAgent(subCmd("agent")), nil
-		// },
+	if len(flag.Args()) < 1 {
+		flag.Usage()
+		os.Exit(-1)
 	}
 
-	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
-		return fmt.Sprintf("%s\n%s", cli.BasicHelpFunc(cmdName)(commands), copyright())
-	}
-
-	exitStatus, err := c.Run()
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	os.Exit(exitStatus)
-
+	signature := NewSignature(flag.Args()[0], *showFlag, *showDepsFlag)
+	os.Exit(signature.Run())
 }

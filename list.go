@@ -18,19 +18,9 @@ import (
 // List is the command used to update the system settings based
 // on the profile specified by the user.
 type List struct {
-	CmdName string `json:"-"`
-
 	Open    []string
 	Pro     []string
 	Premium []string
-}
-
-func (k *List) Synopsis() string {
-	return "List the signatures."
-}
-
-func (k *List) Help() string {
-	return ""
 }
 
 func (k *List) UpdateProfiles() {
@@ -49,7 +39,7 @@ func (k *List) UpdateProfiles() {
 	sort.Strings(k.Premium)
 }
 
-func (k *List) Run(args []string) int {
+func (k *List) Run() int {
 	k.UpdateProfiles()
 
 	e, err := json.MarshalIndent(k, "", "  ")
@@ -62,10 +52,8 @@ func (k *List) Run(args []string) int {
 }
 
 // NewList returns a new List object
-func NewList(cmdName string) *List {
-	s := &List{
-		CmdName: cmdName,
-	}
+func NewList() *List {
+	s := &List{}
 
 	return s
 }
