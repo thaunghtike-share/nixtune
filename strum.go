@@ -125,6 +125,6 @@ https://www.acksin.com/fugue/console/#/credentials`)
 
 		payload := resp.Payload.(map[string]interface{})
 
-		fmt.Printf("http://www.acksin.com/strum/console/#/strum/%s", payload["ID"].(string))
+		fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", payload["ID"].(string))
 	}
 }
