@@ -12,19 +12,17 @@ import (
 	"github.com/digitalocean/go-metadata"
 )
 
-// AWSStats returns the relevant AWS information about the current
-// instance via the machine's EC2 Metadata IP interface.
+// DigitalOceanStats returns information about DigitalOcean droplet
+// metadata.
 type DigitalOceanStats struct {
 	*metadata.Metadata
 }
 
-// NewAWS returns an AWSStats if the current machine is an AWS
-// instance otherwise it returns nil.
+// NewDigitalOcean returns a DigitalOceanStats object otherwise it
+// returns nil.
 func NewDigitalOcean() *DigitalOceanStats {
-	// Create a client
 	client := metadata.NewClient()
 
-	// Request all the metadata about the current droplet
 	all, err := client.Metadata()
 	if err != nil {
 		return nil
