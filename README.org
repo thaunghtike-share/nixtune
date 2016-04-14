@@ -2564,6 +2564,11 @@ strum | jq '.Cloud.AWS'
 
 *** DigitalOcean
 
+#+begin_src sh :results output code :exports both :noweb
+strum | jq '.Cloud.DigitalOcean'
+#+end_src
+
+#+RESULTS:
 #+begin_src json
   {
       "floating_ip": {
@@ -2730,6 +2735,22 @@ strum 2277 | jq '.Processes[0].IO.Limits'
   "CPUTime": -1
 }
 #+END_SRC
+
+* Release Notes
+** 0.3.0
+
+We are proud to release STRUM 0.3 which includes the following
+changes:
+
+ - .System.Kernel: Get information about /proc/sys/ the same data that
+   you get from =sysctl -a=
+ - .Cloud.DigitalOcean: Get the Droplet metadata from DigitalOcean now
+   along with AWS.
+ - .Container.Docker: Get information about the Docker containers
+   running on your machine as well as the images that are on there.
+ - .Memory.Physical.TotalFree: This is the real free memory on
+   Linux. It is the free memory minus the cached and buffered data
+   that Linux uses for files.
 
 * License
 
