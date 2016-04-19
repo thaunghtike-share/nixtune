@@ -25,11 +25,12 @@ type List struct {
 
 func (k *List) UpdateProfiles() {
 	for _, i := range AssetNames() {
-		if strings.HasPrefix(i, "signatures/pro") {
+		switch {
+		case strings.HasPrefix(i, "signatures/pro"):
 			k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
-		} else if strings.HasPrefix(i, "signatures/premium") {
+		case strings.HasPrefix(i, "signatures/premium"):
 			k.Premium = append(k.Premium, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/premium/"), ".yml"))
-		} else {
+		default:
 			k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/open/"), ".yml"))
 		}
 	}

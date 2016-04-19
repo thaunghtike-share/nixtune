@@ -1,5 +1,4 @@
 name: java
-description: Configuration for high throughput networked Java apps
-
+description: Configuration for Java.
 deps:
   - networking

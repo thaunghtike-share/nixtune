@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/acksin/fugue/client"
+	"github.com/acksin/utils-go/credentials"
 )
 
 type Subscription int
@@ -22,13 +22,13 @@ func setSubscription(apiKey string) (s Subscription) {
 		return
 	}
 
-	session, err := fugueapi.GetSessionID(apiKey)
+	session, err := fugue_credentials.GetSessionID(apiKey)
 	if err != nil {
 		log.Println("Invalid API Key")
 		return
 	}
 
-	subscription, err := fugueapi.GetSubscription("Autotune", session)
+	subscription, err := fugue_credentials.GetSubscription("Autotune", session)
 	if err != nil {
 		return
 	}
