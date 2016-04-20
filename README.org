@@ -8,6 +8,8 @@
 
 * Introduction
 
+Autotune the Linux to get the optimal server performance.
+
 Acksin Autotune makes sure that your Linux servers are utilized as
 efficiently as possible. It does this by tuning your Linux kernel
 based on various criteria. The type of application profile, memory,
@@ -18,13 +20,13 @@ machine.
 
 ** Help
 #+begin_src sh
-autotune --help
+autotune -help
 #+end_src
 
 ** List Signatures
 
 #+begin_src sh :results output code :exports both
-autotune list
+autotune -list
 #+end_src
 
 #+RESULTS:
@@ -52,7 +54,7 @@ autotune list
 *** Show Signature
 
 #+begin_src sh :results output code :exports both
-autotune sig golang
+autotune golang
 #+end_src
 
 #+RESULTS:
@@ -152,7 +154,7 @@ autotune sig golang
 *** ProcFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune sig --procfs golang
+ autotune sig -show=procfs golang
  #+end_src
 
  #+RESULTS:
@@ -179,7 +181,7 @@ autotune sig golang
 *** SysFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune sig --sysfs golang
+ autotune sig -show=sysfs golang
  #+end_src
 
  #+RESULTS:
@@ -190,22 +192,13 @@ autotune sig golang
 *** Environment Variable Changes
 
  #+begin_src sh :results output code :exports both
- autotune sig --env golang
+ autotune sig -show=env golang
  #+end_src
 
  #+RESULTS:
  #+BEGIN_SRC sh
  GOGC=2000
  #+END_SRC
-
-
-* Agent
-
-The agent allows Acksin to monitor and recommend even more ways of
-saving money on your server utilization costs. Agent requires a Fugue
-account.
-
-Agent needs to be run as a daemon with an API Key passed to it.
 
 * Open Signatures
 

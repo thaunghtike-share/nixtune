@@ -9,13 +9,13 @@
     "networking",
     "nginx",
     "nodejs",
-    "postgresql",
-    "raid"
+    "postgresql"
   ],
   "Pro": [
     "java"
   ],
   "Premium": [
-    "cassandra"
+    "cassandra",
+    "raid"
   ]
 }

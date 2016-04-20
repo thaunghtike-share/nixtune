@@ -39,13 +39,13 @@ release: spell build archive
 website-assets:
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
 	./autotune -list > website/signatures.json
-	emacs DOCUMENTATION.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
+	emacs README.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin Autotune Docs" >> website/docs.html.erb
 	echo "layout: docs" >> website/docs.html.erb
 	echo "---" >> website/docs.html.erb
-	cat DOCUMENTATION.html >> website/docs.html.erb
-	rm DOCUMENTATION.html
+	cat README.html >> website/docs.html.erb
+	rm README.html
 
 website:
 	echo "Nothin here govn'r"
@@ -55,7 +55,7 @@ website-dev:  website
 	cp -r ./website $$GOPATH/src/github.com/acksin/$(WEBSITE)/content/$(PRODUCT)
 
 spell:
-	for i in website/_download.erb website/index.html.erb DOCUMENTATION.org README.md; do \
+	for i in website/_download.erb website/index.html.erb README.org; do \
 		aspell check --dont-backup --mode=html $$i; \
 	done
 
