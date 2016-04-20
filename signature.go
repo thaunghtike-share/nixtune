@@ -49,9 +49,9 @@ func (k *Signature) Run() int {
 
 	k.loadProfiles()
 	if k.ShowDeps {
-		profile = k.Profiles.GetWithDeps(k.Profile)
-	} else {
 		profile = k.Profiles.Get(k.Profile)
+	} else {
+		profile = k.Profiles.GetWithDeps(k.Profile)
 	}
 
 	switch k.Show {
