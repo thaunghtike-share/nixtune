@@ -105,7 +105,7 @@ procfs:
       allocate. This is one part the other part is setting the
       ulimits.
   net.netfilter.nf_conntrack_max:
-    value: '{{ index "Vars" "nfConntrackMax" }}'
+    value: '{{ index .Vars "nfConntrackMax" }}'
     description: |
       The max is double the previous value.
 
@@ -119,4 +119,4 @@ procfs:
 
 sysfs:
   "/sys/module/nf_conntrack/parameters/hashsize":
-    value: '{{ index "Vars" "nfConntrackMax" / 4 }}'
+    value: '{{ divide (index .Vars "nfConntrackMax") 4 }}'

@@ -12,10 +12,12 @@
     "postgresql"
   ],
   "Pro": [
-    "java"
+    "java",
+    "ruby2"
   ],
   "Premium": [
     "cassandra",
-    "raid"
+    "raid",
+    "ruby18"
   ]
 }

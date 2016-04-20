@@ -9,8 +9,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
+	"text/template"
 
 	"gopkg.in/yaml.v2"
 )
@@ -44,7 +46,7 @@ type Profile struct {
 	// maximum performance.
 	Env map[string]ProfileKV `json:",omitempty"`
 
-	Vars map[string]string `json:",omitempty"`
+	Vars map[string]interface{} `json:",omitempty"`
 
 	// Deps of other profiles.
 	Deps []string `json:",omitempty"`
@@ -65,6 +67,39 @@ func (p *Profile) PrintProcFS() {
 func (p *Profile) PrintSysFS() {
 	for k, v := range p.SysFS {
 		fmt.Printf("%s=%s\n", k, v.Value)
+	}
+}
+
+func (p *Profile) parseValueTemplates() {
+	for _, valueMap := range []map[string]ProfileKV{
+		p.ProcFS,
+		p.SysFS,
+		p.Env,
+	} {
+		for k, v := range valueMap {
+			tmpl, err := template.New(p.Name + k).
+				Funcs(template.FuncMap{
+					"mul": func(param1 int, param2 int) int {
+						return param1 * param2
+					},
+					"divide": func(param1 int, param2 int) int {
+						return param1 / param2
+					},
+				}).
+				Parse(v.Value)
+			if err != nil {
+				panic(err)
+			}
+			var b bytes.Buffer
+
+			err = tmpl.Execute(&b, p)
+			if err != nil {
+				panic(err)
+			}
+
+			v.Value = b.String()
+			valueMap[k] = v
+		}
 	}
 }
 
@@ -149,6 +184,8 @@ func (p Profiles) Get(s string) *Profile {
 	}
 
 	profile.Deps = []string{}
+
+	profile.parseValueTemplates()
 
 	return profile
 }
