@@ -40,7 +40,15 @@ func (k *List) UpdateProfiles() {
 	sort.Strings(k.Premium)
 }
 
-func (k *List) Run() int {
+func (k *List) Synopsis() string {
+	return "List all the signatures available."
+}
+
+func (k *List) Help() string {
+	return "List all the signatures available."
+}
+
+func (k *List) Run(args []string) int {
 	k.UpdateProfiles()
 
 	e, err := json.MarshalIndent(k, "", "  ")

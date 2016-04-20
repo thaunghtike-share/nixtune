@@ -38,7 +38,7 @@ release: spell build archive
 
 website-assets:
 	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
-	./autotune -list > website/signatures.json
+	./autotune list > website/signatures.json
 	emacs README.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb
 	echo "title: Acksin Autotune Docs" >> website/docs.html.erb

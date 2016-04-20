@@ -1,6 +1,7 @@
 {
   "Open": [
     "apache",
+    "fast-server",
     "fs",
     "golang",
     "haproxy",

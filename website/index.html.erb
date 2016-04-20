@@ -52,7 +52,9 @@ version: 0.5.4
       var data = google.visualization.arrayToDataTable([
         ["Tuning State", "Machines", { role: "style" } ],
         ["Pre-Tuning", 100, "red"],
-        ["Post-Tuning", 75, "green"],
+        ["Post-Tuning 5%", 95, "green"],
+        ["Post-Tuning 15%", 85, "green"],
+        ["Post-Tuning 25%", 75, "green"],
       ]);
 
       var view = new google.visualization.DataView(data);
@@ -74,8 +76,12 @@ version: 0.5.4
 
                                 var m4Large = 60.59
 
-               var savings = 100 * m4Large - 75 * m4Large;
-               document.getElementById("savings").innerHTML = "For m4.large On Demand instances you would have saved $" + savings + " per month";
+               var savings25 = 100 * m4Large - 75 * m4Large;
+               var savings15 = 100 * m4Large - 85 * m4Large;
+               var savings5 = 100 * m4Large - 95 * m4Large;
+                document.getElementById("savings").innerHTML = "<p>For m4.large On Demand instances you would have saved $" + savings25 + " per month for 25% optimization<p>"
+                + "<p>For m4.large On Demand instances you would have saved $" + savings15 + " per month for 15% optimization<p>"
+                + "<p>For m4.large On Demand instances you would have saved $" + savings5 + " per month for 5% optimization<p>";
 
 
   }
