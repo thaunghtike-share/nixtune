@@ -43,9 +43,11 @@ func (k *Signature) loadProfiles() {
 // Run gets the configuration for the profile and updates the system
 // settings with the new values.
 func (k *Signature) Run() int {
-	k.loadProfiles()
+	var (
+		profile *Profile
+	)
 
-	var profile *Profile
+	k.loadProfiles()
 	if k.ShowDeps {
 		profile = k.Profiles.GetWithDeps(k.Profile)
 	} else {

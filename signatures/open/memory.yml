@@ -1,0 +1,17 @@
+name: memory
+description: Settings for memory optimizations
+
+procfs:
+  vm.swappiness:
+    value: "0"
+    description: |
+      Disable swapping and clear the file system page cache to free memory first.
+
+
+sysfs:
+  "/sys/kernel/mm/transparent_hugepage/enabled":
+    value: "always"
+    description: |
+      Explit huge page usage making the page size of 2 or 4 MB instead
+      of 4kb. Should reduce CPU overhead and improve MMU page
+      translation.

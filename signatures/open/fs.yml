@@ -1,0 +1,16 @@
+name: fs
+description: Settings for fs optimizations
+
+procfs:
+  vm.dirty_ratio:
+    value: "80"
+    description:
+  vm.dirty_background_ratio:
+    value: "5"
+    description:
+  vm.dirty_expire_centisecs:
+    value: "1200"
+    description:
+
+files:
+  "mount -o defaults,noatime,discard,nobarrier"

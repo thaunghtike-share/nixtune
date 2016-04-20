@@ -1,13 +1,16 @@
 {
   "Open": [
     "apache",
+    "fs",
     "golang",
     "haproxy",
-    "java",
+    "io",
+    "memory",
     "networking",
     "nginx",
     "nodejs",
-    "postgresql"
+    "postgresql",
+    "raid"
   ],
   "Pro": [
     "java"
