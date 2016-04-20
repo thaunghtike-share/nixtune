@@ -108,7 +108,15 @@ func ParseProfile(s []byte) (p *Profile) {
 
 type Profiles []*Profile
 
-func (p Profiles) GetWithDeps(s string) (profile *Profile) {
+func (p Profiles) Get(s string, withDeps bool) (profile *Profile) {
+	if withDeps {
+		return p.getWithDeps(s)
+	}
+
+	return p.getWithoutDeps(s)
+}
+
+func (p Profiles) getWithDeps(s string) (profile *Profile) {
 	for _, k := range p {
 		if k.Name == s {
 			profile = k
@@ -121,7 +129,7 @@ func (p Profiles) GetWithDeps(s string) (profile *Profile) {
 	return
 }
 
-func (p Profiles) Get(s string) *Profile {
+func (p Profiles) getWithoutDeps(s string) *Profile {
 	var profile *Profile
 
 	for _, k := range p {
@@ -139,7 +147,7 @@ func (p Profiles) Get(s string) *Profile {
 	// profile with everything as one.
 	var depProfiles Profiles
 	for _, dep := range profile.Deps {
-		depProfiles = append(depProfiles, p.Get(dep))
+		depProfiles = append(depProfiles, p.getWithDeps(dep))
 	}
 
 	if profile.ProcFS == nil {

@@ -25,6 +25,8 @@ var (
 
 var (
 	subscription Subscription
+
+	profiles Profiles
 )
 
 func subCmd(cmds ...string) string {
@@ -34,11 +36,23 @@ func subCmd(cmds ...string) string {
 func copyright() string {
 	return fmt.Sprintf(`Acksin Autotune %s.
 Copyright (c) 2016. Acksin.
-https://acksin.com/autotune
-`, version)
+https://www.acksin.com/autotune`, version)
+}
+
+func loadProfiles() {
+	for _, i := range AssetNames() {
+		ymlData, err := Asset(i)
+		if err != nil {
+			log.Fatal(err)
+		}
+		p := ParseProfile(ymlData)
+		profiles = append(profiles, p)
+	}
 }
 
 func main() {
+	loadProfiles()
+
 	// listMode := flag.Bool("list", false, "List all the signatures available.")
 	// showFlag := flag.String("show", "all", "What settings to show: procfs, sysfs, env, software, all.")
 	// flag.String("output", "json", "Type of output.")
@@ -62,12 +76,27 @@ func main() {
 	// signature := NewSignature(flag.Args()[0], *showFlag, *showDepsFlag)
 	// os.Exit(signature.Run())
 
-	c := cli.NewCLI("app", "1.0.0")
+	c := cli.NewCLI("autotune", version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		"list": func() (cli.Command, error) {
 			return NewList(), nil
 		},
+		"sig": func() (cli.Command, error) {
+			return &Signature{}, nil
+		},
+		"procfs": func() (cli.Command, error) {
+			return &ProcFS{}, nil
+		},
+		"sysfs": func() (cli.Command, error) {
+			return &SysFS{}, nil
+		},
+		"env": func() (cli.Command, error) {
+			return &Env{}, nil
+		},
+	}
+	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
+		return fmt.Sprintf("%s\n%s", cli.BasicHelpFunc(cmdName)(commands), copyright())
 	}
 
 	exitStatus, err := c.Run()
