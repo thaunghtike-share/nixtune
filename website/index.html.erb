@@ -29,24 +29,61 @@ version: 0.5.4
 
           <p>
             Autotune is born out of the frustration that kernel tuning
-            is a black art. Linux was made for a world where multiple
-            services are running on the machine with the kernel giving
-            preference to all of the services. However, when running
-            single services on Service Oriented architectures you want
-            the machine to be greedy.
-          </p>
-
-          <p>
-            Autotune gives you the changes that should be done to give
-            your server the best performance. Pick a profile for your
-            machine (e.g. Go, Nodejs, Apache) and Autotune will set up
-            the best settings for that application profile.
+            is a black art and there is not a single way to tune the
+            kernel for multiple applications. We hope to have solved
+            that problem for tuning the machine giving you a 5-25%
+            boost on your machine.
           </p>
 
           <%= partial "download", locals: {
             product: current_page.data.product,
             version: current_page.data.version
           } %>
+        </div>
+
+        <div class="col-lg-6">
+
+              <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+              <script type="text/javascript">
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Tuning State", "Machines", { role: "style" } ],
+        ["Pre-Tuning", 100, "red"],
+        ["Post-Tuning", 75, "green"],
+      ]);
+
+      var view = new google.visualization.DataView(data);
+                 view.setColumns([0, 1,
+                                  { calc: "stringify",
+                                    sourceColumn: 1,
+                                    type: "string",
+                                    role: "annotation" },
+                                  2]);
+
+      var options = {
+        title: "Number of Machines Saved",
+        width: 600,
+        height: 400,
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
+
+                                var m4Large = 60.59
+
+               var savings = 100 * m4Large - 75 * m4Large;
+               document.getElementById("savings").innerHTML = "For m4.large On Demand instances you would have saved $" + savings + " per month";
+
+
+  }
+  </script>
+<div id="barchart_values"></div>
+<div id="savings"></div>
+
+
         </div>
       </div>
 
@@ -124,19 +161,8 @@ version: 0.5.4
 
             <acksin-subscribe></acksin-subscribe>
           </p>
-
         </div>
       </div>
     </div>
   </section>
 <% end %>
-
-<script>
- System.config({
-   transpiler: 'typescript',
-   typescriptOptions: { emitDecoratorMetadata: true },
-   packages: {'app': {defaultExtension: 'ts'}}
- });
- System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
-</script>
-<script src="/javascripts/subscribe.ts"></script>

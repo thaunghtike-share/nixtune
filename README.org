@@ -243,6 +243,15 @@ autotune golang
       end
       puts
     end
+
+    if !!sigInfo["References"] && !sigInfo["References"].empty?
+      puts "*** References"
+      puts
+      sigInfo["References"].each do |k|
+        puts " - [[#{k}][#{k}]]"
+      end
+      puts
+    end
   end
 #+end_src
 
@@ -325,10 +334,6 @@ with. Further, since we want to optimize for the single Golang
 application we will give every user on the Linux machine unlimited
 open files.
 
-## Networking
-
-https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads
-
 *** Env
 
 #+ATTR_HTML: :class table
@@ -374,13 +379,6 @@ https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-he
 |=/sys/kernel/mm/transparent_hugepage/enabled=|=always=|Explit huge page usage making the page size of 2 or 4 MB instead of 4kb. Should reduce CPU overhead and improve MMU page translation. ||
 ** networking
 
-Many of these settings were from the following places:
-  - http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html
-  - https://rtcamp.com/tutorials/linux/sysctl-conf/
-  - https://fasterdata.es.net/host-tuning/linux/
-  - http://cherokee-project.com/doc/other_os_tuning.html
-  - https://easyengine.io/tutorials/linux/sysctl-conf/
-
 TODO: These setting are sort of set in stone but I feel that they
 can adapt as the system is being used. We don't have to set them to
 the values but we can migrate and change as we learn more about the
@@ -413,6 +411,14 @@ system and tune it appropriately.
 #+ATTR_HTML: :class table
 |SysFS Key|Value|Description|If|
 |=/sys/module/nf_conntrack/parameters/hashsize=|={{ divide (index .Vars "nfConntrackMax") 4 }}=|||
+*** References
+
+ - [[http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html][http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html]]
+ - [[https://rtcamp.com/tutorials/linux/sysctl-conf/][https://rtcamp.com/tutorials/linux/sysctl-conf/]]
+ - [[https://fasterdata.es.net/host-tuning/linux/][https://fasterdata.es.net/host-tuning/linux/]]
+ - [[http://cherokee-project.com/doc/other_os_tuning.html][http://cherokee-project.com/doc/other_os_tuning.html]]
+ - [[https://easyengine.io/tutorials/linux/sysctl-conf/][https://easyengine.io/tutorials/linux/sysctl-conf/]]
+
 ** nginx
 
 
@@ -429,10 +435,13 @@ system and tune it appropriately.
 
  - [[networking][networking]]
 
+*** References
+
+ - [[https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads][https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads]]
+
 ** postgresql
 
-- http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com
-- http://www.postgresql.org/docs/9.1/static/kernel-resources.html
+
 
 *** ProcFS
 
@@ -442,4 +451,9 @@ system and tune it appropriately.
 |=kernel.sched_migration_cost_ns=|=5000000=|||
 |=kernel.shmall=|=4194304=|||
 |=kernel.shmmax=|=17179869184=|||
+*** References
+
+ - [[http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com][http://www.postgresql.org/message-id/50E4AAB1.9040902@optionshouse.com]]
+ - [[http://www.postgresql.org/docs/9.1/static/kernel-resources.html][http://www.postgresql.org/docs/9.1/static/kernel-resources.html]]
+
 :END:

@@ -17,18 +17,16 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type IfCond string
-
-const (
-	// SsdIfCond if machine has SSD disks.
-	SsdIfCond = "ssd"
+var (
+	ProfileFuncMaps = template.FuncMap{
+		"multiply": func(param1 int, param2 int) int {
+			return param1 * param2
+		},
+		"divide": func(param1 int, param2 int) int {
+			return param1 / param2
+		},
+	}
 )
-
-type ProfileKV struct {
-	Value       string
-	Description string   `json:",omitempty"`
-	If          []string `json:",omitempty"`
-}
 
 type Profile struct {
 	// Name of the profile
@@ -37,17 +35,18 @@ type Profile struct {
 	Description string `json:",omitempty"`
 	// Documentation is the documentation for this profile
 	Documentation string `json:",omitempty"`
-	// ProcFS contains the kernel key values that will be changed.
+	// References are places we got this information.
+	References []string `json:",omitempty"`
+	// ProcFS contains the /proc filesystem variables.
 	ProcFS map[string]ProfileKV `yaml:"procfs" json:",omitempty"`
-
+	// SysFS contains the /sys filesystem variables.
 	SysFS map[string]ProfileKV `yaml:"sysfs" json:",omitempty"`
-
-	// Env is the environment variables that should be changed for
-	// maximum performance.
+	// Env is the environment variables that will be changed
 	Env map[string]ProfileKV `json:",omitempty"`
-
+	// Vars are the variables passed to modify the signature
+	// templates. These can be used to pass values to ProcFS,
+	// SysFS and Env.
 	Vars map[string]interface{} `json:",omitempty"`
-
 	// Deps of other profiles.
 	Deps []string `json:",omitempty"`
 }
@@ -78,14 +77,7 @@ func (p *Profile) parseValueTemplates() {
 	} {
 		for k, v := range valueMap {
 			tmpl, err := template.New(p.Name + k).
-				Funcs(template.FuncMap{
-					"mul": func(param1 int, param2 int) int {
-						return param1 * param2
-					},
-					"divide": func(param1 int, param2 int) int {
-						return param1 / param2
-					},
-				}).
+				Funcs(ProfileFuncMaps).
 				Parse(v.Value)
 			if err != nil {
 				panic(err)
@@ -123,6 +115,8 @@ func (p Profiles) GetWithDeps(s string) (profile *Profile) {
 			break
 		}
 	}
+
+	profile.parseValueTemplates()
 
 	return
 }

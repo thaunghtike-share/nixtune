@@ -2,17 +2,17 @@ name: networking
 description: Settings for high performance networking
 
 documentation: |
-  Many of these settings were from the following places:
-    - http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html
-    - https://rtcamp.com/tutorials/linux/sysctl-conf/
-    - https://fasterdata.es.net/host-tuning/linux/
-    - http://cherokee-project.com/doc/other_os_tuning.html
-    - https://easyengine.io/tutorials/linux/sysctl-conf/
-
   TODO: These setting are sort of set in stone but I feel that they
   can adapt as the system is being used. We don't have to set them to
   the values but we can migrate and change as we learn more about the
   system and tune it appropriately.
+
+references:
+  - http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html
+  - https://rtcamp.com/tutorials/linux/sysctl-conf/
+  - https://fasterdata.es.net/host-tuning/linux/
+  - http://cherokee-project.com/doc/other_os_tuning.html
+  - https://easyengine.io/tutorials/linux/sysctl-conf/
 
 vars:
   nfConntrackMax: 200000

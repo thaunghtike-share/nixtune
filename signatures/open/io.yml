@@ -12,3 +12,6 @@ sysfs:
 
   "/sys/block/*/queue/read_ahead_kb":
     value: "256"
+
+references:
+  - http://www.brendangregg.com/linuxperf.html

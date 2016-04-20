@@ -50,10 +50,6 @@ documentation: |
   application we will give every user on the Linux machine unlimited
   open files.
 
-  ## Networking
-
-  https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads
-
 vars:
   nfConntrackMax: 200000
 
