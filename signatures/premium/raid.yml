@@ -1,5 +1,0 @@
-name: IO
-description: Settings for IO optimizations
-
-files:
-  "mdadm -chunk=64"

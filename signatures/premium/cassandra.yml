@@ -1,5 +1,0 @@
-name: cassandra
-description: Configuration for high throughput networked Java apps
-
-deps:
-  - networking

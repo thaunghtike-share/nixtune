@@ -1,4 +1,4 @@
-name: IO
+name: io
 description: Settings for IO optimizations
 
 sysfs:

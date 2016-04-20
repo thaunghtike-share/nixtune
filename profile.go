@@ -15,28 +15,36 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+type IfCond string
+
+const (
+	// SsdIfCond if machine has SSD disks.
+	SsdIfCond = "ssd"
+)
+
 type ProfileKV struct {
 	Value       string
-	Description string
+	Description string   `json:",omitempty"`
+	If          []string `json:",omitempty"`
 }
 
 type Profile struct {
 	// Name of the profile
 	Name string
 	// Description of the service that is being updated.
-	Description string
+	Description string `json:",omitempty"`
 	// Documentation is the documentation for this profile
-	Documentation string
+	Documentation string `json:",omitempty"`
 	// ProcFS contains the kernel key values that will be changed.
-	ProcFS map[string]ProfileKV `yaml:"procfs"`
+	ProcFS map[string]ProfileKV `yaml:"procfs" json:",omitempty"`
 
-	SysFS map[string]ProfileKV `yaml:"sysfs"`
+	SysFS map[string]ProfileKV `yaml:"sysfs" json:",omitempty"`
 
 	// Env is the environment variables that should be changed for
 	// maximum performance.
-	Env map[string]ProfileKV
+	Env map[string]ProfileKV `json:",omitempty"`
 
-	Vars map[string]string
+	Vars map[string]string `json:",omitempty"`
 
 	// Deps of other profiles.
 	Deps []string `json:",omitempty"`
