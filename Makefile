@@ -5,10 +5,7 @@ WEBSITE := acksin.com
 all: build
 
 build: deps test
-	echo "Lambda API Key: $(AUTOTUNE_LAMBDA_API_KEY)"
-	echo "Lambda Secret Key: $(AUTOTUNE_LAMBDA_SECRET_KEY)"
-	echo "Lambda Region: $(AUTOTUNE_LAMBDA_REGION)"
-	go build -ldflags "-X main.version=$(VERSION) -X main.awsAPIKey=$(AUTOTUNE_LAMBDA_API_KEY) -X main.awsSecretKey=$(AUTOTUNE_LAMBDA_SECRET_KEY) -X main.awsRegion=$(AUTOTUNE_LAMBDA_REGION)"
+	go build -ldflags "-X main.version=$(VERSION)"
 	$(MAKE) website-assets
 
 deps:

@@ -24,8 +24,6 @@ var (
 )
 
 var (
-	subscription Subscription
-
 	profiles Profiles
 )
 
@@ -53,9 +51,7 @@ func loadProfiles() {
 func main() {
 	loadProfiles()
 
-	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
-
-	c := cli.NewCLI("autotune", version)
+	c := cli.NewCLI(cmdName, version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		"list": func() (cli.Command, error) {
