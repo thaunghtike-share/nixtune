@@ -13,6 +13,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"strings"
 	"text/template"
 
 	"gopkg.in/yaml.v2"
@@ -231,4 +232,24 @@ func (p Profiles) getWithoutDeps(s string) *Profile {
 	profile.parseValueTemplates()
 
 	return profile
+}
+
+func loadProfiles() {
+	for _, i := range AssetNames() {
+		ymlData, err := Asset(i)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		p := ParseProfile(ymlData)
+
+		switch {
+		case strings.HasPrefix(i, "signatures/open"):
+			profiles = append(profiles, p)
+		case strings.HasPrefix(i, "signatures/pro") && currentSubscription == ProSubscription || currentSubscription == PremiumSubscription:
+			profiles = append(profiles, p)
+		case strings.HasPrefix(i, "signatures/premium") && currentSubscription == PremiumSubscription:
+			profiles = append(profiles, p)
+		}
+	}
 }

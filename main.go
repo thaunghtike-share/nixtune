@@ -9,7 +9,6 @@
 package main
 
 import (
-	//	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -37,18 +36,8 @@ Copyright (c) 2016. Acksin.
 https://www.acksin.com/autotune`, version)
 }
 
-func loadProfiles() {
-	for _, i := range AssetNames() {
-		ymlData, err := Asset(i)
-		if err != nil {
-			log.Fatal(err)
-		}
-		p := ParseProfile(ymlData)
-		profiles = append(profiles, p)
-	}
-}
-
 func main() {
+	loadSubscription(os.Getenv("AUTOTUNE_API_KEY"))
 	loadProfiles()
 
 	c := cli.NewCLI(cmdName, version)

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/abhiyerra/gumroad"
 )
 
@@ -16,13 +14,15 @@ const (
 )
 
 var (
-	currentSubscription Subscription
+	currentSubscription = OpenSubscription
 )
 
-func setSubscription(apiKey string) {
-	currentSubscription = OpenSubscription
+func init() {
+}
 
+func loadSubscription(apiKey string) {
 	if apiKey == "" {
+		currentSubscription = OpenSubscription
 		return
 	}
 
