@@ -6,6 +6,11 @@ procfs:
     value: "0"
     description: |
       Disable swapping and clear the file system page cache to free memory first.
+  proc.min_free_kbytes:
+    value: "65536"
+    description: |
+      Amount of memory to keep free. Don't want to make this too high
+      as Linux will spend more time trying to reclaim memory.
 
 
 sysfs:

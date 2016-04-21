@@ -20,7 +20,7 @@ machine.
 
 ** Help
 #+begin_src sh
-autotune -help
+autotune --help
 #+end_src
 
 #+RESULTS:
@@ -67,7 +67,7 @@ autotune list
 *** Show Signature
 
 #+begin_src sh :results output code :exports both
-autotune golang
+autotune sig golang
 #+end_src
 
 #+RESULTS:
@@ -75,7 +75,7 @@ autotune golang
 {
   "Name": "golang",
   "Description": "Configuration for high throughput Golang apps",
-  "Documentation": "# Linux Optimizations for High Throughput Golang Apps\n\nGo applications have unique characteristics which require certain\nLinux kernel tuning to achieve high throughput.\n\n## Go's Utilization Profile\n\nCPU will not be a bottleneck with Golang applications. Our research\nshows that applications, even those that utilize CGO, do no see CPU be\na bottleneck. The places where performance become bottlenecks are the\nfollowing:\n\n - Garbage Collection\n - Default ulimits\n - Networking\n\n## Assumptions\n\nWe will be under the assumption that there will be one primary Go\napplication running on the machine and can have access to all of the\nresources. We also assume that we want high network throughput as the\ngoal is to have high response rate. We want to be able to handle\nmillions of requests.\n\n## GC Optimizations\n\nFor all intents and purposes we should be able to increase the GOGC to\na number based on the size of the machine. If I am using a m4.large\ninstance on Amazon I use GOGC=10000. The higher the GOGC value the\nless frequent the Garbage Collection will run. Further, since we are\noptimizing the server to be heavily utilized for a primary Golang\nservice we want to use up all the RAM available to us.\n\n## Ulimits\n\nUlimits are a security mechanism in POSIX based systems which gives\neach user a certain amount of allocation of various\nresources. However, the resource we are concerned with is file\ndescriptors. (ulimit -n) Since a file descriptor can be a file or a\nsocket we can quickly saturate how many connections an app not running\nas root can use. Further, the default open files ulimit on an Ubuntu\nServer 14.04 are ridiculously low at 1024.\n\nThe server will reach network saturation quickly if this is not dealt\nwith. Further, since we want to optimize for the single Golang\napplication we will give every user on the Linux machine unlimited\nopen files.\n\n## Networking\n\nhttps://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads\n",
+  "Documentation": "# Linux Optimizations for High Throughput Golang Apps\n\nGo applications have unique characteristics which require certain\nLinux kernel tuning to achieve high throughput.\n\n## Go's Utilization Profile\n\nCPU will not be a bottleneck with Golang applications. Our research\nshows that applications, even those that utilize CGO, do no see CPU be\na bottleneck. The places where performance become bottlenecks are the\nfollowing:\n\n - Garbage Collection\n - Default ulimits\n - Networking\n\n## Assumptions\n\nWe will be under the assumption that there will be one primary Go\napplication running on the machine and can have access to all of the\nresources. We also assume that we want high network throughput as the\ngoal is to have high response rate. We want to be able to handle\nmillions of requests.\n\n## GC Optimizations\n\nFor all intents and purposes we should be able to increase the GOGC to\na number based on the size of the machine. If I am using a m4.large\ninstance on Amazon I use GOGC=10000. The higher the GOGC value the\nless frequent the Garbage Collection will run. Further, since we are\noptimizing the server to be heavily utilized for a primary Golang\nservice we want to use up all the RAM available to us.\n\n## Ulimits\n\nUlimits are a security mechanism in POSIX based systems which gives\neach user a certain amount of allocation of various\nresources. However, the resource we are concerned with is file\ndescriptors. (ulimit -n) Since a file descriptor can be a file or a\nsocket we can quickly saturate how many connections an app not running\nas root can use. Further, the default open files ulimit on an Ubuntu\nServer 14.04 are ridiculously low at 1024.\n\nThe server will reach network saturation quickly if this is not dealt\nwith. Further, since we want to optimize for the single Golang\napplication we will give every user on the Linux machine unlimited\nopen files.\n",
   "ProcFS": {
     "net.core.netdev_max_backlog": {
       "Value": "30000",
@@ -172,29 +172,29 @@ autotune golang
 *** ProcFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune -show=procfs golang
+ autotune procfs golang
  #+end_src
 
  #+RESULTS:
  #+BEGIN_SRC sh
  net.ipv4.tcp_rmem=4096 87380 16777216
- net.core.rmem_max=16777216
- net.ipv4.tcp_syn_retries=2
- net.core.wmem_max=16777216
- net.core.netdev_max_backlog=30000
- net.netfilter.nf_conntrack_max=200000
- net.ipv4.tcp_wmem=4096 65536 16777216
- net.ipv4.tcp_no_metrics_save=1
  net.ipv4.tcp_syncookies=1
  net.ipv4.tcp_max_tw_buckets=400000
  proc.min_free_kbytes=65536
+ net.ipv4.tcp_max_syn_backlog=20480
+ net.ipv4.tcp_no_metrics_save=1
+ net.core.netdev_max_backlog=30000
+ net.ipv4.tcp_synack_retries=2
+ proc.file-max=2097152
+ net.core.rmem_max=16777216
  net.ipv4.ip_local_port_range=1024 65535
+ net.core.wmem_max=16777216
+ vm.min_free_kbytes=65536
  net.ipv4.tcp_fin_timeout=15
  net.core.somaxconn=16096
- proc.file-max=2097152
- net.ipv4.tcp_max_syn_backlog=20480
- net.ipv4.tcp_synack_retries=2
- vm.min_free_kbytes=65536
+ net.ipv4.tcp_wmem=4096 65536 16777216
+ net.ipv4.tcp_syn_retries=2
+ net.netfilter.nf_conntrack_max=200000
  #+END_SRC
 
  #+RESULTS:
@@ -202,7 +202,7 @@ autotune golang
 *** SysFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune -show=sysfs golang
+ autotune sysfs golang
  #+end_src
 
  #+RESULTS:
@@ -215,7 +215,7 @@ autotune golang
 *** Environment Variable Changes
 
  #+begin_src sh :results output code :exports both
- autotune -show=env golang
+ autotune env golang
  #+end_src
 
  #+RESULTS:
@@ -230,10 +230,10 @@ autotune golang
 #+begin_src ruby :results output drawer :exports results
   require 'json'
 
-  sigs = JSON.parse(`./autotune -list`)
+  sigs = JSON.parse(`./autotune list`)
 
   sigs["Open"].each do |s|
-    sigInfo = JSON.parse(`./autotune -deps=false #{s}`)
+    sigInfo = JSON.parse(`./autotune sig #{s}`)
 
     puts "** #{sigInfo["Name"]}"
     puts
@@ -287,10 +287,68 @@ apache2-fork.
 |ProcFS Key|Value|Description|If|
 |=kernel.sched_autogroup_enabled=|=0=|||
 |=kernel.sched_migration_cost_ns=|=5000000=|||
-*** Dependencies
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+*** SysFS
 
- - [[networking][networking]]
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
+** fast-server
 
+
+
+*** ProcFS
+
+#+ATTR_HTML: :class table
+|ProcFS Key|Value|Description|If|
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.dirty_background_ratio=|=5=|||
+|=vm.dirty_expire_centisecs=|=1200=|||
+|=vm.dirty_ratio=|=80=|||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+|=vm.swappiness=|=0=|Disable swapping and clear the file system page cache to free memory first. ||
+*** SysFS
+
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/block/*/queue/read_ahead_kb=|=256=|||
+|=/sys/block/*/queue/rq_afinity=|=2=|||
+|=/sys/block/*/queue/scheduler=|=noop=||ssd|
+|=/sys/kernel/mm/transparent_hugepage/enabled=|=always=|Explit huge page usage making the page size of 2 or 4 MB instead of 4kb. Should reduce CPU overhead and improve MMU page translation. ||
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 ** fs
 
 
@@ -352,24 +410,70 @@ with. Further, since we want to optimize for the single Golang
 application we will give every user on the Linux machine unlimited
 open files.
 
+*** ProcFS
+
+#+ATTR_HTML: :class table
+|ProcFS Key|Value|Description|If|
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+*** SysFS
+
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 *** Env
 
 #+ATTR_HTML: :class table
 |Env Key|Value|Description|If|
 | <10> | <8> |||
 |=GOGC=|=2000=|Set the value of GOGC to be really high.  TODO: Consider how this is being used as part of a bigger setting. Based on RAM etc. ||
-*** Dependencies
-
- - [[networking][networking]]
-
 ** haproxy
 
 
 
-*** Dependencies
+*** ProcFS
 
- - [[networking][networking]]
+#+ATTR_HTML: :class table
+|ProcFS Key|Value|Description|If|
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+*** SysFS
 
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 ** io
 
 
@@ -381,6 +485,10 @@ open files.
 |=/sys/block/*/queue/read_ahead_kb=|=256=|||
 |=/sys/block/*/queue/rq_afinity=|=2=|||
 |=/sys/block/*/queue/scheduler=|=noop=||ssd|
+*** References
+
+ - [[http://www.brendangregg.com/linuxperf.html][http://www.brendangregg.com/linuxperf.html]]
+
 ** memory
 
 
@@ -420,7 +528,7 @@ system and tune it appropriately.
 |=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
 |=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
 |=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
-|=net.netfilter.nf_conntrack_max=|={{ index .Vars "nfConntrackMax" }}=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
 |=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
 |=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
 |=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
@@ -428,7 +536,7 @@ system and tune it appropriately.
 
 #+ATTR_HTML: :class table
 |SysFS Key|Value|Description|If|
-|=/sys/module/nf_conntrack/parameters/hashsize=|={{ divide (index .Vars "nfConntrackMax") 4 }}=|||
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 *** References
 
  - [[http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html][http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html]]
@@ -441,18 +549,64 @@ system and tune it appropriately.
 
 
 
-*** Dependencies
+*** ProcFS
 
- - [[networking][networking]]
+#+ATTR_HTML: :class table
+|ProcFS Key|Value|Description|If|
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+*** SysFS
 
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 ** nodejs
 
 
 
-*** Dependencies
+*** ProcFS
 
- - [[networking][networking]]
+#+ATTR_HTML: :class table
+|ProcFS Key|Value|Description|If|
+|=net.core.netdev_max_backlog=|=30000=|The number of incoming connections on the backlog queue. The maximum number of packets queued on the INPUT side. ||
+|=net.core.rmem_max=|=16777216=|The size of the receive buffer for all the sockets. 16MB per socket. ||
+|=net.core.somaxconn=|=16096=|The maximum number of queued sockets on a connection. ||
+|=net.core.wmem_max=|=16777216=|The size of the buffer for all the sockets. 16MB per socket. ||
+|=net.ipv4.ip_local_port_range=|=1024 65535=|On a typical machine there are around 28000 ports available to be bound to. This number can get exhausted quickly if there are many connections. We will increase this. ||
+|=net.ipv4.tcp_fin_timeout=|=15=|Usually, the Linux kernel holds a TCP connection even after it is closed for around two minutes. This means that there may be a port exhaustion as the kernel waits to close the connections. By moving the fin_timeout to 15 seconds we drastically reduce the length of time the kernel is waiting for the socket to get any remaining packets. ||
+|=net.ipv4.tcp_max_syn_backlog=|=20480=|Increase the number syn requests allowed. Sets how many half-open connections to backlog queue ||
+|=net.ipv4.tcp_max_tw_buckets=|=400000=|Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks ||
+|=net.ipv4.tcp_no_metrics_save=|=1=|TCP saves various connection metrics in the route cache when the connection closes so that connections established in the near future can use these to set initial conditions. Usually, this increases overall performance, but may sometimes cause performance degradation. ||
+|=net.ipv4.tcp_rmem=|=4096 87380 16777216=|(min, default, max): The sizes of the receive buffer for the IP protocol. ||
+|=net.ipv4.tcp_syn_retries=|=2=|Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections. ||
+|=net.ipv4.tcp_synack_retries=|=2=|This setting determines the number of SYN+ACK packets sent before the kernel gives up on the connection ||
+|=net.ipv4.tcp_syncookies=|=1=|Security to prevent DDoS attacks.  http://cr.yp.to/syncookies.html ||
+|=net.ipv4.tcp_wmem=|=4096 65536 16777216=|(min, default, max): The sizes of the write buffer for the IP protocol. ||
+|=net.netfilter.nf_conntrack_max=|=200000=|The max is double the previous value.  https://wiki.khnet.info/index.php/Conntrack_tuning ||
+|=proc.file-max=|=2097152=|The max amount of file handlers that the Linux kernel will allocate. This is one part the other part is setting the ulimits. ||
+|=proc.min_free_kbytes=|=65536=|Amount of memory to keep free. Don't want to make this too high as Linux will spend more time trying to reclaim memory. ||
+|=vm.min_free_kbytes=|=65536=|Keep 64MB or Ram available at all times so if things are not working we can, at least, SSH to the system and do tasks and not get an out of memory error. ||
+*** SysFS
 
+#+ATTR_HTML: :class table
+|SysFS Key|Value|Description|If|
+|=/sys/module/nf_conntrack/parameters/hashsize=|=50000=|||
 *** References
 
  - [[https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads][https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads]]

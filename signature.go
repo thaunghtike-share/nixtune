@@ -10,6 +10,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 )
 
@@ -34,6 +35,16 @@ func (k *Signature) Run(args []string) int {
 	)
 
 	profile := profiles.Get(args[0], showDeps)
+	if profile == nil {
+		log.Println("No such profile")
+		return -1
+	}
+
+	err := profile.ParseFlags(args[1:])
+	if err != nil {
+		log.Println(err)
+		return -1
+	}
 
 	e, err := json.MarshalIndent(&profile, "", "  ")
 	if err != nil {

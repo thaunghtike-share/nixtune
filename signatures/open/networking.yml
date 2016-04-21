@@ -93,29 +93,12 @@ procfs:
     description: |
       This setting determines the number of SYN+ACK packets sent
       before the kernel gives up on the connection
-  proc.min_free_kbytes:
-    value: "65536"
-    description: |
-      Amount of memory to keep free. Don't want to make this too high
-      as Linux will spend more time trying to reclaim memory.
-  proc.file-max:
-    value: "2097152"
-    description: |
-      The max amount of file handlers that the Linux kernel will
-      allocate. This is one part the other part is setting the
-      ulimits.
   net.netfilter.nf_conntrack_max:
     value: '{{ index .Vars "nfConntrackMax" }}'
     description: |
       The max is double the previous value.
 
       https://wiki.khnet.info/index.php/Conntrack_tuning
-  vm.min_free_kbytes:
-    value: 65536
-    description: |
-      Keep 64MB or Ram available at all times so if things are not
-      working we can, at least, SSH to the system and do tasks and not
-      get an out of memory error.
 
 sysfs:
   "/sys/module/nf_conntrack/parameters/hashsize":

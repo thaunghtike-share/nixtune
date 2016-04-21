@@ -42,54 +42,7 @@ version: 0.5.4
         </div>
 
         <div class="col-lg-6">
-
-              <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-              <script type="text/javascript">
-    google.charts.load("current", {packages:["corechart"]});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ["Tuning State", "Machines", { role: "style" } ],
-        ["Pre-Tuning", 100, "red"],
-        ["Post-Tuning 5%", 95, "green"],
-        ["Post-Tuning 15%", 85, "green"],
-        ["Post-Tuning 25%", 75, "green"],
-      ]);
-
-      var view = new google.visualization.DataView(data);
-                 view.setColumns([0, 1,
-                                  { calc: "stringify",
-                                    sourceColumn: 1,
-                                    type: "string",
-                                    role: "annotation" },
-                                  2]);
-
-      var options = {
-        title: "Number of Machines Saved",
-        width: 600,
-        height: 400,
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
-      chart.draw(view, options);
-
-                                var m4Large = 60.59
-
-               var savings25 = 100 * m4Large - 75 * m4Large;
-               var savings15 = 100 * m4Large - 85 * m4Large;
-               var savings5 = 100 * m4Large - 95 * m4Large;
-                document.getElementById("savings").innerHTML = "<p>For m4.large On Demand instances you would have saved $" + savings25 + " per month for 25% optimization<p>"
-                + "<p>For m4.large On Demand instances you would have saved $" + savings15 + " per month for 15% optimization<p>"
-                + "<p>For m4.large On Demand instances you would have saved $" + savings5 + " per month for 5% optimization<p>";
-
-
-  }
-  </script>
-<div id="barchart_values"></div>
-<div id="savings"></div>
-
-
+          <autotune-cost></autotune-cost>
         </div>
       </div>
 
@@ -125,14 +78,9 @@ version: 0.5.4
      typescriptOptions: { emitDecoratorMetadata: true },
      packages: {'src': {defaultExtension: 'ts'}}
    });
-  </script>
-  <!-- 3. Bootstrap -->
-  <script>
-   System.import('angular2/platform/browser').then(function(ng){
-     System.import('/autotune/js/autotune_curl.ts').then(function(src) {
-       ng.bootstrap(src.AutotuneCurl);
-     });
-   });
+
+
+  System.import('/autotune/js/main.ts') .then(null, console.error.bind(console));
   </script>
 
 <% else %>
@@ -172,3 +120,5 @@ version: 0.5.4
     </div>
   </section>
 <% end %>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

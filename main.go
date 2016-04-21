@@ -53,28 +53,7 @@ func loadProfiles() {
 func main() {
 	loadProfiles()
 
-	// listMode := flag.Bool("list", false, "List all the signatures available.")
-	// showFlag := flag.String("show", "all", "What settings to show: procfs, sysfs, env, software, all.")
-	// flag.String("output", "json", "Type of output.")
-	// showDepsFlag := flag.Bool("deps", true, "Merge deps into this signature.")
-
-	// flag.Usage = func() {
-	// 	fmt.Fprintln(os.Stderr, "autotune [flags] [profile]")
-	// 	fmt.Fprintln(os.Stderr, "")
-	// 	flag.PrintDefaults()
-	// 	fmt.Fprintf(os.Stderr, "\n%s", copyright())
-	// }
-	// flag.Parse()
-
-	// subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
-
-	// if len(flag.Args()) < 1 {
-	// 	flag.Usage()
-	// 	os.Exit(-1)
-	// }
-
-	// signature := NewSignature(flag.Args()[0], *showFlag, *showDepsFlag)
-	// os.Exit(signature.Run())
+	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
 
 	c := cli.NewCLI("autotune", version)
 	c.Args = os.Args[1:]

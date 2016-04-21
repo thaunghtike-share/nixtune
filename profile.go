@@ -10,11 +10,14 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"text/template"
 
 	"gopkg.in/yaml.v2"
+
+	"github.com/acksin/strum/stats"
 )
 
 var (
@@ -37,12 +40,21 @@ type Profile struct {
 	Documentation string `json:",omitempty"`
 	// References are places we got this information.
 	References []string `json:",omitempty"`
+
 	// ProcFS contains the /proc filesystem variables.
 	ProcFS map[string]ProfileKV `yaml:"procfs" json:",omitempty"`
 	// SysFS contains the /sys filesystem variables.
 	SysFS map[string]ProfileKV `yaml:"sysfs" json:",omitempty"`
 	// Env is the environment variables that will be changed
 	Env map[string]ProfileKV `json:",omitempty"`
+	// Files that need to be modified for specific tuning.
+	Files map[string]map[string]ProfileKV `json:",omitempty"`
+	// Cron jobs that should be run to optimize performance.
+	Cron map[string]ProfileKV `json:",omitempty"`
+	// Flags are values that are passed from the command line to
+	// be used by the Profile.
+	Flags map[string]*ProfileKV `json:",omitempty"`
+
 	// Vars are the variables passed to modify the signature
 	// templates. These can be used to pass values to ProcFS,
 	// SysFS and Env.
@@ -69,13 +81,42 @@ func (p *Profile) PrintSysFS() {
 	}
 }
 
+func (p *Profile) ParseFlags(args []string) error {
+	if p.Flags == nil {
+		return nil
+	}
+
+	flags := flag.NewFlagSet(p.Name, flag.ContinueOnError)
+	for k, v := range p.Flags {
+		flags.StringVar(&v.Value, k, v.Default, v.Description)
+	}
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (p *Profile) parseValueTemplates() {
+	var (
+		s = stats.New([]int{})
+	)
+
 	for _, valueMap := range []map[string]ProfileKV{
 		p.ProcFS,
 		p.SysFS,
 		p.Env,
 	} {
 		for k, v := range valueMap {
+			varStruct := struct {
+				Vars  map[string]interface{}
+				Stats *stats.Stats
+			}{
+				Vars:  p.Vars,
+				Stats: s,
+			}
+
 			tmpl, err := template.New(p.Name + k).
 				Funcs(ProfileFuncMaps).
 				Parse(v.Value)
@@ -84,7 +125,7 @@ func (p *Profile) parseValueTemplates() {
 			}
 			var b bytes.Buffer
 
-			err = tmpl.Execute(&b, p)
+			err = tmpl.Execute(&b, &varStruct)
 			if err != nil {
 				panic(err)
 			}
