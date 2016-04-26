@@ -22,7 +22,7 @@ procfs:
       allocate. This is one part the other part is setting the
       ulimits.
   fs.file-max:
-    value: "{{ multipy 100 .Stats.System.Memory.Physical.Total }}"
+    value: "{{ multiply .Stats.System.Memory.Physical.Total 11 }}"
 
 files:
   "/etc/fstab":

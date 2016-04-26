@@ -35,26 +35,19 @@ autotune list
 #+BEGIN_SRC sh
 {
   "Open": [
-    "apache",
     "fast-server",
     "fs",
-    "golang",
-    "haproxy",
     "io",
     "memory",
-    "networking",
+    "networking"
+  ],
+  "Startup": [
+    "apache",
+    "golang",
+    "haproxy",
     "nginx",
     "nodejs",
     "postgresql"
-  ],
-  "Pro": [
-    "java",
-    "ruby2"
-  ],
-  "Premium": [
-    "cassandra",
-    "raid",
-    "ruby18"
   ]
 }
 #+END_SRC
@@ -67,98 +60,103 @@ autotune list
 *** Show Signature
 
 #+begin_src sh :results output code :exports both
-autotune sig golang
+autotune sig networking
 #+end_src
 
 #+RESULTS:
 #+BEGIN_SRC sh
 {
-  "Name": "golang",
-  "Description": "Configuration for high throughput Golang apps",
-  "Documentation": "# Linux Optimizations for High Throughput Golang Apps\n\nGo applications have unique characteristics which require certain\nLinux kernel tuning to achieve high throughput.\n\n## Go's Utilization Profile\n\nCPU will not be a bottleneck with Golang applications. Our research\nshows that applications, even those that utilize CGO, do no see CPU be\na bottleneck. The places where performance become bottlenecks are the\nfollowing:\n\n - Garbage Collection\n - Default ulimits\n - Networking\n\n## Assumptions\n\nWe will be under the assumption that there will be one primary Go\napplication running on the machine and can have access to all of the\nresources. We also assume that we want high network throughput as the\ngoal is to have high response rate. We want to be able to handle\nmillions of requests.\n\n## GC Optimizations\n\nFor all intents and purposes we should be able to increase the GOGC to\na number based on the size of the machine. If I am using a m4.large\ninstance on Amazon I use GOGC=10000. The higher the GOGC value the\nless frequent the Garbage Collection will run. Further, since we are\noptimizing the server to be heavily utilized for a primary Golang\nservice we want to use up all the RAM available to us.\n\n## Ulimits\n\nUlimits are a security mechanism in POSIX based systems which gives\neach user a certain amount of allocation of various\nresources. However, the resource we are concerned with is file\ndescriptors. (ulimit -n) Since a file descriptor can be a file or a\nsocket we can quickly saturate how many connections an app not running\nas root can use. Further, the default open files ulimit on an Ubuntu\nServer 14.04 are ridiculously low at 1024.\n\nThe server will reach network saturation quickly if this is not dealt\nwith. Further, since we want to optimize for the single Golang\napplication we will give every user on the Linux machine unlimited\nopen files.\n",
+  "Name": "networking",
+  "Description": "Settings for high performance networking",
+  "Documentation": "TODO: These setting are sort of set in stone but I feel that they\ncan adapt as the system is being used. We don't have to set them to\nthe values but we can migrate and change as we learn more about the\nsystem and tune it appropriately.\n",
+  "References": [
+    "http://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html",
+    "https://rtcamp.com/tutorials/linux/sysctl-conf/",
+    "https://fasterdata.es.net/host-tuning/linux/",
+    "http://cherokee-project.com/doc/other_os_tuning.html",
+    "https://easyengine.io/tutorials/linux/sysctl-conf/"
+  ],
   "ProcFS": {
     "net.core.netdev_max_backlog": {
       "Value": "30000",
-      "Description": "The number of incoming connections on the backlog queue. The\nmaximum number of packets queued on the INPUT side.\n"
+      "Description": "The number of incoming connections on the backlog queue. The\nmaximum number of packets queued on the INPUT side.\n",
+      "Default": ""
     },
     "net.core.rmem_max": {
       "Value": "16777216",
-      "Description": "The size of the receive buffer for all the sockets. 16MB per\nsocket.\n"
+      "Description": "The size of the receive buffer for all the sockets. 16MB per\nsocket.\n",
+      "Default": ""
     },
     "net.core.somaxconn": {
       "Value": "16096",
-      "Description": "The maximum number of queued sockets on a connection.\n"
+      "Description": "The maximum number of queued sockets on a connection.\n",
+      "Default": ""
     },
     "net.core.wmem_max": {
       "Value": "16777216",
-      "Description": "The size of the buffer for all the sockets. 16MB per socket.\n"
+      "Description": "The size of the buffer for all the sockets. 16MB per socket.\n",
+      "Default": ""
     },
     "net.ipv4.ip_local_port_range": {
       "Value": "1024 65535",
-      "Description": "On a typical machine there are around 28000 ports available to\nbe bound to. This number can get exhausted quickly if there are\nmany connections. We will increase this.\n"
+      "Description": "On a typical machine there are around 28000 ports available to\nbe bound to. This number can get exhausted quickly if there are\nmany connections. We will increase this.\n",
+      "Default": ""
     },
     "net.ipv4.tcp_fin_timeout": {
       "Value": "15",
-      "Description": "Usually, the Linux kernel holds a TCP connection even after it\nis closed for around two minutes. This means that there may be a\nport exhaustion as the kernel waits to close the connections. By\nmoving the fin_timeout to 15 seconds we drastically reduce the\nlength of time the kernel is waiting for the socket to get any\nremaining packets.\n"
+      "Description": "Usually, the Linux kernel holds a TCP connection even after it\nis closed for around two minutes. This means that there may be a\nport exhaustion as the kernel waits to close the connections. By\nmoving the fin_timeout to 15 seconds we drastically reduce the\nlength of time the kernel is waiting for the socket to get any\nremaining packets.\n",
+      "Default": ""
     },
     "net.ipv4.tcp_max_syn_backlog": {
       "Value": "20480",
-      "Description": "Increase the number syn requests allowed. Sets how many\nhalf-open connections to backlog queue\n"
+      "Description": "Increase the number syn requests allowed. Sets how many\nhalf-open connections to backlog queue\n",
+      "Default": ""
     },
     "net.ipv4.tcp_max_tw_buckets": {
       "Value": "400000",
-      "Description": "Increase the tcp-time-wait buckets pool size to prevent simple\nDOS attacks\n"
+      "Description": "Increase the tcp-time-wait buckets pool size to prevent simple\nDOS attacks\n",
+      "Default": ""
     },
     "net.ipv4.tcp_no_metrics_save": {
       "Value": "1",
-      "Description": "TCP saves various connection metrics in the route cache when the\nconnection closes so that connections established in the near\nfuture can use these to set initial conditions. Usually, this\nincreases overall performance, but may sometimes cause\nperformance degradation.\n"
+      "Description": "TCP saves various connection metrics in the route cache when the\nconnection closes so that connections established in the near\nfuture can use these to set initial conditions. Usually, this\nincreases overall performance, but may sometimes cause\nperformance degradation.\n",
+      "Default": ""
     },
     "net.ipv4.tcp_rmem": {
       "Value": "4096 87380 16777216",
-      "Description": "(min, default, max): The sizes of the receive buffer for the IP protocol.\n"
+      "Description": "(min, default, max): The sizes of the receive buffer for the IP protocol.\n",
+      "Default": ""
     },
     "net.ipv4.tcp_syn_retries": {
       "Value": "2",
-      "Description": "Number of times initial SYNs for a TCP connection attempt will\nbe retransmitted for outgoing connections.\n"
+      "Description": "Number of times initial SYNs for a TCP connection attempt will\nbe retransmitted for outgoing connections.\n",
+      "Default": ""
     },
     "net.ipv4.tcp_synack_retries": {
       "Value": "2",
-      "Description": "This setting determines the number of SYN+ACK packets sent\nbefore the kernel gives up on the connection\n"
+      "Description": "This setting determines the number of SYN+ACK packets sent\nbefore the kernel gives up on the connection\n",
+      "Default": ""
     },
     "net.ipv4.tcp_syncookies": {
       "Value": "1",
-      "Description": "Security to prevent DDoS attacks.\n\nhttp://cr.yp.to/syncookies.html\n"
+      "Description": "Security to prevent DDoS attacks.\n\nhttp://cr.yp.to/syncookies.html\n",
+      "Default": ""
     },
     "net.ipv4.tcp_wmem": {
       "Value": "4096 65536 16777216",
-      "Description": "(min, default, max): The sizes of the write buffer for the IP protocol.\n"
+      "Description": "(min, default, max): The sizes of the write buffer for the IP protocol.\n",
+      "Default": ""
     },
     "net.netfilter.nf_conntrack_max": {
       "Value": "200000",
-      "Description": "The max is double the previous value.\n\nhttps://wiki.khnet.info/index.php/Conntrack_tuning\n"
-    },
-    "proc.file-max": {
-      "Value": "2097152",
-      "Description": "The max amount of file handlers that the Linux kernel will\nallocate. This is one part the other part is setting the\nulimits.\n"
-    },
-    "proc.min_free_kbytes": {
-      "Value": "65536",
-      "Description": "Amount of memory to keep free. Don't want to make this too high\nas Linux will spend more time trying to reclaim memory.\n"
-    },
-    "vm.min_free_kbytes": {
-      "Value": "65536",
-      "Description": "Keep 64MB or Ram available at all times so if things are not\nworking we can, at least, SSH to the system and do tasks and not\nget an out of memory error.\n"
+      "Description": "The max is double the previous value.\n\nhttps://wiki.khnet.info/index.php/Conntrack_tuning\n",
+      "Default": ""
     }
   },
   "SysFS": {
     "/sys/module/nf_conntrack/parameters/hashsize": {
-      "Value": "50000"
-    }
-  },
-  "Env": {
-    "GOGC": {
-      "Value": "2000",
-      "Description": "Set the value of GOGC to be really high.\n\nTODO: Consider how this is being used as part of a bigger\nsetting. Based on RAM etc.\n"
+      "Value": "50000",
+      "Default": ""
     }
   },
   "Vars": {
@@ -172,28 +170,25 @@ autotune sig golang
 *** ProcFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune procfs golang
+ autotune procfs networking
  #+end_src
 
  #+RESULTS:
  #+BEGIN_SRC sh
- net.ipv4.tcp_rmem=4096 87380 16777216
- net.ipv4.tcp_syncookies=1
- net.ipv4.tcp_max_tw_buckets=400000
- proc.min_free_kbytes=65536
- net.ipv4.tcp_max_syn_backlog=20480
- net.ipv4.tcp_no_metrics_save=1
  net.core.netdev_max_backlog=30000
- net.ipv4.tcp_synack_retries=2
- proc.file-max=2097152
  net.core.rmem_max=16777216
- net.ipv4.ip_local_port_range=1024 65535
- net.core.wmem_max=16777216
- vm.min_free_kbytes=65536
- net.ipv4.tcp_fin_timeout=15
  net.core.somaxconn=16096
- net.ipv4.tcp_wmem=4096 65536 16777216
+ net.core.wmem_max=16777216
+ net.ipv4.ip_local_port_range=1024 65535
+ net.ipv4.tcp_fin_timeout=15
+ net.ipv4.tcp_max_syn_backlog=20480
+ net.ipv4.tcp_max_tw_buckets=400000
+ net.ipv4.tcp_no_metrics_save=1
+ net.ipv4.tcp_rmem=4096 87380 16777216
  net.ipv4.tcp_syn_retries=2
+ net.ipv4.tcp_synack_retries=2
+ net.ipv4.tcp_syncookies=1
+ net.ipv4.tcp_wmem=4096 65536 16777216
  net.netfilter.nf_conntrack_max=200000
  #+END_SRC
 
@@ -202,12 +197,12 @@ autotune sig golang
 *** SysFS Changes
 
  #+begin_src sh :results output code :exports both
- autotune sysfs golang
+ autotune sysfs networking
  #+end_src
 
  #+RESULTS:
  #+BEGIN_SRC sh
- /sys/module/nf_conntrack/parameters/hashsize=50000
+ /sys/module/nf_conntrack/parameters/hashsize=
  #+END_SRC
 
  #+RESULTS:
@@ -220,8 +215,7 @@ autotune sig golang
 
  #+RESULTS:
  #+BEGIN_SRC sh
- GOGC=2000
- #+END_SRC
+#+END_SRC
 
  #+RESULTS:
 

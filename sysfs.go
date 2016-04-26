@@ -21,7 +21,9 @@ func (k *SysFS) Help() string {
 
 func (k *SysFS) Run(args []string) int {
 	profile := profiles.Get(args[0], false)
-
+	if profile == nil {
+		return -1
+	}
 	profile.PrintSysFS()
 
 	return 0

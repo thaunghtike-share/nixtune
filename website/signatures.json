@@ -1,24 +1,17 @@
 {
   "Open": [
-    "apache",
     "fast-server",
     "fs",
-    "golang",
-    "haproxy",
     "io",
     "memory",
-    "networking",
+    "networking"
+  ],
+  "Startup": [
+    "apache",
+    "golang",
+    "haproxy",
     "nginx",
     "nodejs",
     "postgresql"
-  ],
-  "Pro": [
-    "java",
-    "ruby2"
-  ],
-  "Premium": [
-    "cassandra",
-    "raid",
-    "ruby18"
   ]
 }

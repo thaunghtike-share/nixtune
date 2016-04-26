@@ -11,7 +11,7 @@ build: deps test
 deps:
 	go get -u github.com/golang/lint/golint
 	go get -u github.com/jteeuwen/go-bindata/...
-	go-bindata -ignore="signatures/README.md" -o sigfiles.go signatures/open signatures/pro signatures/premium 
+	go-bindata -ignore="signatures/README.md" -o sigfiles.go signatures/open signatures/startup signatures/pro signatures/premium 
 	go get ./...
 
 dev-deps:
@@ -34,7 +34,7 @@ release: spell build archive
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
 
 website-assets:
-	# cd website && go run logo.go > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
+	cd website && go run logo.go pro > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
 	./autotune list > website/signatures.json
 	emacs README.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > website/docs.html.erb

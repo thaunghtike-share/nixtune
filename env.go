@@ -21,6 +21,10 @@ func (k *Env) Help() string {
 
 func (k *Env) Run(args []string) int {
 	profile := profiles.Get(args[0], false)
+	if profile == nil {
+		return -1
+	}
+
 	profile.PrintEnv()
 
 	return 0

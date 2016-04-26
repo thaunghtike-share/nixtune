@@ -19,13 +19,16 @@ import (
 // on the profile specified by the user.
 type List struct {
 	Open    []string
-	Pro     []string
-	Premium []string
+	Startup []string
+	Pro     []string `json:"-"`
+	Premium []string `json:"-"`
 }
 
 func (k *List) UpdateProfiles() {
 	for _, i := range AssetNames() {
 		switch {
+		case strings.HasPrefix(i, "signatures/startup"):
+			k.Startup = append(k.Startup, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/startup/"), ".yml"))
 		case strings.HasPrefix(i, "signatures/pro"):
 			k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
 		case strings.HasPrefix(i, "signatures/premium"):
@@ -36,6 +39,7 @@ func (k *List) UpdateProfiles() {
 	}
 
 	sort.Strings(k.Open)
+	sort.Strings(k.Startup)
 	sort.Strings(k.Pro)
 	sort.Strings(k.Premium)
 }

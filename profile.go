@@ -13,6 +13,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 	"text/template"
 
@@ -23,7 +24,10 @@ import (
 
 var (
 	ProfileFuncMaps = template.FuncMap{
-		"multiply": func(param1 int, param2 int) int {
+		"multiply": func(param1 int64, param2 int64) int64 {
+			return param1 * param2
+		},
+		"multiplyInt": func(param1 int, param2 int) int {
 			return param1 * param2
 		},
 		"divide": func(param1 int, param2 int) int {
@@ -64,22 +68,34 @@ type Profile struct {
 	Deps []string `json:",omitempty"`
 }
 
-func (p *Profile) PrintEnv() {
-	for k, v := range p.Env {
-		fmt.Printf("%s=%s\n", k, v.Value)
+func (p *Profile) printMap(m map[string]ProfileKV) {
+	if m == nil {
+		return
 	}
+
+	var s []string
+
+	for k := range m {
+		s = append(s, k)
+	}
+
+	sort.Strings(s)
+
+	for _, k := range s {
+		fmt.Printf("%s=%s\n", k, p.ProcFS[k].Value)
+	}
+}
+
+func (p *Profile) PrintEnv() {
+	p.printMap(p.Env)
 }
 
 func (p *Profile) PrintProcFS() {
-	for k, v := range p.ProcFS {
-		fmt.Printf("%s=%s\n", k, v.Value)
-	}
+	p.printMap(p.ProcFS)
 }
 
 func (p *Profile) PrintSysFS() {
-	for k, v := range p.SysFS {
-		fmt.Printf("%s=%s\n", k, v.Value)
-	}
+	p.printMap(p.SysFS)
 }
 
 func (p *Profile) ParseFlags(args []string) error {
@@ -245,6 +261,8 @@ func loadProfiles() {
 
 		switch {
 		case strings.HasPrefix(i, "signatures/open"):
+			profiles = append(profiles, p)
+		case strings.HasPrefix(i, "signatures/startup") && currentSubscription == StartupSubscription || currentSubscription == ProSubscription || currentSubscription == PremiumSubscription:
 			profiles = append(profiles, p)
 		case strings.HasPrefix(i, "signatures/pro") && currentSubscription == ProSubscription || currentSubscription == PremiumSubscription:
 			profiles = append(profiles, p)

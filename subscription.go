@@ -1,24 +1,30 @@
 package main
 
 import (
-	"github.com/abhiyerra/gumroad"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
 )
 
 type Subscription int
 
 const (
 	OpenSubscription Subscription = iota
+	StartupSubscription
+
+	// No yet released.
 	ProSubscription
 	PremiumSubscription
 	EnterpriseSubscription
 )
 
+const (
+	subscriptionAPI = "https://bridge-api.acksin.com/subscription/autotune"
+)
+
 var (
 	currentSubscription = OpenSubscription
 )
-
-func init() {
-}
 
 func loadSubscription(apiKey string) {
 	if apiKey == "" {
@@ -26,11 +32,36 @@ func loadSubscription(apiKey string) {
 		return
 	}
 
-	if err := gumroad.VerifyLicense("autotune-pro", apiKey, true); err == nil {
-		currentSubscription = ProSubscription
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", subscriptionAPI, nil)
+	req.SetBasicAuth(apiKey, "")
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
 	}
 
-	if err := gumroad.VerifyLicense("autotune-premium", apiKey, true); err == nil {
+	var sub struct {
+		Product string
+		Plan    string
+	}
+
+	err = json.Unmarshal(body, &sub)
+	if err != nil {
+		return
+	}
+
+	switch sub.Plan {
+	case "autotune-startup":
+		currentSubscription = StartupSubscription
+	case "autotune-pro":
+		currentSubscription = ProSubscription
+	case "autotune-premium":
 		currentSubscription = PremiumSubscription
 	}
 }

@@ -21,6 +21,10 @@ func (k *ProcFS) Help() string {
 
 func (k *ProcFS) Run(args []string) int {
 	profile := profiles.Get(args[0], false)
+	if profile == nil {
+		return -1
+	}
+
 	profile.PrintProcFS()
 
 	return 0
