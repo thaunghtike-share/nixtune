@@ -1,17 +1,4 @@
 {
-  "Open": [
-    "fast-server",
-    "fs",
-    "io",
-    "memory",
-    "networking"
-  ],
-  "Startup": [
-    "apache",
-    "golang",
-    "haproxy",
-    "nginx",
-    "nodejs",
-    "postgresql"
-  ]
+  "Open": null,
+  "Startup": null
 }

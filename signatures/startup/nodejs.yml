@@ -1,0 +1,7 @@
+name: nodejs
+description: Configuration for NodeJS.
+deps:
+  - networking
+
+references:
+  - https://engineering.gosquared.com/optimising-nginx-node-js-and-networking-for-heavy-workloads

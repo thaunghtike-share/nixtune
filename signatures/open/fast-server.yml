@@ -1,8 +1,0 @@
-name: fast-server
-description: Settings for a general fast-server machine.
-
-deps:
-  - fs
-  - io
-  - memory
-  - networking

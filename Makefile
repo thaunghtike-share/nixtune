@@ -10,8 +10,6 @@ build: deps test
 
 deps:
 	go get -u github.com/golang/lint/golint
-	go get -u github.com/jteeuwen/go-bindata/...
-	go-bindata -ignore="signatures/README.md" -o sigfiles.go signatures/open signatures/startup signatures/pro signatures/premium 
 	go get ./...
 
 dev-deps:

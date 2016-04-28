@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package signatures
 
 type ProfileKV struct {
 	// Value for the Key associated with the ProfileKV. Note that
@@ -15,20 +15,8 @@ type ProfileKV struct {
 	Value string
 	// Description of the Value and this property.
 	Description string `json:",omitempty"`
-	// If is the conditions that need to be met for this setting
-	// to matter.
-	If []IfCond `json:",omitempty"`
 	// Schedule is used for Cron tasks
 	Schedule string `json:",omitempty"`
 	// Default Value if it isn't specified.
 	Default string
-}
-
-func (p *ProfileKV) HasCondition() bool {
-	for _, i := range p.If {
-		if i.Match() {
-			return true
-		}
-	}
-	return false
 }

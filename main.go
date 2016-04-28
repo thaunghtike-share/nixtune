@@ -15,6 +15,8 @@ import (
 	"strings"
 
 	"github.com/mitchellh/cli"
+
+	"github.com/acksin/autotune/signatures"
 )
 
 var (
@@ -23,7 +25,7 @@ var (
 )
 
 var (
-	profiles Profiles
+	profiles signatures.Profiles
 )
 
 func subCmd(cmds ...string) string {
@@ -36,8 +38,11 @@ Copyright (c) 2016. Acksin.
 https://www.acksin.com/autotune`, version)
 }
 
+func loadProfiles() {
+	profiles = signatures.Load()
+}
+
 func main() {
-	loadSubscription(os.Getenv("AUTOTUNE_API_KEY"))
 	loadProfiles()
 
 	c := cli.NewCLI(cmdName, version)

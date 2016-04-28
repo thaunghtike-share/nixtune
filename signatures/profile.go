@@ -6,18 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package main
+package signatures
 
 import (
 	"bytes"
 	"flag"
 	"fmt"
-	"log"
 	"sort"
-	"strings"
 	"text/template"
-
-	"gopkg.in/yaml.v2"
 
 	"github.com/acksin/strum/stats"
 )
@@ -36,9 +32,15 @@ var (
 	}
 )
 
+type Profiler interface {
+	GetProfile() *Profile
+}
+
 type Profile struct {
 	// Name of the profile
 	Name string
+	// Plan that this signature belongs to.
+	Subscription Subscription
 	// Description of the service that is being updated.
 	Description string `json:",omitempty"`
 	// Documentation is the documentation for this profile
@@ -65,7 +67,7 @@ type Profile struct {
 	// SysFS and Env.
 	Vars map[string]interface{} `json:",omitempty"`
 	// Deps of other profiles.
-	Deps []string `json:",omitempty"`
+	Deps []Profiler `json:",omitempty"`
 }
 
 func (p *Profile) printMap(m map[string]ProfileKV) {
@@ -153,121 +155,25 @@ func (p *Profile) parseValueTemplates() {
 	}
 }
 
-func ParseProfile(s []byte) (p *Profile) {
-	p = &Profile{}
-
-	err := yaml.Unmarshal(s, p)
-	if err != nil {
-		log.Fatalf("error: %v", err)
-	}
-
-	return
-}
-
-type Profiles []*Profile
-
-func (p Profiles) Get(s string, withDeps bool) (profile *Profile) {
-	if withDeps {
-		return p.getWithDeps(s)
-	}
-
-	return p.getWithoutDeps(s)
-}
-
-func (p Profiles) getWithDeps(s string) (profile *Profile) {
-	for _, k := range p {
-		if k.Name == s {
-			profile = k
-			break
+func (p *Profile) HasSubscription(currentSub Subscription) bool {
+	switch p.Subscription {
+	case OpenSubscription:
+		if currentSub == OpenSubscription {
+			return true
+		}
+	case StartupSubscription:
+		if currentSubscription == StartupSubscription || currentSubscription == ProSubscription || currentSubscription == PremiumSubscription {
+			return true
+		}
+	case ProSubscription:
+		if currentSubscription == ProSubscription || currentSubscription == PremiumSubscription {
+			return true
+		}
+	case PremiumSubscription:
+		if currentSubscription == PremiumSubscription {
+			return true
 		}
 	}
 
-	profile.parseValueTemplates()
-
-	return
-}
-
-func (p Profiles) getWithoutDeps(s string) *Profile {
-	var profile *Profile
-
-	for _, k := range p {
-		if k.Name == s {
-			profile = k
-			break
-		}
-	}
-
-	if profile == nil {
-		return nil
-	}
-
-	// Get the dependency profiles as we will construct a new
-	// profile with everything as one.
-	var depProfiles Profiles
-	for _, dep := range profile.Deps {
-		depProfiles = append(depProfiles, p.getWithDeps(dep))
-	}
-
-	if profile.ProcFS == nil {
-		profile.ProcFS = make(map[string]ProfileKV)
-	}
-
-	if profile.SysFS == nil {
-		profile.SysFS = make(map[string]ProfileKV)
-	}
-
-	if profile.Env == nil {
-		profile.Env = make(map[string]ProfileKV)
-	}
-
-	for _, dep := range depProfiles {
-		for k, v := range dep.ProcFS {
-			_, ok := profile.ProcFS[k]
-			if !ok {
-				profile.ProcFS[k] = v
-			}
-		}
-
-		for k, v := range dep.SysFS {
-			_, ok := profile.SysFS[k]
-			if !ok {
-				profile.SysFS[k] = v
-			}
-		}
-
-		for k, v := range dep.Env {
-			_, ok := profile.Env[k]
-			if !ok {
-				profile.Env[k] = v
-			}
-		}
-	}
-
-	profile.Deps = []string{}
-
-	profile.parseValueTemplates()
-
-	return profile
-}
-
-func loadProfiles() {
-	for _, i := range AssetNames() {
-		ymlData, err := Asset(i)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		p := ParseProfile(ymlData)
-
-		switch {
-		case strings.HasPrefix(i, "signatures/open"):
-			profiles = append(profiles, p)
-		case strings.HasPrefix(i, "signatures/startup") && currentSubscription == StartupSubscription || currentSubscription == ProSubscription || currentSubscription == PremiumSubscription:
-			profiles = append(profiles, p)
-		case strings.HasPrefix(i, "signatures/pro") && currentSubscription == ProSubscription || currentSubscription == PremiumSubscription:
-			profiles = append(profiles, p)
-		case strings.HasPrefix(i, "signatures/premium") && currentSubscription == PremiumSubscription:
-			profiles = append(profiles, p)
-		}
-	}
+	return false
 }
