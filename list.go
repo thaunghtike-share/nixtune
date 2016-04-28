@@ -11,8 +11,9 @@ package main
 import (
 	"encoding/json"
 	"os"
-	// "sort"
-	// "strings"
+	"sort"
+
+	"github.com/acksin/autotune/signatures"
 )
 
 // List is the command used to update the system settings based
@@ -25,23 +26,25 @@ type List struct {
 }
 
 func (k *List) UpdateProfiles() {
-	// for _, i := range AssetNames() {
-	// 	switch {
-	// 	case strings.HasPrefix(i, "signatures/startup"):
-	// 		k.Startup = append(k.Startup, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/startup/"), ".yml"))
-	// 	case strings.HasPrefix(i, "signatures/pro"):
-	// 		k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
-	// 	case strings.HasPrefix(i, "signatures/premium"):
-	// 		k.Premium = append(k.Premium, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/premium/"), ".yml"))
-	// 	default:
-	// 		k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/open/"), ".yml"))
-	// 	}
-	// }
+	for _, p := range profiles {
+		p2 := p.GetProfile()
 
-	// sort.Strings(k.Open)
-	// sort.Strings(k.Startup)
-	// sort.Strings(k.Pro)
-	// sort.Strings(k.Premium)
+		switch p2.Subscription {
+		case signatures.OpenSubscription:
+			k.Open = append(k.Open, p2.Name)
+		case signatures.StartupSubscription:
+			k.Startup = append(k.Startup, p2.Name)
+		case signatures.ProSubscription:
+			k.Pro = append(k.Pro, p2.Name)
+		case signatures.PremiumSubscription:
+			k.Premium = append(k.Premium, p2.Name)
+		}
+	}
+
+	sort.Strings(k.Open)
+	sort.Strings(k.Startup)
+	sort.Strings(k.Pro)
+	sort.Strings(k.Premium)
 }
 
 func (k *List) Synopsis() string {

@@ -97,20 +97,14 @@ func (p Profiles) getMergeDeps(s string) *Profile {
 	return profile
 }
 
-func (p Profiles) Add(profile Profiler) {
-	p = append(p, profile)
-}
-
-func Load() Profiles {
-	var p Profiles
-
+func Load() (p Profiles) {
 	loadSubscription(os.Getenv("AUTOTUNE_API_KEY"))
 
-	p.Add(&FastServer{})
-	p.Add(&FS{})
-	p.Add(&IO{})
-	p.Add(&Memory{})
-	p.Add(&Networking{})
+	p = append(p, &FastServer{})
+	p = append(p, &FS{})
+	p = append(p, &IO{})
+	p = append(p, &Memory{})
+	p = append(p, &Networking{})
 
-	return p
+	return
 }

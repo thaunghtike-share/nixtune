@@ -38,12 +38,8 @@ Copyright (c) 2016. Acksin.
 https://www.acksin.com/autotune`, version)
 }
 
-func loadProfiles() {
-	profiles = signatures.Load()
-}
-
 func main() {
-	loadProfiles()
+	profiles = signatures.Load()
 
 	c := cli.NewCLI(cmdName, version)
 	c.Args = os.Args[1:]

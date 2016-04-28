@@ -1,4 +1,10 @@
 {
-  "Open": null,
+  "Open": [
+    "fast-server",
+    "fs",
+    "io",
+    "memory",
+    "networking"
+  ],
   "Startup": null
 }
