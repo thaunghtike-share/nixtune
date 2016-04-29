@@ -12,11 +12,11 @@ type SysFS struct {
 }
 
 func (k *SysFS) Synopsis() string {
-	return "Show the SysFSironment variables for signature"
+	return "Show the SysFS variables for signature"
 }
 
 func (k *SysFS) Help() string {
-	return "Show the SysFSironment variables for signature"
+	return "Show the SysFS variables for signature"
 }
 
 func (k *SysFS) Run(args []string) int {

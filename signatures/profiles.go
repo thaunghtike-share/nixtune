@@ -62,30 +62,49 @@ func (p Profiles) getMergeDeps(s string) *Profile {
 		profile.Env = make(map[string]ProfileKV)
 	}
 
+	if profile.Vars == nil {
+		profile.Vars = make(map[string]interface{})
+	}
+
 	for _, dep := range profile.Deps {
 		depProfile := dep.GetProfile()
 		if depProfile == nil {
 			continue
 		}
 
-		for k, v := range depProfile.ProcFS {
-			_, ok := profile.ProcFS[k]
-			if !ok {
-				profile.ProcFS[k] = v
+		if depProfile.Vars != nil {
+			for k, v := range depProfile.Vars {
+				_, ok := profile.Vars[k]
+				if !ok {
+					profile.Vars[k] = v
+				}
 			}
 		}
 
-		for k, v := range depProfile.SysFS {
-			_, ok := profile.SysFS[k]
-			if !ok {
-				profile.SysFS[k] = v
+		if depProfile.ProcFS != nil {
+			for k, v := range depProfile.ProcFS {
+				_, ok := profile.ProcFS[k]
+				if !ok {
+					profile.ProcFS[k] = v
+				}
 			}
 		}
 
-		for k, v := range depProfile.Env {
-			_, ok := profile.Env[k]
-			if !ok {
-				profile.Env[k] = v
+		if depProfile.SysFS != nil {
+			for k, v := range depProfile.SysFS {
+				_, ok := profile.SysFS[k]
+				if !ok {
+					profile.SysFS[k] = v
+				}
+			}
+		}
+
+		if depProfile.Env != nil {
+			for k, v := range depProfile.Env {
+				_, ok := profile.Env[k]
+				if !ok {
+					profile.Env[k] = v
+				}
 			}
 		}
 	}
@@ -100,11 +119,20 @@ func (p Profiles) getMergeDeps(s string) *Profile {
 func Load() (p Profiles) {
 	loadSubscription(os.Getenv("AUTOTUNE_API_KEY"))
 
+	// Open Profiles
 	p = append(p, &FastServer{})
 	p = append(p, &FS{})
 	p = append(p, &IO{})
 	p = append(p, &Memory{})
 	p = append(p, &Networking{})
+
+	// Startup Profiles
+	p = append(p, &Apache{})
+	p = append(p, &Golang{})
+	p = append(p, &HAProxy{})
+	p = append(p, &Nginx{})
+	p = append(p, &NodeJS{})
+	p = append(p, &PostgreSQL{})
 
 	return
 }

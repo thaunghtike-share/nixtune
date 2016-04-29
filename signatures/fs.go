@@ -83,11 +83,10 @@ func (f *FS) GetProfile() *Profile {
 			"https://tweaked.io/guide/kernel/",
 			"http://blog.neutrino.es/2013/howto-properly-activate-trim-for-your-ssd-on-linux-fstrim-lvm-and-dmcrypt/",
 		},
+		ProcFS: f.procfs(),
+		Files:  f.files(),
+		Cron:   f.cron(),
 	}
-
-	p.ProcFS = f.procfs()
-	p.Files = f.files()
-	p.Cron = f.cron()
 
 	return p
 }

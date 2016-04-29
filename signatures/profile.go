@@ -84,7 +84,7 @@ func (p *Profile) printMap(m map[string]ProfileKV) {
 	sort.Strings(s)
 
 	for _, k := range s {
-		fmt.Printf("%s=%s\n", k, p.ProcFS[k].Value)
+		fmt.Printf("%s=%s\n", k, m[k].Value)
 	}
 }
 

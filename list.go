@@ -69,7 +69,5 @@ func (k *List) Run(args []string) int {
 
 // NewList returns a new List object
 func NewList() *List {
-	s := &List{}
-
-	return s
+	return &List{}
 }

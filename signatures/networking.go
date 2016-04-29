@@ -15,6 +15,8 @@ func (f *Networking) GetProfile() *Profile {
 			"http://cherokee-project.com/doc/other_os_tuning.html",
 			"https://easyengine.io/tutorials/linux/sysctl-conf/",
 		},
+		ProcFS: f.procfs(),
+		SysFS:  f.sysfs(),
 	}
 
 	p.Vars = make(map[string]interface{})

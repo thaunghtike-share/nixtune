@@ -6,5 +6,12 @@
     "memory",
     "networking"
   ],
-  "Startup": null
+  "Startup": [
+    "apache",
+    "golang",
+    "haproxy",
+    "nginx",
+    "nodejs",
+    "postgresql"
+  ]
 }
