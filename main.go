@@ -56,6 +56,9 @@ func main() {
 		"sysfs": func() (cli.Command, error) {
 			return &SysFS{}, nil
 		},
+		"files": func() (cli.Command, error) {
+			return &Files{}, nil
+		},
 		"env": func() (cli.Command, error) {
 			return &Env{}, nil
 		},

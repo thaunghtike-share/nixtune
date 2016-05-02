@@ -19,8 +19,8 @@ func (p Profiles) Get(s string, withDeps bool) (profile *Profile, err error) {
 	}
 
 	// Only return profile if they have the subscription.
-	if profile.HasSubscription(currentSubscription) {
-		return nil, errors.New("need to have subscription for this signature")
+	if !profile.HasSubscription(currentSubscription) {
+		return nil, errors.New("need to have subscription for this signature. Sign up at https://www.acksin.com/autotune")
 	}
 
 	return profile, nil
@@ -56,15 +56,15 @@ func (p Profiles) getMergeDeps(s string) *Profile {
 	}
 
 	if profile.ProcFS == nil {
-		profile.ProcFS = make(map[string]ProfileKV)
+		profile.ProcFS = make(map[string]*ProfileKV)
 	}
 
 	if profile.SysFS == nil {
-		profile.SysFS = make(map[string]ProfileKV)
+		profile.SysFS = make(map[string]*ProfileKV)
 	}
 
 	if profile.Env == nil {
-		profile.Env = make(map[string]ProfileKV)
+		profile.Env = make(map[string]*ProfileKV)
 	}
 
 	if profile.Vars == nil {

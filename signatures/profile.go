@@ -49,15 +49,15 @@ type Profile struct {
 	References []string `json:",omitempty"`
 
 	// ProcFS contains the /proc filesystem variables.
-	ProcFS map[string]ProfileKV `yaml:"procfs" json:",omitempty"`
+	ProcFS map[string]*ProfileKV `yaml:"procfs" json:",omitempty"`
 	// SysFS contains the /sys filesystem variables.
-	SysFS map[string]ProfileKV `yaml:"sysfs" json:",omitempty"`
+	SysFS map[string]*ProfileKV `yaml:"sysfs" json:",omitempty"`
 	// Env is the environment variables that will be changed
-	Env map[string]ProfileKV `json:",omitempty"`
+	Env map[string]*ProfileKV `json:",omitempty"`
 	// Files that need to be modified for specific tuning.
-	Files map[string]func() *ProfileKV `json:",omitempty"`
+	Files map[string]*ProfileKV `json:",omitempty"`
 	// Cron jobs that should be run to optimize performance.
-	Cron map[string]ProfileKV `json:",omitempty"`
+	Cron map[string]*ProfileKV `json:",omitempty"`
 	// Flags are values that are passed from the command line to
 	// be used by the Profile.
 	Flags map[string]*ProfileKV `json:",omitempty"`
@@ -70,7 +70,7 @@ type Profile struct {
 	Deps []Profiler `json:",omitempty"`
 }
 
-func (p *Profile) printMap(m map[string]ProfileKV) {
+func (p *Profile) printMap(m map[string]*ProfileKV) {
 	if m == nil {
 		return
 	}
@@ -85,6 +85,24 @@ func (p *Profile) printMap(m map[string]ProfileKV) {
 
 	for _, k := range s {
 		fmt.Printf("%s=%s\n", k, m[k].Value)
+	}
+}
+
+func (p *Profile) PrintFiles() {
+	if p.Files == nil {
+		return
+	}
+
+	var s []string
+	for k := range p.Files {
+		s = append(s, k)
+	}
+
+	sort.Strings(s)
+
+	for _, k := range s {
+		fmt.Printf("%s:\n", k)
+		fmt.Printf("%s\n", p.Files[k].Value)
 	}
 }
 
@@ -122,7 +140,7 @@ func (p *Profile) parseValueTemplates() {
 		s = stats.New([]int{})
 	)
 
-	for _, valueMap := range []map[string]ProfileKV{
+	for _, valueMap := range []map[string]*ProfileKV{
 		p.ProcFS,
 		p.SysFS,
 		p.Env,

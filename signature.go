@@ -34,13 +34,13 @@ func (k *Signature) Run(args []string) int {
 		showDeps bool = false
 	)
 
-	profile := profiles.Get(args[0], showDeps)
-	if profile == nil {
-		log.Println("No such profile")
+	profile, err := profiles.Get(args[0], showDeps)
+	if err != nil {
+		log.Println(err)
 		return -1
 	}
 
-	err := profile.ParseFlags(args[1:])
+	err = profile.ParseFlags(args[1:])
 	if err != nil {
 		log.Println(err)
 		return -1

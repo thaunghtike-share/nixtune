@@ -24,7 +24,7 @@ func (k *ProcFS) Help() string {
 
 func (k *ProcFS) Run(args []string) int {
 	profile, err := profiles.Get(args[0], false)
-	if err == nil {
+	if err != nil {
 		log.Println(err)
 		return -1
 	}

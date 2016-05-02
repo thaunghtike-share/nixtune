@@ -16,17 +16,17 @@ func (f *IO) GetProfile() *Profile {
 	return p
 }
 
-func (f *IO) sysfs() map[string]ProfileKV {
-	p := make(map[string]ProfileKV)
-	p["/sys/block/*/queue/rq_afinity"] = ProfileKV{
+func (f *IO) sysfs() map[string]*ProfileKV {
+	p := make(map[string]*ProfileKV)
+	p["/sys/block/*/queue/rq_afinity"] = &ProfileKV{
 		Value: "2",
 	}
 
-	p["/sys/block/*/queue/scheduler"] = ProfileKV{
+	p["/sys/block/*/queue/scheduler"] = &ProfileKV{
 		Value: "noop",
 	}
 
-	p["/sys/block/*/queue/read_ahead_kb"] = ProfileKV{
+	p["/sys/block/*/queue/read_ahead_kb"] = &ProfileKV{
 		Value: "256",
 	}
 

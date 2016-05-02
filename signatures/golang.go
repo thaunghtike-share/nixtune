@@ -63,8 +63,13 @@ open files.`,
 	p.Vars = make(map[string]interface{})
 	p.Vars["nfConntrackMax"] = 200000
 
-	p.Env = make(map[string]ProfileKV)
-	p.Env["GOGC"] = ProfileKV{
+	p.Env = make(map[string]*ProfileKV)
+
+	// This value changes with the process that is running. It
+	// needs to modified based on available ram and process since
+	// we will be looking at the amount of memory that the process
+	// itself is taking.
+	p.Env["GOGC"] = &ProfileKV{
 		Value:       "500",
 		Description: `Set the value of GOGC to be really high. Step up by 100 for each additional GB of ram. Can likely be higher but it is a value that needs to be modified based on the heap used so it is better done within the Go application itself.`,
 	}
