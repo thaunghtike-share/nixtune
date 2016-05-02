@@ -13,7 +13,7 @@ func (f *FS) isSSD(mountPoint string) bool {
 	return true
 }
 
-func (f *FS) fstabAttime() *ProfileKV {
+func (f *FS) fstabNoattime() *ProfileKV {
 	b, err := ioutil.ReadFile("/etc/fstab")
 	if err != nil {
 		return nil
@@ -106,7 +106,7 @@ func (f *FS) limitsNoFiles() *ProfileKV {
 func (f *FS) files() (p map[string]*ProfileKV) {
 	p = make(map[string]*ProfileKV)
 
-	p["/etc/fstab:attime"] = f.fstabAttime()
+	p["/etc/fstab:noattime"] = f.fstabNoattime()
 	p["/etc/fstab:discard"] = f.fstabDiscard()
 	p["/etc/security/limits.conf"] = f.limitsNoFiles()
 
