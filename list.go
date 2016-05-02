@@ -48,11 +48,11 @@ func (k *List) UpdateProfiles() {
 }
 
 func (k *List) Synopsis() string {
-	return "List all the signatures available."
+	return "List all the signatures available"
 }
 
 func (k *List) Help() string {
-	return "List all the signatures available."
+	return "List all the signatures available"
 }
 
 func (k *List) Run(args []string) int {

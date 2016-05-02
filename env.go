@@ -12,11 +12,11 @@ type Env struct {
 }
 
 func (k *Env) Synopsis() string {
-	return "Show the Environment variables for signature"
+	return "Show the environment variables for the signature"
 }
 
 func (k *Env) Help() string {
-	return "Show the Environment variables for signature"
+	return "Show the environment variables for the signature"
 }
 
 func (k *Env) Run(args []string) int {

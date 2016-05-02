@@ -25,11 +25,11 @@ import {NgForm}    from 'angular2/common';
 </tr>
 <tr>
 <td>AWS m4.large</td>
-<td>\${{machinesPricing}} per month</td>
+<td>{{machinesPricing | currency:'USD':true:'1.2-2' }} per month</td>
 </tr>
 <tr>
 <td>Savings</td>
-<td>\${{savings}} per month</td>
+<td>{{savings | currency:'USD':true:'1.2-2' }} per month</td>
 </tr>
 </table>
 `

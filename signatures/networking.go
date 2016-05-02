@@ -14,6 +14,7 @@ func (f *Networking) GetProfile() *Profile {
 			"https://fasterdata.es.net/host-tuning/linux/",
 			"http://cherokee-project.com/doc/other_os_tuning.html",
 			"https://easyengine.io/tutorials/linux/sysctl-conf/",
+			"https://access.redhat.com/sites/default/files/attachments/20150325_network_performance_tuning.pdf",
 		},
 		ProcFS: f.procfs(),
 		SysFS:  f.sysfs(),
@@ -101,6 +102,11 @@ func (f *Networking) procfs() map[string]ProfileKV {
 	p["net.netfilter.nf_conntrack_max"] = ProfileKV{
 		Value:       "{{ index .Vars \"nfConntrackMax\" }}",
 		Description: "The max is double the previous value. https://wiki.khnet.info/index.php/Conntrack_tuning",
+	}
+
+	p["net.ipv4.tcp_tw_reuse"] = ProfileKV{
+		Value:       "1",
+		Description: "",
 	}
 
 	return p

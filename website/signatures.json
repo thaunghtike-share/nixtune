@@ -7,11 +7,8 @@
     "networking"
   ],
   "Startup": [
-    "apache",
     "golang",
-    "haproxy",
     "nginx",
-    "nodejs",
-    "postgresql"
+    "nodejs"
   ]
 }

@@ -55,7 +55,7 @@ type Profile struct {
 	// Env is the environment variables that will be changed
 	Env map[string]ProfileKV `json:",omitempty"`
 	// Files that need to be modified for specific tuning.
-	Files map[string]map[string]ProfileKV `json:",omitempty"`
+	Files map[string]func() *ProfileKV `json:",omitempty"`
 	// Cron jobs that should be run to optimize performance.
 	Cron map[string]ProfileKV `json:",omitempty"`
 	// Flags are values that are passed from the command line to

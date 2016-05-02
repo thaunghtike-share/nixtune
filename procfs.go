@@ -12,11 +12,11 @@ type ProcFS struct {
 }
 
 func (k *ProcFS) Synopsis() string {
-	return "Show the ProcFSironment variables for signature"
+	return "Show the ProcFS changes for the signature"
 }
 
 func (k *ProcFS) Help() string {
-	return "Show the ProcFSironment variables for signature"
+	return "Show the ProcFS changes for the signature"
 }
 
 func (k *ProcFS) Run(args []string) int {

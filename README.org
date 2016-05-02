@@ -8,13 +8,14 @@
 
 * Introduction
 
-Autotune the Linux to get the optimal server performance.
+Autotune is a server tuning assistant which helps make software
+perform optimally on your servers.
 
 Acksin Autotune makes sure that your Linux servers are utilized as
-efficiently as possible. It does this by tuning your Linux kernel
-based on various criteria. The type of application profile, memory,
-CPUs, instance type to bring out the best performance for your
-machine.
+efficiently as possible. It does this by tuning Linux to get the best
+performance for your server software and also by looking over
+application configuration to make sure that it is configured
+optimally.
 
 * Usage
 
@@ -53,6 +54,11 @@ autotune list
 #+END_SRC
 
 ** Tuning
+*** Using Premium Signatures
+
+To use the premium signatures the environment variable
+=ACKSIN_API_KEY= needs to be set. This will be used to validate your
+subscription. A new API key can be generated on the [[http://www.acksin.com/fugue/console?#/credentials/][Fugue Console Credentials]] page.
 
 *** Show Signature
 

@@ -55,6 +55,9 @@ with. Further, since we want to optimize for the single Golang
 application we will give every user on the Linux machine unlimited
 open files.`,
 		Deps: []Profiler{&FastServer{}},
+		References: []string{
+			"http://dave.cheney.net/2015/11/29/a-whirlwind-tour-of-gos-runtime-environment-variables",
+		},
 	}
 
 	p.Vars = make(map[string]interface{})
@@ -62,11 +65,8 @@ open files.`,
 
 	p.Env = make(map[string]ProfileKV)
 	p.Env["GOGC"] = ProfileKV{
-		Value: "2000",
-		Description: `Set the value of GOGC to be really high.
-
-TODO: Consider how this is being used as part of a bigger
-setting. Based on RAM etc.`,
+		Value:       "500",
+		Description: `Set the value of GOGC to be really high. Step up by 100 for each additional GB of ram. Can likely be higher but it is a value that needs to be modified based on the heap used so it is better done within the Go application itself.`,
 	}
 
 	return p

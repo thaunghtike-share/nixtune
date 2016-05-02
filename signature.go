@@ -20,11 +20,11 @@ type Signature struct {
 }
 
 func (k *Signature) Synopsis() string {
-	return "Show the Signatureironment variables for signature"
+	return "Show JSON output of changes"
 }
 
 func (k *Signature) Help() string {
-	return "Show the Signatureironment variables for signature"
+	return "Show JSON output of changes"
 }
 
 // Run gets the configuration for the profile and updates the system
