@@ -18,5 +18,5 @@ type ProfileKV struct {
 	// Schedule is used for Cron tasks
 	Schedule string `json:",omitempty"`
 	// Default Value if it isn't specified.
-	Default string
+	Default string `json:",omitempty"`
 }
