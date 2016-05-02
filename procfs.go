@@ -8,8 +8,11 @@
 
 package main
 
-type ProcFS struct {
-}
+import (
+	"log"
+)
+
+type ProcFS struct{}
 
 func (k *ProcFS) Synopsis() string {
 	return "Show the ProcFS changes for the signature"
@@ -20,8 +23,9 @@ func (k *ProcFS) Help() string {
 }
 
 func (k *ProcFS) Run(args []string) int {
-	profile := profiles.Get(args[0], false)
-	if profile == nil {
+	profile, err := profiles.Get(args[0], false)
+	if err == nil {
+		log.Println(err)
 		return -1
 	}
 

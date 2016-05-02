@@ -8,8 +8,11 @@
 
 package main
 
-type Env struct {
-}
+import (
+	"log"
+)
+
+type Env struct{}
 
 func (k *Env) Synopsis() string {
 	return "Show the environment variables for the signature"
@@ -20,8 +23,9 @@ func (k *Env) Help() string {
 }
 
 func (k *Env) Run(args []string) int {
-	profile := profiles.Get(args[0], false)
-	if profile == nil {
+	profile, err := profiles.Get(args[0], false)
+	if err != nil {
+		log.Println(err)
 		return -1
 	}
 

@@ -1,24 +1,29 @@
 package signatures
 
 import (
+	"errors"
 	"os"
 )
 
 type Profiles []Profiler
 
-func (p Profiles) Get(s string, withDeps bool) (profile *Profile) {
+func (p Profiles) Get(s string, withDeps bool) (profile *Profile, err error) {
 	if withDeps {
 		profile = p.getWithDeps(s)
 	} else {
 		profile = p.getMergeDeps(s)
 	}
 
-	// Only return profile if they have the subscription.
-	if profile.HasSubscription(currentSubscription) {
-		return profile
+	if profile == nil {
+		return nil, errors.New("profile doesn't exist")
 	}
 
-	return nil
+	// Only return profile if they have the subscription.
+	if profile.HasSubscription(currentSubscription) {
+		return nil, errors.New("need to have subscription for this signature")
+	}
+
+	return profile, nil
 }
 
 func (p Profiles) getWithDeps(s string) (profile *Profile) {
