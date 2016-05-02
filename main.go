@@ -59,6 +59,9 @@ func main() {
 		"files": func() (cli.Command, error) {
 			return &Files{}, nil
 		},
+		"conf": func() (cli.Command, error) {
+			return &Conf{}, nil
+		},
 		"env": func() (cli.Command, error) {
 			return &Env{}, nil
 		},

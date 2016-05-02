@@ -61,6 +61,9 @@ type Profile struct {
 	// Flags are values that are passed from the command line to
 	// be used by the Profile.
 	Flags map[string]*ProfileKV `json:",omitempty"`
+	// Conf looks at the application config for changes that need
+	// to be done.
+	Conf map[string]*ProfileKV `json:",omitempty"`
 
 	// Vars are the variables passed to modify the signature
 	// templates. These can be used to pass values to ProcFS,
@@ -68,6 +71,19 @@ type Profile struct {
 	Vars map[string]interface{} `json:",omitempty"`
 	// Deps of other profiles.
 	Deps []Profiler `json:",omitempty"`
+}
+
+func (p *Profile) GetFlag(flagKey string) string {
+	k, ok := p.Flags[flagKey]
+	if !ok {
+		return ""
+	}
+
+	if k.Value != "" {
+		return k.Value
+	}
+
+	return k.Default
 }
 
 func (p *Profile) printMap(m map[string]*ProfileKV) {
@@ -104,6 +120,10 @@ func (p *Profile) PrintFiles() {
 		fmt.Printf("%s:\n", k)
 		fmt.Printf("%s\n", p.Files[k].Value)
 	}
+}
+
+func (p *Profile) PrintConf() {
+	p.printMap(p.Conf)
 }
 
 func (p *Profile) PrintEnv() {
