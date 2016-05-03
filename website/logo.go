@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"os"
 )
 
 const (
@@ -28,6 +29,8 @@ var (
 )
 
 func main() {
+	version := os.Args[1]
+
 	fmt.Printf("<svg xmlns='http://www.w3.org/2000/svg' style='stroke: orangered; fill: black; stroke-width: 0.2' width='%dpx' height='%dpx'>\n", int64(width), height)
 
 	colorIndex := 0
@@ -50,7 +53,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf(`<text text-anchor="middle" x="%f" y="%f" font-size="64" fill="darkslategray" font-family="helvetica">%s</text>`, float64(width/2), float64(height/2), logoName)
+	fmt.Printf(`<text text-anchor="middle" x="%f" y="%f" font-size="64" fill="darkslategray" font-family="helvetica"><tspan dy="1.2em">%s</tspan><tspan dy="1.2em">%s</tspan></text>`, float64(width/2), float64(height/2), logoName, version)
 	fmt.Println("</svg>")
 }
 

@@ -28,25 +28,23 @@ version: 0.5.4
           <h3>What is Acksin Autotune?</h3>
 
           <p>
-            Autotune is born out of the frustration that kernel tuning
-            is a black art. Linux was made for a world where multiple
-            services are running on the machine with the kernel giving
-            preference to all of the services. However, when running
-            single services on Service Oriented architectures you want
-            the machine to be greedy.
-          </p>
-
-          <p>
-            Autotune gives you the changes that should be done to give
-            your server the best performance. Pick a profile for your
-            machine (e.g. Go, Nodejs, Apache) and Autotune will set up
-            the best settings for that application profile.
+            Autotune is born out of the frustration that performance
+            tuning is a black art. There is not a single way to tune
+            servers for optimal performance. Further, trying to
+            configure applications for performance is also prone to
+            error and missteps so we hope to have solved that problem.
+            We hope with our tuning we can give your machine a 5-25%
+            boost in performance.
           </p>
 
           <%= partial "download", locals: {
             product: current_page.data.product,
             version: current_page.data.version
           } %>
+        </div>
+
+        <div class="col-lg-6">
+          <autotune-cost></autotune-cost>
         </div>
       </div>
 
@@ -57,14 +55,12 @@ version: 0.5.4
 
         <div class="col-lg-6">
           <p>
-            Autotune is completely free. The Autotune Pro allows you to
-            watch your machine and get recommendations to change
-            instance types if necessary. It'll watch your network, IO,
-            CPU, and memory utilization with the profile you specified
-            and recommend the best instance type to use. If we see that
-            the machine is underutilized we will also recommend going to
-            a serverless architecture if we see that you can save more
-            money.
+            Autotune comes in two versions: Open and Startup. Open is
+            completely free and gives you a general boost in
+            performance. Startup is a monthly subscription that tunes
+            for most common software used in startups. The Startup
+            version helps fund development of new features which will
+            be made available.
           </p>
         </div>
 
@@ -82,14 +78,9 @@ version: 0.5.4
      typescriptOptions: { emitDecoratorMetadata: true },
      packages: {'src': {defaultExtension: 'ts'}}
    });
-  </script>
-  <!-- 3. Bootstrap -->
-  <script>
-   System.import('angular2/platform/browser').then(function(ng){
-     System.import('/autotune/js/autotune_curl.ts').then(function(src) {
-       ng.bootstrap(src.AutotuneCurl);
-     });
-   });
+
+
+  System.import('/autotune/js/main.ts') .then(null, console.error.bind(console));
   </script>
 
 <% else %>
@@ -122,21 +113,12 @@ version: 0.5.4
             We are still putting the finishing touches on Autotune. It
             will be available shortly.
 
-            <acksin-subscribe></acksin-subscribe>
+            <%= partial :subscribe %>
           </p>
-
         </div>
       </div>
     </div>
   </section>
 <% end %>
 
-<script>
- System.config({
-   transpiler: 'typescript',
-   typescriptOptions: { emitDecoratorMetadata: true },
-   packages: {'app': {defaultExtension: 'ts'}}
- });
- System.import('/javascripts/main.ts') .then(null, console.error.bind(console));
-</script>
-<script src="/javascripts/subscribe.ts"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

@@ -12,34 +12,50 @@ import (
 	"encoding/json"
 	"os"
 	"sort"
-	"strings"
+
+	"github.com/acksin/autotune/signatures"
 )
 
 // List is the command used to update the system settings based
 // on the profile specified by the user.
 type List struct {
 	Open    []string
-	Pro     []string
-	Premium []string
+	Startup []string
+	Pro     []string `json:"-"`
+	Premium []string `json:"-"`
 }
 
 func (k *List) UpdateProfiles() {
-	for _, i := range AssetNames() {
-		if strings.HasPrefix(i, "signatures/pro") {
-			k.Pro = append(k.Pro, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/pro/"), ".yml"))
-		} else if strings.HasPrefix(i, "signatures/premium") {
-			k.Premium = append(k.Premium, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/premium/"), ".yml"))
-		} else {
-			k.Open = append(k.Open, strings.TrimSuffix(strings.TrimPrefix(i, "signatures/open/"), ".yml"))
+	for _, p := range profiles {
+		p2 := p.GetProfile()
+
+		switch p2.Subscription {
+		case signatures.OpenSubscription:
+			k.Open = append(k.Open, p2.Name)
+		case signatures.StartupSubscription:
+			k.Startup = append(k.Startup, p2.Name)
+		case signatures.ProSubscription:
+			k.Pro = append(k.Pro, p2.Name)
+		case signatures.PremiumSubscription:
+			k.Premium = append(k.Premium, p2.Name)
 		}
 	}
 
 	sort.Strings(k.Open)
+	sort.Strings(k.Startup)
 	sort.Strings(k.Pro)
 	sort.Strings(k.Premium)
 }
 
-func (k *List) Run() int {
+func (k *List) Synopsis() string {
+	return "List all the signatures available"
+}
+
+func (k *List) Help() string {
+	return "List all the signatures available"
+}
+
+func (k *List) Run(args []string) int {
 	k.UpdateProfiles()
 
 	e, err := json.MarshalIndent(k, "", "  ")
@@ -53,7 +69,5 @@ func (k *List) Run() int {
 
 // NewList returns a new List object
 func NewList() *List {
-	s := &List{}
-
-	return s
+	return &List{}
 }

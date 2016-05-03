@@ -1,4 +1,0 @@
-name: java
-description: Configuration for Java.
-deps:
-  - networking

@@ -1,4 +1,0 @@
-name: nginx
-description: Configuration for Nginx.
-deps:
-  - networking

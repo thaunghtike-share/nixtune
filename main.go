@@ -9,10 +9,14 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
+
+	"github.com/mitchellh/cli"
+
+	"github.com/acksin/autotune/signatures"
 )
 
 var (
@@ -21,7 +25,7 @@ var (
 )
 
 var (
-	subscription Subscription
+	profiles signatures.Profiles
 )
 
 func subCmd(cmds ...string) string {
@@ -31,35 +35,45 @@ func subCmd(cmds ...string) string {
 func copyright() string {
 	return fmt.Sprintf(`Acksin Autotune %s.
 Copyright (c) 2016. Acksin.
-https://acksin.com/autotune
-`, version)
+https://www.acksin.com/autotune`, version)
 }
 
 func main() {
-	listMode := flag.Bool("list", false, "List all the signatures available.")
-	showFlag := flag.String("show", "all", "What settings to show: procfs, sysfs, env, software, all.")
-	flag.String("output", "json", "Type of output.")
-	showDepsFlag := flag.Bool("deps", true, "Merge deps into this signature.")
+	profiles = signatures.Load()
 
-	flag.Usage = func() {
-		fmt.Fprintln(os.Stderr, "autotune [flags] [profile]")
-		fmt.Fprintln(os.Stderr, "")
-		flag.PrintDefaults()
-		fmt.Fprintf(os.Stderr, "\n%s", copyright())
+	c := cli.NewCLI(cmdName, version)
+	c.Args = os.Args[1:]
+	c.Commands = map[string]cli.CommandFactory{
+		"list": func() (cli.Command, error) {
+			return NewList(), nil
+		},
+		"sig": func() (cli.Command, error) {
+			return &Signature{}, nil
+		},
+		"procfs": func() (cli.Command, error) {
+			return &ProcFS{}, nil
+		},
+		"sysfs": func() (cli.Command, error) {
+			return &SysFS{}, nil
+		},
+		"files": func() (cli.Command, error) {
+			return &Files{}, nil
+		},
+		"conf": func() (cli.Command, error) {
+			return &Conf{}, nil
+		},
+		"env": func() (cli.Command, error) {
+			return &Env{}, nil
+		},
 	}
-	flag.Parse()
-
-	if *listMode {
-		os.Exit(NewList().Run())
+	c.HelpFunc = func(commands map[string]cli.CommandFactory) string {
+		return fmt.Sprintf("%s\n%s", cli.BasicHelpFunc(cmdName)(commands), copyright())
 	}
 
-	subscription = setSubscription(os.Getenv("ACKSIN_FUGUE_API_KEY"))
-
-	if len(flag.Args()) < 1 {
-		flag.Usage()
-		os.Exit(-1)
+	exitStatus, err := c.Run()
+	if err != nil {
+		log.Println(err)
 	}
 
-	signature := NewSignature(flag.Args()[0], *showFlag, *showDepsFlag)
-	os.Exit(signature.Run())
+	os.Exit(exitStatus)
 }
