@@ -1,6 +1,7 @@
 package signatures
 
 import (
+	"fmt"
 	"io/ioutil"
 	"regexp"
 )
@@ -30,7 +31,6 @@ func (f *Nginx) GetProfile() *Profile {
 }
 
 func (f *Nginx) workerProcessesRegex() *regexp.Regexp {
-
 	return regexp.MustCompile(`^worker_processes ([0-9]*|auto);$`)
 }
 
@@ -42,18 +42,35 @@ func (f *Nginx) confWorkerProcesses() *ProfileKV {
 		return nil
 	}
 
-	regexp.MustCompile(`^worker_processes (\d*|auto);$`)
-
-	matched, err := regexp.MatchString("foo.*", "seafood")
+	fmt.Println(f.workerProcessesRegex().FindAllStringSubmatch(string(b), -1))
 
 	return nil
 }
+
+// func (f *Nginx) workerConnectionsRegex() *regexp.Regexp {
+// 	return regexp.MustCompile(`^worker_processes ([0-9]*|auto);$`)
+// }
+
+// func (f *Nginx) confWorkerConnections() *ProfileKV {
+// 	configFilename := f.p.GetFlag("nginx-conf")
+
+// 	b, err := ioutil.ReadFile(configFilename)
+// 	if err != nil {
+// 		return nil
+// 	}
+
+// 	regexp.MustCompile(`^worker_processes (\d*|auto);$`)
+
+// 	matched, err := regexp.MatchString("foo.*", "seafood")
+
+// 	return nil
+// }
 
 func (f *Nginx) conf() map[string]*ProfileKV {
 	p := make(map[string]*ProfileKV)
 
 	p["worker_processes"] = f.confWorkerProcesses()
-	p["worker_connections"] = f.confWorkerConnections()
+	// p["worker_connections"] = f.confWorkerConnections()
 
 	return p
 }

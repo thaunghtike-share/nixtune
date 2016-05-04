@@ -63,7 +63,7 @@ type Profile struct {
 	Flags map[string]*ProfileKV `json:",omitempty"`
 	// Conf looks at the application config for changes that need
 	// to be done.
-	Conf map[string]*ProfileKV `json:",omitempty"`
+	App map[string]*ProfileKV `json:",omitempty"`
 
 	// Vars are the variables passed to modify the signature
 	// templates. These can be used to pass values to ProcFS,
@@ -122,8 +122,8 @@ func (p *Profile) PrintFiles() {
 	}
 }
 
-func (p *Profile) PrintConf() {
-	p.printMap(p.Conf)
+func (p *Profile) PrintApp() {
+	p.printMap(p.App)
 }
 
 func (p *Profile) PrintEnv() {
