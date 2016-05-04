@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 VERSION=0.6.0
 
 function welcome_autotune {
@@ -26,13 +28,7 @@ function install_autotune {
     echo "for the ${profile} profile."
     echo ""
 
-    autotune sig  $profile
-
-    # echo ""
-    # echo "If you okay with setting these values run the following command:"
-    # echo ""
-    # echo "  sudo /usr/local/bin/autotune signature $profile"
-    # echo ""
+    ./autotune sig  $profile
 }
 
 welcome_autotune
