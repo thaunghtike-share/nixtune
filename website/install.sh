@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 PRODUCT=autotune
 VERSION=0.6.0
 
