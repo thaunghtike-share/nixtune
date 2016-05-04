@@ -2,6 +2,7 @@
 
 set -x
 
+PRODUCT=autotune
 VERSION=0.6.0
 
 function welcome_autotune {
@@ -16,9 +17,9 @@ function welcome_autotune {
 }
 
 function download_autotune {
-    curl -s -o autotune.tar.gz https://assets.acksin.com/autotune/${VERSION}/autotune-${VERSION}-$(uname -i).tar.gz
-    tar zxf autotune.tar.gz
-    rm autotune.tar.gz
+    curl -s -o ${PRODUCT}.tar.gz https://assets.acksin.com/${PRODUCT}/${VERSION}/${PRODUCT}-$(uname)-$(uname -i)-${VERSION}.tar.gz
+    tar zxf ${PRODUCT}.tar.gz
+    rm ${PRODUCT}.tar.gz
 }
 
 function install_autotune {

@@ -29,7 +29,7 @@ release: build archive
 	git add website/install.sh website/index.html.erb
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
+	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
 	cd website && go run logo.go pro > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
