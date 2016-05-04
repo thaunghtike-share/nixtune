@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION=0.5.4
+VERSION=0.6.0
 
 function welcome_autotune {
     echo "Welcome to Acksin Autotune ($VERSION) Installation"
