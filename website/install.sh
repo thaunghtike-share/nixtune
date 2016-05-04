@@ -9,14 +9,14 @@ function welcome_autotune {
     echo ""
     echo "Autotune will be installed in the following location:"
     echo ""
-    echo "    /usr/local/bin/autotune"
+    echo "    ${PWD}"
     echo ""
 }
 
 function download_autotune {
-    curl -s -o /tmp/autotune.tar.gz https://assets.acksin.com/autotune/${VERSION}/autotune-${VERSION}-$(uname -i).tar.gz
-    cd /tmp && tar zxf autotune.tar.gz
-    sudo mv autotune /usr/local/bin/autotune
+    curl -s -o autotune.tar.gz https://assets.acksin.com/autotune/${VERSION}/autotune-${VERSION}-$(uname -i).tar.gz
+    tar zxf autotune.tar.gz
+    rm autotune.tar.gz
 }
 
 function install_autotune {
@@ -26,13 +26,13 @@ function install_autotune {
     echo "for the ${profile} profile."
     echo ""
 
-    autotune signature -write=false $profile
+    autotune sig  $profile
 
-    echo ""
-    echo "If you okay with setting these values run the following command:"
-    echo ""
-    echo "  sudo /usr/local/bin/autotune signature $profile"
-    echo ""
+    # echo ""
+    # echo "If you okay with setting these values run the following command:"
+    # echo ""
+    # echo "  sudo /usr/local/bin/autotune signature $profile"
+    # echo ""
 }
 
 welcome_autotune
