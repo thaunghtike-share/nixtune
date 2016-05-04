@@ -130,7 +130,7 @@ autotune sig networking
     },
     "net.ipv4.tcp_syn_retries": {
       "Value": "2",
-      "Description": "Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections."
+      "Description": "Number of times initial SYNs for a TCP connection attempt will be re-transmitted for outgoing connections."
     },
     "net.ipv4.tcp_synack_retries": {
       "Value": "2",

@@ -23,13 +23,13 @@ test:
 archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
 
-release: spell build archive
+release: build archive
 	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
-	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/index.html
-	git add website/install.sh
+	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/index.html.erb
+	git add website/install.sh website/index.html.erb
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.co/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
+	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-${VERSION}.tar.gz
 
 website-assets:
 	cd website && go run logo.go pro > logo.svg && inkscape -z -d 150 -e autotune.png logo.svg
