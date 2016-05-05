@@ -9,20 +9,39 @@ import {HTTP_PROVIDERS, Http} from 'angular2/http';
     // Location of the template for this component
     template: `
 <div>
-<label>Server Profile:</label>
-<select [(ngModel)]="selectedProfile" class="form-control">
-<option *ngFor="#p of profiles" [value]="p">{{p}}</option>
+<label>Server Signature:</label>
+<select [(ngModel)]="selectedSignature" #signature (change)="selected($event, signature.value)" class="form-control">
+<option *ngFor="#p of signatures" [value]="p">{{p}}</option>
 </select>
 </div>
 <br>
-<code>\\curl -sSL https://acksin.com/autotune/install.sh | bash -s {{selectedProfile}}</code>`
+<code>\\curl -sSL https://acksin.com/autotune/install.sh | bash -s {{selectedSignature}}</code>
+
+{{premiumSig}}
+`
 })
 export class AutotuneCurl {
-    selectedProfile: string = 'apache';
+    selectedSignature: string = '';
+
+    signatures: string[] = [""];
+    premiumSignatures: string[] = [];
+
+    premiumSig: string = "";
 
     constructor(http: Http) {
-        http.get('/autotune/js/profiles.json')
+        http.get('/autotune/signatures.json')
             .map(res => res.json())
-            .subscribe(profiles => this.profiles = profiles);
+            .subscribe(signatures => {
+                this.signatures = this.signatures.concat(signatures.Open).concat(signatures.Startup);
+                this.premiumSignatures = this.premiumSignatures.concat(signatures.Startup);
+            });
+    }
+
+    selected($event, sig) {
+        if(this.premiumSignatures.some(x => sig == x)) {
+            this.premiumSig = sig + " is not available in the Open version and must be purchased. Please see the pricing for more information."
+        } else {
+            this.premiumSig = "";
+        }
     }
 }

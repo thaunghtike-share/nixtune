@@ -34,6 +34,8 @@ func (k *Signature) Run(args []string) int {
 		showDeps bool = false
 	)
 
+	gaInvokeEvent("sig", args[0])
+
 	profile, err := profiles.Get(args[0], showDeps)
 	if err != nil {
 		log.Println(err)

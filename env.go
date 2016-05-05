@@ -23,6 +23,8 @@ func (k *Env) Help() string {
 }
 
 func (k *Env) Run(args []string) int {
+	gaInvokeEvent("env", args[0])
+
 	profile, err := profiles.Get(args[0], false)
 	if err != nil {
 		log.Println(err)

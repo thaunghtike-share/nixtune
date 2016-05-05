@@ -36,7 +36,16 @@ version: 0.6.0
             We hope with our tuning we can give your machine a 5-25%
             boost in performance.
           </p>
+        </div>
 
+        <div class="col-lg-6">
+          <div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
           <%= partial "download", locals: {
             product: current_page.data.product,
             version: current_page.data.version
@@ -44,7 +53,17 @@ version: 0.6.0
         </div>
 
         <div class="col-lg-6">
-          <autotune-cost></autotune-cost>
+          <h3>Subscribe for Updates</h3>
+          <p>
+            We are still putting the finishing touches on Autotune. It
+            will be available shortly.
+
+            <%= partial :subscribe %>
+          </p>
+
+          <% if false %>
+            <autotune-cost></autotune-cost>
+          <% end %>
         </div>
       </div>
 
@@ -80,7 +99,7 @@ version: 0.6.0
    });
 
 
-  System.import('/autotune/js/main.ts') .then(null, console.error.bind(console));
+   System.import('/autotune/js/main.ts') .then(null, console.error.bind(console));
   </script>
 
 <% else %>

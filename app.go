@@ -23,6 +23,8 @@ func (k *App) Help() string {
 }
 
 func (k *App) Run(args []string) int {
+	gaInvokeEvent("app", args[0])
+
 	profile, err := profiles.Get(args[0], false)
 	if err != nil {
 		log.Println(err)

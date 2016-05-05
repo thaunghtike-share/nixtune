@@ -23,6 +23,8 @@ func (k *ProcFS) Help() string {
 }
 
 func (k *ProcFS) Run(args []string) int {
+	gaInvokeEvent("procfs", args[0])
+
 	profile, err := profiles.Get(args[0], false)
 	if err != nil {
 		log.Println(err)

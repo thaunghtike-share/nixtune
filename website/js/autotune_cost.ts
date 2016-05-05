@@ -48,7 +48,7 @@ export class AutotuneCost {
 
     drawChart() {
         let data = google.visualization.arrayToDataTable([
-            ["Tuning State", "Machines", { role: "style" } ],
+            ["Tuning Inprovement", "Machines", { role: "style" } ],
             ["Pre-Tuning", 100, "red"],
             ["Post-Tuning 5%", 95, "green"],
             ["Post-Tuning 15%", 85, "green"],

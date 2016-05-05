@@ -23,6 +23,8 @@ func (k *Files) Help() string {
 }
 
 func (k *Files) Run(args []string) int {
+	gaInvokeEvent("files", args[0])
+
 	profile, err := profiles.Get(args[0], false)
 	if err != nil {
 		log.Println(err)

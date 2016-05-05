@@ -16,6 +16,7 @@ import (
 
 	"github.com/mitchellh/cli"
 
+	"github.com/abhiyerra/ga-measurement"
 	"github.com/acksin/autotune/signatures"
 )
 
@@ -26,7 +27,16 @@ var (
 
 var (
 	profiles signatures.Profiles
+	ga       *measurement.GA
 )
+
+func gaCid() string {
+	return fmt.Sprintf("%s-%s", cmdName, version)
+}
+
+func gaInvokeEvent(action, label string) {
+	ga.Event(gaCid(), "invoke", action, label, "")
+}
 
 func subCmd(cmds ...string) string {
 	return fmt.Sprintf("%s %s", cmdName, strings.Join(cmds, " "))
@@ -39,13 +49,14 @@ https://www.acksin.com/autotune`, version)
 }
 
 func main() {
+	ga = &measurement.GA{"UA-75403807-1"}
 	profiles = signatures.Load()
 
 	c := cli.NewCLI(cmdName, version)
 	c.Args = os.Args[1:]
 	c.Commands = map[string]cli.CommandFactory{
 		"list": func() (cli.Command, error) {
-			return NewList(), nil
+			return &List{}, nil
 		},
 		"sig": func() (cli.Command, error) {
 			return &Signature{}, nil

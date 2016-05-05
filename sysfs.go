@@ -24,11 +24,14 @@ func (k *SysFS) Help() string {
 }
 
 func (k *SysFS) Run(args []string) int {
+	gaInvokeEvent("sysfs", args[0])
+
 	profile, err := profiles.Get(args[0], false)
 	if err != nil {
 		log.Println(err)
 		return -1
 	}
+
 	profile.PrintSysFS()
 
 	return 0

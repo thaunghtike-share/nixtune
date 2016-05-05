@@ -58,6 +58,8 @@ func (k *List) Help() string {
 func (k *List) Run(args []string) int {
 	k.UpdateProfiles()
 
+	gaInvokeEvent("list", "")
+
 	e, err := json.MarshalIndent(k, "", "  ")
 	if err != nil {
 		return -1
@@ -65,9 +67,4 @@ func (k *List) Run(args []string) int {
 	os.Stdout.Write(e)
 
 	return 0
-}
-
-// NewList returns a new List object
-func NewList() *List {
-	return &List{}
 }
