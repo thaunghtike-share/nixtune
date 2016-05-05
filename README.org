@@ -43,12 +43,9 @@ autotune list
     "networking"
   ],
   "Startup": [
-    "apache",
     "golang",
-    "haproxy",
     "nginx",
-    "nodejs",
-    "postgresql"
+    "nodejs"
   ]
 }
 #+END_SRC
@@ -130,7 +127,7 @@ autotune sig networking
     },
     "net.ipv4.tcp_syn_retries": {
       "Value": "2",
-      "Description": "Number of times initial SYNs for a TCP connection attempt will be re-transmitted for outgoing connections."
+      "Description": "Number of times initial SYNs for a TCP connection attempt will be retransmitted for outgoing connections."
     },
     "net.ipv4.tcp_synack_retries": {
       "Value": "2",
@@ -313,8 +310,8 @@ autotune sysfs io
 
 #+ATTR_HTML: :class table
 |Files Key|Description|
-|=/etc/fstab:attime=||
 |=/etc/fstab:discard=|Avoid having a discard mount attribute as every time a file is deleted the SSD will also do a TRIM for future writing. This will increase time it takes to delete a file. Better option is to run a daily/weekly cron.|
+|=/etc/fstab:noattime=||
 |=/etc/security/limits.conf=|Every user has unlimited file descriptors available for them upping the limit from the default 1024. This allows things like increasing the number of connections etc.|
 *** References
 
