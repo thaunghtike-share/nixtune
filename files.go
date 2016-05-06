@@ -23,6 +23,11 @@ func (k *Files) Help() string {
 }
 
 func (k *Files) Run(args []string) int {
+	if len(args) < 1 {
+		log.Println("need to pass the signature")
+		return -1
+	}
+
 	gaInvokeEvent("files", args[0])
 
 	profile, err := profiles.Get(args[0], false)

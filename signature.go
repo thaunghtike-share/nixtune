@@ -34,6 +34,11 @@ func (k *Signature) Run(args []string) int {
 		showDeps bool = false
 	)
 
+	if len(args) < 1 {
+		log.Println("need to pass the signature")
+		return -1
+	}
+
 	gaInvokeEvent("sig", args[0])
 
 	profile, err := profiles.Get(args[0], showDeps)

@@ -23,6 +23,11 @@ func (k *ProcFS) Help() string {
 }
 
 func (k *ProcFS) Run(args []string) int {
+	if len(args) < 1 {
+		log.Println("need to pass the signature")
+		return -1
+	}
+
 	gaInvokeEvent("procfs", args[0])
 
 	profile, err := profiles.Get(args[0], false)

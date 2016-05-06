@@ -23,6 +23,11 @@ func (k *Env) Help() string {
 }
 
 func (k *Env) Run(args []string) int {
+	if len(args) < 1 {
+		log.Println("need to pass the signature")
+		return -1
+	}
+
 	gaInvokeEvent("env", args[0])
 
 	profile, err := profiles.Get(args[0], false)
