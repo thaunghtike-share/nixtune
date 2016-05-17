@@ -5,7 +5,7 @@ type IO struct{}
 func (f *IO) GetProfile() *Profile {
 	p := &Profile{
 		Name:         "io",
-		Subscription: OpenSubscription,
+		Subscription: StartupSubscription,
 		Description:  "Settings for IO optimizations",
 		References: []string{
 			"http://www.brendangregg.com/linuxperf.html",

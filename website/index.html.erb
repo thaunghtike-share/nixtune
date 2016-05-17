@@ -35,44 +35,31 @@ version: 0.6.2
           We hope with our tuning we can give your machine a 5-25%
           boost in performance.
         </p>
+
+        <p>
+          <a class="btn btn-default" href="/autotune/docs"><i class="fa fa-book"> Docs</i></a>
+          <a class="btn btn-success" href="#download"><i class="fa fa-download"> Download</i></a>
+        </p>
+
       </div>
 
       <div class="col-lg-6">
         <div>
+          <h3>Subscribe for Updates</h3>
+          <p>
+            We are still putting the finishing touches on Autotune. It
+            will be available shortly.
+
+            <%= partial :subscribe %>
+          </p>
+
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-6">
-        <%= partial "download", locals: {
-          product: current_page.data.product,
-          version: current_page.data.version
-        } %>
-
-        <p>
-          <a class="btn btn-default" href="/autotune/docs"><i class="fa fa-book"> Docs</i></a>
-        </p>
-      </div>
-
-      <div class="col-lg-6">
-        <h3>Subscribe for Updates</h3>
-        <p>
-          We are still putting the finishing touches on Autotune. It
-          will be available shortly.
-
-          <%= partial :subscribe %>
-        </p>
-
-        <% if false %>
-          <autotune-cost></autotune-cost>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col-lg-12">
-        <h3>Pricing</h3>
+        <h3>Plans</h3>
       </div>
 
       <div class="col-lg-6">
@@ -86,6 +73,23 @@ version: 0.6.2
 
       <div class="col-lg-12">
         <%= partial "pricing/autotune" %>
+      </div>
+    </div>
+
+    <div class="row" id="download">
+      <div class="col-lg-6">
+        <%= partial "download", locals: {
+          product: current_page.data.product,
+          version: current_page.data.version
+        } %>
+
+      </div>
+
+      <div class="col-lg-6">
+
+        <% if false %>
+          <autotune-cost></autotune-cost>
+        <% end %>
       </div>
     </div>
   </div>

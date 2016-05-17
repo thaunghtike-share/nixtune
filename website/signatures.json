@@ -1,14 +1,12 @@
 {
   "Open": [
-    "fast-server",
-    "fs",
-    "io",
-    "memory",
     "networking"
   ],
   "Startup": [
+    "fast-server",
+    "fs",
     "golang",
-    "nginx",
-    "nodejs"
+    "io",
+    "memory"
   ]
 }

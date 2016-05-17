@@ -38,10 +38,10 @@ export class AutotuneCurl {
     }
 
     selected($event, sig) {
-        if(this.premiumSignatures.some(x => sig == x)) {
-            this.premiumSig = sig + " is not available in the Open version and must be purchased. Please see the pricing for more information."
-        } else {
-            this.premiumSig = "";
-        }
+        // if(this.premiumSignatures.some(x => sig == x)) {
+        //     // this.premiumSig = sig + " is not available in the Open version and must be purchased. Please see the pricing for more information."
+        // } else {
+        //     this.premiumSig = "";
+        // }
     }
 }

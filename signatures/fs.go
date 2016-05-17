@@ -164,7 +164,7 @@ func (f *FS) procfs() (p map[string]*ProfileKV) {
 func (f *FS) GetProfile() *Profile {
 	p := &Profile{
 		Name:         "fs",
-		Subscription: OpenSubscription,
+		Subscription: StartupSubscription,
 		Description:  "Settings for fs optimizations",
 		References: []string{
 			"https://tweaked.io/guide/kernel/",

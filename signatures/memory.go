@@ -5,7 +5,7 @@ type Memory struct{}
 func (f *Memory) GetProfile() *Profile {
 	p := &Profile{
 		Name:         "memory",
-		Subscription: OpenSubscription,
+		Subscription: StartupSubscription,
 		Description:  "Settings for memory optimizations",
 	}
 
