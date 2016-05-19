@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PRODUCT=autotune
-VERSION=0.6.2
+VERSION=0.6.3
 
 function welcome_autotune {
     echo "Welcome to Acksin Autotune ($VERSION) Installation"
