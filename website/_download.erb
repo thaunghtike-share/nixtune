@@ -12,7 +12,7 @@
     <% ["Linux"].each do |os| %>
       <% ["x86_64"].each do |arch| %>
         <li>
-          <a onclick="ga('send', 'event', 'Download', '<%= product.upcase %>', 'Download <%= product.upcase %> <%= version %>');" href="https://assets.acksin.com/<%= product %>/<%= version %>/<%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz"><%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz</a>
+          <a onclick="ga('send', 'event', 'Validation', 'Download <%= product.upcase %>', 'Validation Download <%= product.upcase %> <%= version %>');" href="https://assets.acksin.com/<%= product %>/<%= version %>/<%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz"><%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz</a>
         </li>
         <% end %>
     <% end %>

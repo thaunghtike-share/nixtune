@@ -15,6 +15,8 @@ function download_strum {
     curl -s -o strum.tar.gz https://assets.acksin.com/${PRODUCT}/${VERSION}/${PRODUCT}-$(uname)-$(uname -i)-${VERSION}.tar.gz
     tar zxf strum.tar.gz
     echo "STRUM is installed as ${PWD}/strum"
+
+    curl -s --data "v=1&tid=UA-75403807-1&cid=2d7de14a2283b05c956524b2878ab7fa23c9b179&t=event&ec=Download&ea=Download%20STRUM&el=Validation%20Download%20STRUM%20${VERSION}%20Curl" https://www.google-analytics.com/collect > /dev/null
 }
 
 welcome_strum

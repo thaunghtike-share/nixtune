@@ -15,10 +15,11 @@ import (
 	"os"
 	"strconv"
 
+	"bytes"
+	"encoding/json"
 	"github.com/acksin/strum/stats"
-
-	"github.com/acksin/bridge/api"
-	"github.com/acksin/utils-go/credentials"
+	"io/ioutil"
+	"net/http"
 )
 
 var (
@@ -90,41 +91,43 @@ func main() {
 		var err error
 
 		if conf.apiKey == "" {
-			fmt.Fprintln(os.Stderr, `Provide the -api-key flag. The API Key can be gathered at 
+			fmt.Fprintln(os.Stderr, `Provide the -api-key flag or set the ACKSIN_API_KEY.\nThe API Key can be gathered at 
 https://www.acksin.com/fugue/console/#/credentials`)
 			os.Exit(-1)
 		}
 
-		conf.sessionID, err = fugue_credentials.GetSessionID(conf.apiKey)
+		reqForm := struct {
+			Machine string
+			Stats   *stats.Stats
+		}{
+			Machine: "",
+			Stats:   conf.stats,
+		}
+
+		jsonStr, _ := json.Marshal(reqForm)
+
+		client := &http.Client{}
+		req, _ := http.NewRequest("POST", "https://bridge-api.acksin.com/v1/strum/stats", bytes.NewBuffer(jsonStr))
+		req.SetBasicAuth(conf.apiKey, "")
+		req.Header.Set("Content-Type", "application/json")
+		resp, err := client.Do(req)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(-1)
+			log.Println("An error occured", err)
+			return
+		}
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+
+		var respForm struct {
+			ID string
 		}
 
-		resp, err := bridge.Request{
-			Service: bridgeService,
-			Action:  "NewStats",
-			Method:  "POST",
-			Version: "1.0",
-			Async:   false,
-			Payload: struct {
-				SessionID string
-				Stats     *stats.Stats
-			}{conf.sessionID, conf.stats},
-		}.POST(bridgeAPIURL)
-
+		err = json.Unmarshal(body, &respForm)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "%s", err)
-			os.Exit(-1)
+			log.Println("An error occured", err)
+			return
 		}
 
-		if resp.Error != "" {
-			fmt.Fprintf(os.Stderr, "%s", resp.Error)
-			os.Exit(-1)
-		}
-
-		payload := resp.Payload.(map[string]interface{})
-
-		fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", payload["ID"].(string))
+		fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", respForm.ID)
 	}
 }
