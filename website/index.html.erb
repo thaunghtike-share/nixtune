@@ -1,7 +1,6 @@
 ---
 product: autotune
-title: Autotune - Linux Performance Tool
-version: 0.6.3
+title: Autotune - Linux Performance Tuning Assistant
 ---
 
 <header>
@@ -27,33 +26,24 @@ version: 0.6.3
         <h3>What is Acksin Autotune?</h3>
 
         <p>
-          Autotune is born out of the frustration that performance
-          tuning is a black art. There is not a single way to tune
-          servers for optimal performance. Further, trying to
-          configure applications for performance is also prone to
-          error and missteps so we hope to have solved that problem.
-          We hope with our tuning we can give your machine a 5-25%
-          boost in performance.
+          Autotune is a <strong>Linux performance tuning assistant</strong>
+          born out of the frustration that performance tuning is a
+          black art. There is not a single way to tune servers for
+          optimal performance. Further, trying to configure
+          applications for performance is also prone to error and
+          missteps so we hope to have solved that problem.  We hope
+          with our tuning we can give your machine a 5-25% boost in
+          performance.
         </p>
 
-        <p>
-          <a class="btn btn-default" href="/autotune/docs"><i class="fa fa-book"> Docs</i></a>
-          <a class="btn btn-success" href="#download"><i class="fa fa-download"> Download</i></a>
-        </p>
-
+        <%= partial :subscribe, locals: { subscribeBlurb: "Get updates as we build out new features and support new applications.", subscribeText: "Get Updates" } %>
       </div>
 
       <div class="col-lg-6">
-        <div>
-          <h3>Subscribe for Updates</h3>
-          <p>
-            We are still putting the finishing touches on Autotune. It
-            will be available shortly.
-
-            <%= partial :subscribe %>
-          </p>
-
-        </div>
+        <p>
+          <a class="btn btn-lg btn-success" href="#autotune-plans"><i class="fa fa-download"> Download</i></a>
+          <a class="btn btn-lg btn-default" href="/autotune/docs"><i class="fa fa-book"> Documentation</i></a>
+        </p>
       </div>
     </div>
 
@@ -71,42 +61,9 @@ version: 0.6.3
         </p>
       </div>
 
-      <div class="col-lg-12">
+      <div class="col-lg-12" id="autotune-plans">
         <%= partial "pricing/autotune" %>
-      </div>
-    </div>
-
-    <div class="row" id="download">
-      <div class="col-lg-6">
-        <%= partial "download", locals: {
-          product: current_page.data.product,
-          version: current_page.data.version
-        } %>
-
-      </div>
-
-      <div class="col-lg-6">
-
-        <% if false %>
-          <autotune-cost></autotune-cost>
-        <% end %>
       </div>
     </div>
   </div>
 </section>
-
-<!-- 2. Configure SystemJS -->
-<script>
- System.config({
-   transpiler: 'typescript',
-   typescriptOptions: { emitDecoratorMetadata: true },
-   packages: {'src': {defaultExtension: 'ts'}}
- });
-
-
- System.import('/autotune/js/main.ts') .then(null, console.error.bind(console));
-</script>
-
-<% if false %>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<% end %>

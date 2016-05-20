@@ -17,7 +17,7 @@ import (
 	"github.com/mitchellh/cli"
 
 	"github.com/acksin/autotune/signatures"
-	"github.com/acksin/gmeasure"
+	"github.com/acksin/gameasure"
 )
 
 var (
@@ -27,7 +27,7 @@ var (
 
 var (
 	profiles signatures.Profiles
-	ga       *gmeasure.GA
+	ga       *gameasure.GA
 
 	cid = "bff73d42-1c83-11e6-b6ba-3e1d05defe78"
 )
@@ -37,7 +37,7 @@ func gaCid() string {
 }
 
 func gaInvokeEvent(action, label string) {
-	ga.Event(gmeasure.Event{
+	ga.Event(gameasure.Event{
 		Category: "AutotuneInvoke",
 		Action:   action,
 		Label:    label,
@@ -55,7 +55,7 @@ https://www.acksin.com/autotune`, version)
 }
 
 func main() {
-	ga = gmeasure.New("UA-75403807-1", gaCid())
+	ga = gameasure.New("UA-75403807-1", gaCid())
 	profiles = signatures.Load()
 
 	c := cli.NewCLI(cmdName, version)

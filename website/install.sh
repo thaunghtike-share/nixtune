@@ -23,7 +23,7 @@ function download_autotune {
 function install_autotune {
     profile=$1 ; shift
 
-    curl -s --data "v=1&tid=UA-75403807-1&cid=2d7de14a2283b05c956524b2878ab7fa23c9b179&t=event&ec=Download&ea=Autotune%20Curl" https://www.google-analytics.com/collect > /dev/null
+    curl -s --data "v=1&tid=UA-75403807-1&cid=2d7de14a2283b05c956524b2878ab7fa23c9b179&t=event&ec=Validation&ea=Download%20AUTOTUNE&el=Validation%20Download%20AUTOTUNE%20${VERSION}%20Curl" https://www.google-analytics.com/collect > /dev/null
 
     echo "These are the kernel values that will be changing on this machine"
     echo "for the ${profile} profile."

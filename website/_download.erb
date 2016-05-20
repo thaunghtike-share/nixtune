@@ -1,4 +1,4 @@
-<h3 id="download">Install Autotune</h3>
+<h3 id="download">Install</h3>
 
 <p>
   Specify the server profile of your machine and run the curl command
@@ -13,7 +13,7 @@
     <% ["Linux"].each do |os| %>
       <% ["x86_64"].each do |arch| %>
         <li>
-          <a onclick="ga('send', 'event', 'Download', '<%= product.upcase %>', 'Download <%= product.upcase %> <%= version %>');"
+          <a onclick="ga('send', 'event', 'Validation', 'Download <%= product.upcase %>', 'Validation Download <%= product.upcase %> <%= version %>');"
              href="https://assets.acksin.com/<%= product %>/<%= version %>/<%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz"><%= product %>-<%= os %>-<%= arch %>-<%= version %>.tar.gz</a>
         </li>
       <% end %>

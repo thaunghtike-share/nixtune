@@ -1,0 +1,41 @@
+---
+product: autotune
+title: Sign Up to Download Autotune Linux Performance Tuning Assistant
+---
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 center">
+        <h1 class="intro-heading">Get product updates and download<br>Acksin Autotune</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Why Autotune?</h3>
+
+        <ul>
+          <li>Autotune is a Linux performance tuning assistant.</li>
+          <li>You are the pilot, Autotune gives you suggestions.</li>
+          <li>Make your servers fly.</li>
+          <li>Tune for multiple different profiles.</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-6">
+        <div>
+          <%= partial :subscribe, locals: {
+            successUrl: "https://www.acksin.com/autotune/download/",
+            errorUrl: "https://www.acksin.com/autotune/download/?error=1",
+            subscribeTitle: "Signup to Download Autotune",
+            subscribeText: "Download Autotune",
+            subscribeNoThanks: link_to("Just the Download", "download")
+          } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

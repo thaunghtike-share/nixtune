@@ -25,8 +25,8 @@ archive:
 
 release: build archive
 	sed -i -e "s/^VERSION=.*$\/VERSION=$(VERSION)/g" website/install.sh
-	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/index.html.erb
-	git add website/install.sh website/index.html.erb
+	sed -i -e "s/^version: .*$\/version: $(VERSION)/g" website/download.html.erb
+	git add website/install.sh website/download.html.erb
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
