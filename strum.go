@@ -9,17 +9,18 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 
-	"bytes"
-	"encoding/json"
 	"github.com/acksin/strum/stats"
-	"io/ioutil"
-	"net/http"
+	ui "github.com/gizak/termui"
 )
 
 var (
@@ -59,7 +60,7 @@ type config struct {
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", "json", "Formatted outputs available. Available: json, flat, fugue")
+	flag.StringVar(&conf.output, "output", "ui", "Formatted outputs available. Available: json, flat, fugue")
 	flag.StringVar(&conf.apiKey, "api-key", "", "API Key for Fugue. https://www.acksin.com/fugue")
 
 	flag.Usage = func() {
@@ -88,46 +89,85 @@ func main() {
 	case FlatOutput:
 		fmt.Printf("%s", conf.stats.Flat())
 	case FugueOutput:
-		var err error
-
-		if conf.apiKey == "" {
-			fmt.Fprintln(os.Stderr, `Provide the -api-key flag or set the ACKSIN_API_KEY.\nThe API Key can be gathered at 
-https://www.acksin.com/fugue/console/#/credentials`)
-			os.Exit(-1)
-		}
-
-		reqForm := struct {
-			Machine string
-			Stats   *stats.Stats
-		}{
-			Machine: "",
-			Stats:   conf.stats,
-		}
-
-		jsonStr, _ := json.Marshal(reqForm)
-
-		client := &http.Client{}
-		req, _ := http.NewRequest("POST", "https://bridge-api.acksin.com/v1/strum/stats", bytes.NewBuffer(jsonStr))
-		req.SetBasicAuth(conf.apiKey, "")
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Println("An error occured", err)
-			return
-		}
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-
-		var respForm struct {
-			ID string
-		}
-
-		err = json.Unmarshal(body, &respForm)
-		if err != nil {
-			log.Println("An error occured", err)
-			return
-		}
-
-		fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", respForm.ID)
+		postToFugue(&conf)
+	default:
+		startUI()
 	}
+}
+
+func postToFugue(conf *config) {
+	var err error
+
+	if conf.apiKey == "" {
+		fmt.Fprintln(os.Stderr, `Provide the -api-key flag or set the ACKSIN_API_KEY.\nThe API Key can be gathered at 
+https://www.acksin.com/fugue/console/#/credentials`)
+		os.Exit(-1)
+	}
+
+	reqForm := struct {
+		Machine string
+		Stats   *stats.Stats
+	}{
+		Machine: "",
+		Stats:   conf.stats,
+	}
+
+	jsonStr, _ := json.Marshal(reqForm)
+
+	client := &http.Client{}
+	req, _ := http.NewRequest("POST", "https://bridge-api.acksin.com/v1/strum/stats", bytes.NewBuffer(jsonStr))
+	req.SetBasicAuth(conf.apiKey, "")
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("An error occured", err)
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var respForm struct {
+		ID string
+	}
+
+	err = json.Unmarshal(body, &respForm)
+	if err != nil {
+		log.Println("An error occured", err)
+		return
+	}
+
+	fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", respForm.ID)
+}
+
+func startUI() {
+	err := ui.Init()
+	if err != nil {
+		panic(err)
+	}
+	defer ui.Close()
+
+	p := ui.NewPar(":PRESS q TO QUIT DEMO")
+	p.Height = 3
+	p.Width = 50
+	p.TextFgColor = ui.ColorWhite
+	p.BorderLabel = "Text Box"
+	p.BorderFg = ui.ColorCyan
+
+	g := ui.NewGauge()
+	g.Percent = 50
+	g.Width = 50
+	g.Height = 3
+	g.Y = 11
+	g.BorderLabel = "Gauge"
+	g.BarColor = ui.ColorRed
+	g.BorderFg = ui.ColorWhite
+	g.BorderLabelFg = ui.ColorCyan
+
+	ui.Render(p, g)
+
+	ui.Handle("/sys/kbd/q", func(ui.Event) {
+		ui.StopLoop()
+	})
+
+	ui.Loop()
 }

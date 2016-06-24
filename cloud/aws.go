@@ -34,6 +34,9 @@ type AWSStats struct {
 	ReservationID   string `metadata:"reservation-id"`
 	SecurityGroups  string `metadata:"security-groups"`
 
+	Spot struct {
+		Termination string
+	}
 	// TODO: These need to be converted into iteration tasks.
 	// block-device-mapping/
 	// metrics/
@@ -67,5 +70,11 @@ func NewAWS() (i *AWSStats) {
 
 	i = &AWSStats{}
 	i.parseMetadata(metadata)
+
+	data, err := metadata.GetMetadata("spot/termination")
+	if err == nil {
+		i.Spot.Termination = data
+	}
+
 	return
 }
