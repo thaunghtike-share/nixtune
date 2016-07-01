@@ -45,12 +45,9 @@ website-assets:
 	cat README.html >> website/docs.html.erb
 	rm README.html
 
-website:
-	echo "Nothin here govn'r"
 
 spell:
 	# for i in README.org website/index.html.erb website/_download.erb; do \
 	# 	aspell check --dont-backup --mode=html $$i; \
 	# done
 
-.PHONY: website website-dev
