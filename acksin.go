@@ -9,6 +9,10 @@ import (
 	"os"
 )
 
+const (
+	statsURL = "http://localhost:8080/v1/strum/stats"
+)
+
 func postToAcksin(conf *config) {
 	var err error
 
@@ -24,24 +28,27 @@ func postToAcksin(conf *config) {
 		return
 	}
 
-	resp, err := http.Post(fmt.Sprintf("https://%s:@api.acksin.com/v1/strum/stats", conf.apiKey), "application/json", bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest("POST", statsURL, bytes.NewBuffer(jsonStr))
+	req.Header.Set("X-Acksin-API-Key", conf.apiKey)
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "An error occured", err)
+		fmt.Fprintln(os.Stderr, "1 An error occured", err)
 		return
 	}
-
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 
 	var respForm struct {
 		ID string
 	}
 
-	err = json.Unmarshal(body, &respForm)
-	if err != nil {
+	if err = json.Unmarshal(body, &respForm); err != nil {
 		fmt.Fprintln(os.Stderr, "An error occured", err)
 		return
 	}
 
-	fmt.Printf("https://www.acksin.com/console/strum/%s\n", respForm.ID)
+	fmt.Printf("https://www.acksin.com/console/strum/#/%s\n", respForm.ID)
 }

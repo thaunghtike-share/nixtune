@@ -50,11 +50,15 @@ func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
 	st := reflect.TypeOf(*a)
 
 	for i := 0; i < st.NumField(); i++ {
-		data, err := m.GetMetadata(st.Field(i).Tag.Get("metadata"))
-		if err != nil {
-			continue
+		metadataTag := st.Field(i).Tag.Get("metadata")
+		if metadataTag != "" {
+			data, err := m.GetMetadata(metadataTag)
+			if err != nil {
+				continue
+			}
+
+			reflect.ValueOf(a).Elem().Field(i).SetString(data)
 		}
-		reflect.ValueOf(a).Elem().Field(i).SetString(data)
 	}
 }
 
