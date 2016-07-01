@@ -9,13 +9,9 @@
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 
@@ -25,11 +21,6 @@ import (
 
 var (
 	version = "0.0"
-)
-
-const (
-	bridgeService = "fugue.strum"
-	bridgeAPIURL  = "http://bridge-api.acksin.com/lambda"
 )
 
 func copyright() string {
@@ -44,9 +35,9 @@ type OutputType string
 
 // Currently available output types.
 const (
-	JSONOutput  OutputType = "json"
-	FlatOutput             = "flat"
-	FugueOutput            = "fugue"
+	JSONOutput   OutputType = "json"
+	FlatOutput              = "flat"
+	AcksinOutput            = "acksin"
 )
 
 type config struct {
@@ -60,8 +51,8 @@ type config struct {
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", "ui", "Formatted outputs available. Available: json, flat, fugue")
-	flag.StringVar(&conf.apiKey, "api-key", "", "API Key for Fugue. https://www.acksin.com/fugue")
+	flag.StringVar(&conf.output, "output", "ui", "Formatted outputs available. Available: json, flat, acksin")
+	flag.StringVar(&conf.apiKey, "api-key", "", "API Key for Acksin. https://www.acksin.com/console")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "strum [flags] [pid]")
@@ -88,55 +79,11 @@ func main() {
 		fmt.Printf("%s", conf.stats.JSON())
 	case FlatOutput:
 		fmt.Printf("%s", conf.stats.Flat())
-	case FugueOutput:
-		postToFugue(&conf)
+	case AcksinOutput:
+		postToAcksin(&conf)
 	default:
 		startUI()
 	}
-}
-
-func postToFugue(conf *config) {
-	var err error
-
-	if conf.apiKey == "" {
-		fmt.Fprintln(os.Stderr, `Provide the -api-key flag or set the ACKSIN_API_KEY.\nThe API Key can be gathered at 
-https://www.acksin.com/fugue/console/#/credentials`)
-		os.Exit(-1)
-	}
-
-	reqForm := struct {
-		Machine string
-		Stats   *stats.Stats
-	}{
-		Machine: "",
-		Stats:   conf.stats,
-	}
-
-	jsonStr, _ := json.Marshal(reqForm)
-
-	client := &http.Client{}
-	req, _ := http.NewRequest("POST", "https://bridge-api.acksin.com/v1/strum/stats", bytes.NewBuffer(jsonStr))
-	req.SetBasicAuth(conf.apiKey, "")
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Println("An error occured", err)
-		return
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-
-	var respForm struct {
-		ID string
-	}
-
-	err = json.Unmarshal(body, &respForm)
-	if err != nil {
-		log.Println("An error occured", err)
-		return
-	}
-
-	fmt.Printf("https://www.acksin.com/fugue/console/#/strum/%s\n", respForm.ID)
 }
 
 func startUI() {
