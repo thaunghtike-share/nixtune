@@ -16,7 +16,6 @@ import (
 	"strconv"
 
 	"github.com/acksin/strum/stats"
-	ui "github.com/gizak/termui"
 )
 
 var (
@@ -30,14 +29,11 @@ https://acksin.com/strum
 `, version)
 }
 
-// OutputType is the formatted output of the command.
-type OutputType string
-
 // Currently available output types.
 const (
-	JSONOutput   OutputType = "json"
-	FlatOutput              = "flat"
-	AcksinOutput            = "acksin"
+	JSONOutput   = "json"
+	FlatOutput   = "flat"
+	AcksinOutput = "acksin"
 )
 
 type config struct {
@@ -51,7 +47,7 @@ type config struct {
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", "ui", "Formatted outputs available. Available: json, flat, acksin")
+	flag.StringVar(&conf.output, "output", JSONOutput, "Formatted outputs available. Available: json, flat, acksin")
 	flag.StringVar(&conf.apiKey, "api-key", "", "API Key for Acksin. https://www.acksin.com/console")
 
 	flag.Usage = func() {
@@ -74,7 +70,7 @@ func main() {
 
 	conf.stats = stats.New(pids)
 
-	switch OutputType(conf.output) {
+	switch conf.output {
 	case JSONOutput:
 		fmt.Printf("%s", conf.stats.JSON())
 	case FlatOutput:
@@ -84,37 +80,4 @@ func main() {
 	default:
 		startUI()
 	}
-}
-
-func startUI() {
-	err := ui.Init()
-	if err != nil {
-		panic(err)
-	}
-	defer ui.Close()
-
-	p := ui.NewPar(":PRESS q TO QUIT DEMO")
-	p.Height = 3
-	p.Width = 50
-	p.TextFgColor = ui.ColorWhite
-	p.BorderLabel = "Text Box"
-	p.BorderFg = ui.ColorCyan
-
-	g := ui.NewGauge()
-	g.Percent = 50
-	g.Width = 50
-	g.Height = 3
-	g.Y = 11
-	g.BorderLabel = "Gauge"
-	g.BarColor = ui.ColorRed
-	g.BorderFg = ui.ColorWhite
-	g.BorderLabelFg = ui.ColorCyan
-
-	ui.Render(p, g)
-
-	ui.Handle("/sys/kbd/q", func(ui.Event) {
-		ui.StopLoop()
-	})
-
-	ui.Loop()
 }
