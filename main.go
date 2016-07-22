@@ -33,7 +33,7 @@ https://acksin.com/strum
 const (
 	JSONOutput   = "json"
 	FlatOutput   = "flat"
-	AcksinOutput = "acksin"
+	AcksinOutput = "cloud"
 )
 
 type config struct {
@@ -47,8 +47,8 @@ type config struct {
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", JSONOutput, "Formatted outputs available. Available: json, flat, acksin")
-	flag.StringVar(&conf.apiKey, "api-key", "", "API Key for Acksin. https://www.acksin.com/console")
+	flag.StringVar(&conf.output, "output", AcksinOutput, "Formatted outputs available. Available: json, flat, cloud")
+	flag.StringVar(&conf.apiKey, "api-key", os.Getenv("ACKSIN_API_KEY"), "API Key for Acksin. https://www.acksin.com/console/credentials")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, "strum [flags] [pid]")
