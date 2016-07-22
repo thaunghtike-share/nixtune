@@ -9,6 +9,8 @@ build: deps test
 	$(MAKE) website-assets
 
 deps:
+	go get -u google.golang.org/grpc
+	go get -a github.com/golang/protobuf/protoc-gen-go
 	go get -u github.com/golang/lint/golint
 	go get ./...
 
