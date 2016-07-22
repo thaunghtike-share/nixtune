@@ -40,14 +40,15 @@ type config struct {
 	apiKey    string
 	sessionID string
 
-	output string
-	stats  *stats.Stats
+	stats *stats.Stats
 }
 
 func main() {
 	conf := config{}
 
-	flag.StringVar(&conf.output, "output", AcksinOutput, "Formatted outputs available. Available: json, flat, cloud")
+	cloudOut := flag.Bool("cloud", false, "Send to STRUM Cloud.")
+	jsonOut := flag.Bool("json", true, "Formatted output as JSON.")
+	flatOut := flag.Bool("flat", false, "Formatted output as flat key value.")
 	flag.StringVar(&conf.apiKey, "api-key", os.Getenv("ACKSIN_API_KEY"), "API Key for Acksin. https://www.acksin.com/console/credentials")
 
 	flag.Usage = func() {
@@ -70,14 +71,12 @@ func main() {
 
 	conf.stats = stats.New(pids)
 
-	switch conf.output {
-	case JSONOutput:
-		fmt.Printf("%s", conf.stats.JSON())
-	case FlatOutput:
-		fmt.Printf("%s", conf.stats.Flat())
-	case AcksinOutput:
+	switch {
+	case *cloudOut:
 		postToAcksin(&conf)
-	default:
-		startUI()
+	case *flatOut:
+		fmt.Printf("%s", conf.stats.Flat())
+	case *jsonOut:
+		fmt.Printf("%s", conf.stats.JSON())
 	}
 }
