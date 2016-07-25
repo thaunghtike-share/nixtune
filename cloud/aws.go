@@ -34,6 +34,9 @@ type AWSStats struct {
 	ReservationID   string `metadata:"reservation-id"`
 	SecurityGroups  string `metadata:"security-groups"`
 
+	Spot struct {
+		Termination string
+	}
 	// TODO: These need to be converted into iteration tasks.
 	// block-device-mapping/
 	// metrics/
@@ -47,11 +50,15 @@ func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
 	st := reflect.TypeOf(*a)
 
 	for i := 0; i < st.NumField(); i++ {
-		data, err := m.GetMetadata(st.Field(i).Tag.Get("metadata"))
-		if err != nil {
-			continue
+		metadataTag := st.Field(i).Tag.Get("metadata")
+		if metadataTag != "" {
+			data, err := m.GetMetadata(metadataTag)
+			if err != nil {
+				continue
+			}
+
+			reflect.ValueOf(a).Elem().Field(i).SetString(data)
 		}
-		reflect.ValueOf(a).Elem().Field(i).SetString(data)
 	}
 }
 
@@ -67,5 +74,11 @@ func NewAWS() (i *AWSStats) {
 
 	i = &AWSStats{}
 	i.parseMetadata(metadata)
+
+	data, err := metadata.GetMetadata("spot/termination")
+	if err == nil {
+		i.Spot.Termination = data
+	}
+
 	return
 }
