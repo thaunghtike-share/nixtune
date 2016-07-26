@@ -48,6 +48,7 @@ def handler(event, context):
     networking = Networking(strum)
     networking.procfs_net_ipv4_tcp_fin_timeout()
     networking.procfs_net_ipv4_ip_local_port_range()
+    networking.procfs_net_core_rmem_max()
 
     strum.close()
 

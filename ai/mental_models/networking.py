@@ -47,3 +47,12 @@ class Networking(object):
         return {
             "net.ipv4.ip_local_port_range": "1024 65535",
         }
+
+    def procfs_net_core_rmem_max(self):
+        """
+        The size of the receive buffer for all the sockets. 16MB per socket.
+        """
+
+        return {
+            "/proc/sys/net/core/rmem_max": "16777216"
+        }
