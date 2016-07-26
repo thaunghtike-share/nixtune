@@ -40,7 +40,9 @@ def handler(event, context):
     memory = Memory(strum)
     memory.is_swapping()
     memory.is_under_utilized()
-
+    memory.procfs_vm_swappiness()
+    memory.procfs_proc_min_free_kbytes()
+    memory.sysfs_mm_transparent_hugepages()
 
     strum.close()
 

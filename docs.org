@@ -574,6 +574,7 @@ strum 2277 | jq '.Processes[0].IO.Limits'
 ** 0.4.1
 
  - Updated the README.org
+ - Added Mental Models for Memory and some recommendations.
 
 ** 0.4.0
 
