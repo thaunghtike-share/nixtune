@@ -9,6 +9,7 @@ import psycopg2
 import sys
 
 from memory import Memory
+from networking import Networking
 
 class Strum(object):
     def __init__(self, id):
@@ -43,6 +44,9 @@ def handler(event, context):
     memory.procfs_vm_swappiness()
     memory.procfs_proc_min_free_kbytes()
     memory.sysfs_mm_transparent_hugepages()
+
+    networking = Networking(strum)
+    networking.procfs_net_ipv4_tcp_fin_timeout()
 
     strum.close()
 

@@ -22,3 +22,17 @@ class Networking(object):
         self.vars = {
             'nfConntrackMax': 200000
         }
+
+    def procfs_net_ipv4_tcp_fin_timeout(self):
+        """
+        Usually, the Linux kernel holds a TCP connection even after it
+        is closed for around two minutes. This means that there may be
+        a port exhaustion as the kernel waits to close the
+        connections. By moving the fin_timeout to 15 seconds we
+        drastically reduce the length of time the kernel is waiting
+        for the socket to get any remaining packets.
+        """
+
+        return {
+            "/proc/sys/net/ipv4/tcp_fin_timeout": "15"
+        }
