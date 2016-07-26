@@ -2,6 +2,8 @@ import json
 import psycopg2
 import sys
 
+from memory import Memory
+
 class Strum(object):
     def __init__(self, id):
         self.ID = id
@@ -13,18 +15,14 @@ class Strum(object):
 
         cur.execute("SELECT data FROM strum_stats where id = %s", (id,))
 
-        print cur.fetchone()
+        self.stats = cur.fetchone()[0]
 
         self.conn.commit()
 
         cur.close()
 
-
     def close(self):
         self.conn.close()
-
-    def json(self):
-        pass
 
 def handler(event, context):
     """
@@ -32,6 +30,8 @@ def handler(event, context):
     """
 
     strum = Strum(event['ID'])
+
+    memory = Memory(strum)
 
     strum.close()
 
