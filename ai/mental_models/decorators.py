@@ -10,9 +10,16 @@ def ai_feature(func):
 
     wrapper
 
-def autotune_procfs(func):
+def procfs_feature(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
-        func(self, *args, **kwargs)
+        output = func(self, *args, **kwargs)
+
+        returned = {}
+        for k, v in output.items():
+            if not self.strum.stats['System']['Kernel'][k] == v:
+                returned = dict(returned.items(), output.items())
+
+        return returned
 
     wrapper
