@@ -36,3 +36,14 @@ class Networking(object):
         return {
             "/proc/sys/net/ipv4/tcp_fin_timeout": "15"
         }
+
+    def procfs_net_ipv4_ip_local_port_range(self):
+        """
+        On a typical machine there are around 28000 ports available to be
+        bound to. This number can get exhausted quickly if there are many
+        connections. We will increase this.
+        """
+
+        return {
+            "net.ipv4.ip_local_port_range": "1024 65535",
+        }
