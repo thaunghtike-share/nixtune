@@ -41,7 +41,7 @@ website-assets:
 	echo "---" >> docs.html.erb
 	cat README.html >> docs.html.erb
 	rm README.html
-	cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/strum/
+	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/strum/
 
 
 spell:
