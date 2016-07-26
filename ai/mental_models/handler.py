@@ -32,6 +32,9 @@ def handler(event, context):
     strum = Strum(event['ID'])
 
     memory = Memory(strum)
+    memory.is_swapping()
+    memory.is_under_utilized()
+
 
     strum.close()
 
