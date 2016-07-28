@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	statsURL = "http://localhost:8080/v1/strum/stats"
+	statsURL      = "https://api.acksin.com/v1/strum/stats"
+	statsDebugURL = "http://localhost:8080/v1/strum/stats"
 )
 
 func postToAcksin(conf *config) {
@@ -28,7 +29,12 @@ func postToAcksin(conf *config) {
 		return
 	}
 
-	req, err := http.NewRequest("POST", statsURL, bytes.NewBuffer(jsonStr))
+	u := statsURL
+	if os.Getenv("ACKSIN_DEBUG") != "" {
+		u = statsDebugURL
+	}
+
+	req, err := http.NewRequest("POST", u, bytes.NewBuffer(jsonStr))
 	req.Header.Set("X-Acksin-API-Key", conf.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
