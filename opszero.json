@@ -1,0 +1,11 @@
+{
+    "name": "strum",
+    "description": "Convert STRUM stats to actionable stats",
+    "tags": ["linux", "diagnostics"],
+    "license": "MPL",
+    "buildCommand": "make lambda-install",
+    "branch": "master",
+    "aws": {
+        "policyFiles": null
+    }
+}
