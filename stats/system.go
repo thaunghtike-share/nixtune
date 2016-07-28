@@ -9,6 +9,7 @@
 package stats
 
 import (
+	"github.com/acksin/strum/disk"
 	"github.com/acksin/strum/memory"
 	"github.com/acksin/strum/network"
 )
@@ -19,6 +20,8 @@ type System struct {
 	Memory *memory.Memory
 	// Network stats of the system
 	Network *network.Network
+	// Disk stats of the system
+	Disk *disk.Disk
 	// Kernel represents the kernel parameters of the current
 	// system. On Linux this is the output of `sysctl -a`
 	Kernel map[string]string

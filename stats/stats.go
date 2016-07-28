@@ -15,6 +15,7 @@ import (
 
 	"github.com/acksin/strum/cloud"
 	"github.com/acksin/strum/container"
+	"github.com/acksin/strum/disk"
 	"github.com/acksin/strum/io"
 	"github.com/acksin/strum/kernel"
 	"github.com/acksin/strum/memory"
@@ -69,8 +70,8 @@ func New(pids []int) (s *Stats) {
 	s = &Stats{}
 
 	s.System.Memory = memory.New()
+	s.System.Disk = disk.New()
 	s.System.Network = network.New()
-
 	s.System.Kernel = kernel.New()
 
 	s.Container = container.New()
