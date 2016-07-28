@@ -3,7 +3,7 @@
     "description": "Convert STRUM stats to actionable stats",
     "tags": ["linux", "diagnostics"],
     "license": "MPL",
-    "buildCommand": "make lambda-install",
+    "buildCommand": "make lambda-build",
     "branch": "master",
     "aws": {
         "policyFiles": null

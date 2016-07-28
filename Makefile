@@ -4,7 +4,7 @@ WEBSITE := acksin.com
 
 all: build
 
-build: deps test
+build: deps test lambda-build
 	go build -ldflags "-X main.version=$(VERSION)"
 	$(MAKE) website-assets
 
@@ -13,7 +13,6 @@ deps:
 	go get ./...
 
 dev-deps:
-	# sudo apt-get install -y inkscape 
 	sudo add-apt-repository -y ppa:ubuntu-elisp/ppa && sudo apt-get -qq update && sudo apt-get -qq -f install && sudo apt-get -qq install emacs-snapshot && sudo apt-get -qq install emacs-snapshot-el;
 	emacs --version
 	wget https://raw.githubusercontent.com/acksin/release-checklist/master/install-orgmode.el
@@ -25,7 +24,7 @@ test:
 	go tool vet **/*.go
 
 archive:
-	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
+	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT) output.zip
 
 release: website-assets spell build archive
 	-git commit -m "Version $(VERSION)"
@@ -42,3 +41,6 @@ website-assets:
 	cat docs.html >> docs.html.erb
 	rm docs.html
 	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/strum/
+
+lambda-build:
+	cd ai/mental_models && zip ../../output.zip *.py
