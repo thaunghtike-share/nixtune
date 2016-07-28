@@ -43,4 +43,4 @@ website-assets:
 	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/strum/
 
 lambda-build:
-	cd ai/mental_models && zip ../../output.zip *.py
+	cd ai && $(MAKE) release
