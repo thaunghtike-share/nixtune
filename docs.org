@@ -158,39 +158,64 @@ strum | jq '.System'
     "Unit": "kb",
     "Physical": {
       "Total": 8173844,
-      "Free": 1182716,
-      "Used": 6991128,
-      "Cached": 4902344,
-      "Buffers": 502108,
-      "TotalFree": 6587168
+      "Free": 260492,
+      "Used": 7913352,
+      "Cached": 5443704,
+      "Buffers": 668784,
+      "TotalFree": 6372980
     },
     "Swap": {
       "Total": 10485756,
-      "Free": 10215728,
-      "Used": 270028,
-      "Cached": 75100
+      "Free": 10343548,
+      "Used": 142208,
+      "Cached": 20064
     },
     "Virtual": {
       "Total": 34359738367,
       "Used": 0,
       "Chunk": 0
     },
-    "Dirty": 140,
+    "Dirty": 268,
     "Writeback": 0,
-    "Mapped": 97444
+    "Mapped": 95240
   },
   "Network": {
-    "Total": 284,
+    "Total": 299,
     "RAW": {},
     "UDP": {},
     "TCP": {
       "Total": 0,
-      "Established": 14,
+      "Established": 17,
       "Closed": 0,
       "Orphaned": 0,
       "Synrecv": 0,
       "Timewait": 0
     }
+  },
+  "Disk": {
+    "FStab": [
+      {
+        "Spec": "LABEL=cloudimg-rootfs",
+        "File": "/",
+        "VfsType": "ext4",
+        "MntOps": {
+          "defaults": "",
+          "discard": ""
+        },
+        "Freq": 0,
+        "PassNo": 0
+      },
+      {
+        "Spec": "/swapfile1",
+        "File": "swap",
+        "VfsType": "swap",
+        "MntOps": {
+          "defaults": ""
+        },
+        "Freq": 0,
+        "PassNo": 0
+      }
+    ]
   },
   "Kernel": {
     "/proc/sys/abi/vsyscall32": "1",
@@ -200,6 +225,12 @@ strum | jq '.System'
     "/proc/sys/dev/cdrom/autoeject": "0",
     "/proc/sys/dev/cdrom/check_media": "0",
     "/proc/sys/dev/cdrom/debug": "0",
+    "/proc/sys/dev/cdrom/info": "CD-ROM information, Id: cdrom.c 3.20 2003/12/17\n\ndrive name:\t\ndrive speed:\t\ndrive # of slots:\nCan close tray:\t\nCan open tray:\t\nCan lock tray:\t\nCan change speed:\nCan select disk:\nCan read multisession:\nCan read MCN:\t\nReports media changed:\nCan play audio:\t\nCan write CD-R:\t\nCan write CD-RW:\nCan read DVD:\t\nCan write DVD-R:\nCan write DVD-RAM:\nCan read MRW:\t\nCan write MRW:\t\nCan write RAM:",
+    "/proc/sys/dev/cdrom/lock": "0",
+    "/proc/sys/dev/hpet/max-user-freq": "64",
+    "/proc/sys/dev/mac_hid/mouse_button2_keycode": "97",
+    "/proc/sys/dev/mac_hid/mouse_button3_keycode": "100",
+    "/proc/sys/dev/mac_hid/mouse_button_emulation": "0",
     ...
   }
 }
@@ -244,6 +275,42 @@ The main thing to worry about when doing diagnostics is to see if the
 =.System.Memory.Swap= is being used. A swapping system means that
 memory is being moved from disk to memory and back again which can
 lead to high CPU usage and poor performance.
+
+*** Disk
+
+#+begin_src sh :results output code :exports both :noweb
+strum | jq '.System.Disk'
+#+end_src
+
+#+RESULTS:
+#+BEGIN_SRC sh
+{
+  "FStab": [
+    {
+      "Spec": "LABEL=cloudimg-rootfs",
+      "File": "/",
+      "VfsType": "ext4",
+      "MntOps": {
+        "defaults": "",
+        "discard": ""
+      },
+      "Freq": 0,
+      "PassNo": 0
+    },
+    {
+      "Spec": "/swapfile1",
+      "File": "swap",
+      "VfsType": "swap",
+      "MntOps": {
+        "defaults": ""
+      },
+      "Freq": 0,
+      "PassNo": 0
+    }
+  ]
+}
+#+END_SRC
+
 
 *** CPU
 
@@ -575,6 +642,8 @@ strum 2277 | jq '.Processes[0].IO.Limits'
 
  - Updated the README.org
  - Added Mental Models for Memory and some recommendations.
+ - Added Serverless to deployment of Mental Models to AWS Lambda.
+ - Added =.System.Disk.Fstab=
 
 ** 0.4.0
 

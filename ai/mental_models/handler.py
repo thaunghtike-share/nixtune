@@ -33,7 +33,7 @@ class Strum(object):
 
 def handler(event, context):
     """
-    The handler works to so that it can also run on AWS Lambda.
+    Run on AWS Lambda.
     """
 
     strum = Strum(event['ID'])
