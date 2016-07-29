@@ -19,11 +19,27 @@ class Strum(object):
         self.conn = psycopg2.connect(self.config['database'])
 
         cur = self.conn.cursor()
-
         cur.execute("SELECT data FROM strum_stats where id = %s", (id,))
         self.stats = cur.fetchone()[0]
-
         cur.close()
+
+    def write_ai_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET ai_features = %s WHERE id = %s", (json.dumps(features), self.ID))
+        cur.close()
+        self.conn.commit()
+
+    def write_procfs_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET procfs_features = %s WHERE id = %s", (json.dumps(features), self.ID))
+        cur.close()
+        self.conn.commit()
+
+    def write_sysfs_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET sysfs_features = %s WHERE id = %s", (json.dumps(features), self.ID))
+        cur.close()
+        self.conn.commit()
 
     def close(self):
         self.conn.close()
@@ -36,14 +52,15 @@ def handler(event, context):
     strum = Strum(event['ID'])
 
     memory = Memory(strum)
-    memory.ai_features()
-    memory.procfs_features()
-    memory.sysfs_features()
-
     networking = Networking(strum)
-    networking.ai_features()
-    networking.procfs_features()
-    networking.sysfs_features()
+
+    ai_features = dict(memory.ai_features().items() + networking.ai_features().items())
+    procfs_features = dict(memory.procfs_features().items() + networking.procfs_features().items())
+    sysfs_features = dict(memory.sysfs_features().items() + networking.sysfs_features().items())
+
+    strum.write_ai_features(ai_features)
+    strum.write_procfs_features(procfs_features)
+    strum.write_sysfs_features(sysfs_features)
 
     strum.close()
 
