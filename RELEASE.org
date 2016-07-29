@@ -1,0 +1,31 @@
+#+TITLE: Release Notes
+
+* 0.4.2
+
+ - Include information about block devices from lsblk.
+
+* 0.4.1
+
+ - Updated the README.org
+ - Added Mental Models for Memory and some recommendations.
+ - Added Serverless to deployment of Mental Models to AWS Lambda.
+ - Added =.System.Disk.Fstab=
+
+* 0.4.0
+
+ - =.Cloud.AWS.Spot.Termination= to show when an AWS instance is about
+   to go down.
+ - New flags to output content. =-cloud=, =-json=, =-flat=.
+ - Output to [[https://www.acksin.com/console][Acksin Console]].
+
+* 0.3.0
+
+ - =.System.Kernel=: Get information about =/proc/sys/= the same data that
+   you get from =sysctl -a=
+ - =.Cloud.DigitalOcean=: Get the Droplet metadata from DigitalOcean now
+   along with AWS.
+ - =.Container.Docker=: Get information about the Docker containers
+   running on your machine as well as the images that are on there.
+ - =.Memory.Physical.TotalFree=: This is the real free memory on
+   Linux. It is the free memory minus the cached and buffered data
+   that Linux uses for files.
