@@ -11,6 +11,11 @@ def ai_feature(func):
     return wrapper
 
 def procfs_feature(func):
+    """
+    procfs_feature returns a dictionary if the current system doesn't match
+    the value we want it to have.
+    """
+
     def wrapper(self, *args, **kwargs):
         output = func(self, *args, **kwargs)
 
