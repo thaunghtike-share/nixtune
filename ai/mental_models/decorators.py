@@ -8,18 +8,23 @@ def ai_feature(func):
     def wrapper(self):
         func(self)
 
-    wrapper
+    return wrapper
 
 def procfs_feature(func):
-    @wraps(func)
     def wrapper(self, *args, **kwargs):
         output = func(self, *args, **kwargs)
 
         returned = {}
         for k, v in output.items():
             if not self.strum.stats['System']['Kernel'][k] == v:
-                returned = dict(returned.items(), output.items())
+                returned = dict(returned.items() + output.items())
 
         return returned
 
-    wrapper
+    return wrapper
+
+def sysfs_feature(func):
+    def wrapper(self):
+        func(self)
+
+    return wrapper

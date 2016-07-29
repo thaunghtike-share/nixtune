@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from decorators import *
+
 class Networking(object):
     """
     References:
@@ -23,6 +25,7 @@ class Networking(object):
             'nfConntrackMax': 200000
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_fin_timeout(self):
         """
         Usually, the Linux kernel holds a TCP connection even after it
@@ -37,6 +40,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_fin_timeout": "15"
         }
 
+    @procfs_feature
     def procfs_net_ipv4_ip_local_port_range(self):
         """
         On a typical machine there are around 28000 ports available to be
@@ -48,6 +52,7 @@ class Networking(object):
             "net.ipv4.ip_local_port_range": "1024 65535",
         }
 
+    @procfs_feature
     def procfs_net_core_rmem_max(self):
         """
         The size of the receive buffer for all the sockets. 16MB per socket.
@@ -57,6 +62,7 @@ class Networking(object):
             "/proc/sys/net/core/rmem_max": "16777216"
         }
 
+    @procfs_feature
     def procfs_net_core_wmem_max(self):
         """
         The size of the buffer for all the sockets. 16MB per socket.
@@ -65,6 +71,7 @@ class Networking(object):
             "/proc/sys/net/core/wmem_max": "16777216",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_rmem(self):
         """
         (min, default, max): The sizes of the receive buffer for the IP protocol.
@@ -74,6 +81,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_rmem": "4096 87380 16777216",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_wmem(self):
         """
         (min, default, max): The sizes of the write buffer for the IP protocol.
@@ -83,6 +91,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_wmem": "4096 65536 16777216",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_max_syn_backlog(self):
         """
         Increase the number syn requests allowed. Sets how many half-open connections to backlog queue
@@ -92,6 +101,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_max_syn_backlog": "20480",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_syncookies(self):
         """
         Security to prevent DDoS attacks. http://cr.yp.to/syncookies.html
@@ -101,6 +111,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_syncookies": "1",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_no_metrics_save(self):
         """
         TCP saves various connection metrics in the route cache when the
@@ -114,6 +125,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_no_metrics_save": "1",
         }
 
+    @procfs_feature
     def procfs_net_core_somaxconn(self):
         """
         The maximum number of queued sockets on a connection.
@@ -123,6 +135,7 @@ class Networking(object):
             "/proc/sys/net/core/somaxconn": "16096",
         }
 
+    @procfs_feature
     def procfs_net_core_netdev_max_backlog(self):
         """
         The number of incoming connections on the backlog queue. The maximum
@@ -133,6 +146,7 @@ class Networking(object):
             "/proc/sys/net/core/netdev_max_backlog": "30000",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_max_tw_buckets(self):
         """
         Increase the tcp-time-wait buckets pool size to prevent simple DOS attacks
@@ -142,6 +156,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_max_tw_buckets": "400000",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_syn_retries(self):
         """
         Number of times initial SYNs for a TCP connection attempt will
@@ -152,6 +167,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_syn_retries": "2",
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_synack_retries(self):
         """
         This setting determines the number of SYN+ACK packets sent before
@@ -162,6 +178,7 @@ class Networking(object):
             "/proc/sys/net/ipv4/tcp_synack_retries": "2",
         }
 
+    @procfs_feature
     def procfs_net_netfilter_nf_conntrack_max(self):
         """
         The max is double the previous value.
@@ -172,6 +189,7 @@ class Networking(object):
             "/proc/sys/net/netfilter/nf_conntrack_max": self.vars['nfConntrackMax'],
         }
 
+    @procfs_feature
     def procfs_net_ipv4_tcp_tw_reuse(self):
         """
         """
@@ -180,6 +198,7 @@ class Networking(object):
                 "/proc/sys/net/ipv4/tcp_tw_reuse": "1",
         }
 
+    @sysfs_feature
     def sysfs_nf_conntrack_hashsize(self):
         """
         """

@@ -21,10 +21,7 @@ class Strum(object):
         cur = self.conn.cursor()
 
         cur.execute("SELECT data FROM strum_stats where id = %s", (id,))
-
         self.stats = cur.fetchone()[0]
-
-        self.conn.commit()
 
         cur.close()
 
