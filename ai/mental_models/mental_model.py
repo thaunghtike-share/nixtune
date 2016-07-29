@@ -7,6 +7,10 @@
 from types import FunctionType
 
 class MentalModel(object):
+    """
+    MentalModel provides utilities to handle feature extraction.
+    """
+
     def ai_features(self):
         return dict([(k, f(self),)
                     for k, f in self.__class__.__dict__.iteritems()
@@ -24,7 +28,6 @@ class MentalModel(object):
         sysfs = []
         for k, f in self.__class__.__dict__.iteritems():
             if callable(f) and k.startswith('sysfs_'):
-                print sysfs
                 sysfs += f(self).items()
 
         return dict(sysfs)

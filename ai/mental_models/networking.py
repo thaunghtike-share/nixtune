@@ -5,8 +5,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from decorators import *
+import mental_model
 
-class Networking(object):
+class Networking(mental_model.MentalModel):
     """
     References:
 
