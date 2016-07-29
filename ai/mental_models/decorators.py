@@ -6,20 +6,30 @@
 
 def ai_feature(func):
     def wrapper(self):
-        func(self)
+        return func(self)
 
-    wrapper
+    return wrapper
 
 def procfs_feature(func):
-    @wraps(func)
+    """
+    procfs_feature returns a dictionary if the current system doesn't match
+    the value we want it to have.
+    """
+
     def wrapper(self, *args, **kwargs):
         output = func(self, *args, **kwargs)
 
         returned = {}
         for k, v in output.items():
             if not self.strum.stats['System']['Kernel'][k] == v:
-                returned = dict(returned.items(), output.items())
+                returned = dict(returned.items() + output.items())
 
         return returned
 
-    wrapper
+    return wrapper
+
+def sysfs_feature(func):
+    def wrapper(self):
+        return func(self)
+
+    return wrapper

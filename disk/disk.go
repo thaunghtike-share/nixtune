@@ -13,11 +13,13 @@ import (
 	"log"
 
 	"github.com/acksin/go-fstab"
+	"github.com/acksin/strum/mvp"
 )
 
 // Disk returns information about the block drives on the machine.
 type Disk struct {
-	FStab fstab.Mounts
+	BlockDevices []mvp.BlockDevice
+	FStab        fstab.Mounts
 }
 
 // New returns a Disk object representing system disk information.
@@ -29,6 +31,7 @@ func New() *Disk {
 	}
 
 	return &Disk{
-		FStab: m,
+		BlockDevices: mvp.GetLsBlk(),
+		FStab:        m,
 	}
 }

@@ -1,0 +1,21 @@
+#+TITLE: Mental Models
+
+Mental Models are ways to tune the system. They are two parts. The
+first part is manually checking the code for issues. The second is
+features we can use to train the AI models.
+
+There are multiple classes to handle different cases. ProcFS changes,
+SysFS changes, AI features.
+
+The convention is as follows for method names:
+
+ - =is_= prefix is for AI feature files. They should have the
+   =@ai_feature= decorator. Return value should be a =True= or
+   =False=.
+ - =procfs_= prefix is for procfs changes. They should have the
+   =@procfs_feature= decorator. This should be a dictionary that
+   returns the full path of the procfs location and the value that it
+   should be changed to.
+ - =sysfs_= prefix is for sysfs changes. They should have the
+   =@sysfs_feature= decorator. This is the same as the procfs change
+   but for sysfs.

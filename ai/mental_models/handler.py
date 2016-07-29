@@ -19,14 +19,27 @@ class Strum(object):
         self.conn = psycopg2.connect(self.config['database'])
 
         cur = self.conn.cursor()
-
         cur.execute("SELECT data FROM strum_stats where id = %s", (id,))
-
         self.stats = cur.fetchone()[0]
+        cur.close()
 
+    def write_ai_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET ai_features = %s WHERE id = %s", (json.dumps(features), self.ID))
+        cur.close()
         self.conn.commit()
 
+    def write_procfs_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET procfs_features = %s WHERE id = %s", (json.dumps(features), self.ID))
         cur.close()
+        self.conn.commit()
+
+    def write_sysfs_features(self, features):
+        cur = self.conn.cursor()
+        cur.execute("UPDATE strum_stats SET sysfs_features = %s WHERE id = %s", (json.dumps(features), self.ID))
+        cur.close()
+        self.conn.commit()
 
     def close(self):
         self.conn.close()
@@ -39,30 +52,15 @@ def handler(event, context):
     strum = Strum(event['ID'])
 
     memory = Memory(strum)
-    memory.is_swapping()
-    memory.is_under_utilized()
-    memory.procfs_vm_swappiness()
-    memory.procfs_proc_min_free_kbytes()
-    memory.sysfs_mm_transparent_hugepages()
-
     networking = Networking(strum)
-    networking.procfs_net_ipv4_tcp_fin_timeout()
-    networking.procfs_net_ipv4_ip_local_port_range()
-    networking.procfs_net_core_rmem_max()
-    networking.procfs_net_core_wmem_max()
-    networking.procfs_net_ipv4_tcp_rmem()
-    networking.procfs_net_ipv4_tcp_wmem()
-    networking.procfs_net_ipv4_tcp_max_syn_backlog()
-    networking.procfs_net_ipv4_tcp_syncookies()
-    networking.procfs_net_ipv4_tcp_no_metrics_save()
-    networking.procfs_net_core_somaxconn()
-    networking.procfs_net_core_netdev_max_backlog()
-    networking.procfs_net_ipv4_tcp_max_tw_buckets()
-    networking.procfs_net_ipv4_tcp_syn_retries()
-    networking.procfs_net_ipv4_tcp_synack_retries()
-    networking.procfs_net_netfilter_nf_conntrack_max()
-    networking.procfs_net_ipv4_tcp_tw_reuse()
-    networking.sysfs_nf_conntrack_hashsize()
+
+    ai_features = dict(memory.ai_features().items() + networking.ai_features().items())
+    procfs_features = dict(memory.procfs_features().items() + networking.procfs_features().items())
+    sysfs_features = dict(memory.sysfs_features().items() + networking.sysfs_features().items())
+
+    strum.write_ai_features(ai_features)
+    strum.write_procfs_features(procfs_features)
+    strum.write_sysfs_features(sysfs_features)
 
     strum.close()
 

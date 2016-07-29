@@ -285,6 +285,100 @@ strum | jq '.System.Disk'
 #+RESULTS:
 #+BEGIN_SRC sh
 {
+  "BlockDevices": [
+    {
+      "name": "xvda",
+      "maj:min": "202:0",
+      "rm": "0",
+      "size": "120G",
+      "ro": "0",
+      "type": "disk",
+      "mountpoint": "",
+      "children": [
+        {
+          "name": "xvda1",
+          "maj:min": "202:1",
+          "rm": "0",
+          "size": "120G",
+          "ro": "0",
+          "type": "part",
+          "mountpoint": "/"
+        }
+      ]
+    },
+    {
+      "name": "loop0",
+      "maj:min": "7:0",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop1",
+      "maj:min": "7:1",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop2",
+      "maj:min": "7:2",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop3",
+      "maj:min": "7:3",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop4",
+      "maj:min": "7:4",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop5",
+      "maj:min": "7:5",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop6",
+      "maj:min": "7:6",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    },
+    {
+      "name": "loop7",
+      "maj:min": "7:7",
+      "rm": "0",
+      "size": "",
+      "ro": "0",
+      "type": "loop",
+      "mountpoint": ""
+    }
+  ],
   "FStab": [
     {
       "Spec": "LABEL=cloudimg-rootfs",
@@ -635,34 +729,6 @@ strum 2277 | jq '.Processes[0].IO.Limits'
   "CPUTime": -1
 }
 #+END_SRC
-
-* Release Notes
-
-** 0.4.1
-
- - Updated the README.org
- - Added Mental Models for Memory and some recommendations.
- - Added Serverless to deployment of Mental Models to AWS Lambda.
- - Added =.System.Disk.Fstab=
-
-** 0.4.0
-
- - =.Cloud.AWS.Spot.Termination= to show when an AWS instance is about
-   to go down.
- - New flags to output content. =-cloud=, =-json=, =-flat=.
- - Output to [[https://www.acksin.com/console][Acksin Console]].
-
-** 0.3.0
-
- - =.System.Kernel=: Get information about =/proc/sys/= the same data that
-   you get from =sysctl -a=
- - =.Cloud.DigitalOcean=: Get the Droplet metadata from DigitalOcean now
-   along with AWS.
- - =.Container.Docker=: Get information about the Docker containers
-   running on your machine as well as the images that are on there.
- - =.Memory.Physical.TotalFree=: This is the real free memory on
-   Linux. It is the free memory minus the cached and buffered data
-   that Linux uses for files.
 
 * License
 
