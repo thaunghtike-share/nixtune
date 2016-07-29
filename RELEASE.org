@@ -2,7 +2,9 @@
 
 * 0.4.2
 
+ - Release now includes information in Github Releases
  - Include information about block devices from lsblk.
+ - Write features to database.
 
 * 0.4.1
 

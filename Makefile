@@ -9,6 +9,7 @@ build: deps test
 	$(MAKE) website-assets
 
 deps:
+	go get github.com/aktau/github-release
 	go get -u github.com/golang/lint/golint
 	go get ./...
 	-cd ai && $(MAKE) deps
@@ -30,6 +31,8 @@ archive:
 release: website-assets lambda-build build archive
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
+	github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "STRUM $(VERSION)" 
+	github-release upload --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}" --file $(PRODUCT)-$(VERSION).tar.gz
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
