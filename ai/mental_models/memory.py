@@ -5,8 +5,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from decorators import *
+import mental_model
 
-class Memory(object):
+class Memory(mental_model.MentalModel):
     def __init__(self, strum):
         self.strum = strum
         self.memory = self.strum.stats['System']['Memory']

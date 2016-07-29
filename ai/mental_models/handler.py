@@ -39,8 +39,12 @@ def handler(event, context):
     memory.is_swapping()
     memory.is_under_utilized()
     memory.procfs_vm_swappiness()
-    memory.procfs_proc_min_free_kbytes()
+    memory.procfs_vm_min_free_kbytes()
     memory.sysfs_mm_transparent_hugepages()
+
+    memory.ai_features()
+    memory.procfs_features()
+    memory.sysfs_features()
 
     networking = Networking(strum)
     networking.procfs_net_ipv4_tcp_fin_timeout()

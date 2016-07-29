@@ -49,7 +49,7 @@ class Networking(object):
         """
 
         return {
-            "net.ipv4.ip_local_port_range": "1024 65535",
+            "/proc/sys/net/ipv4/ip_local_port_range": "1024 65535",
         }
 
     @procfs_feature
@@ -195,7 +195,7 @@ class Networking(object):
         """
 
         return {
-                "/proc/sys/net/ipv4/tcp_tw_reuse": "1",
+            "/proc/sys/net/ipv4/tcp_tw_reuse": "1",
         }
 
     @sysfs_feature
@@ -204,6 +204,6 @@ class Networking(object):
         """
 
         return {
-        "/sys/module/nf_conntrack/parameters/hashsize": self.vars["nfConntrackMax"] / 4
+            "/sys/module/nf_conntrack/parameters/hashsize": self.vars["nfConntrackMax"] / 4
 
 }

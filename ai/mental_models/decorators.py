@@ -6,7 +6,7 @@
 
 def ai_feature(func):
     def wrapper(self):
-        func(self)
+        return func(self)
 
     return wrapper
 
@@ -25,6 +25,6 @@ def procfs_feature(func):
 
 def sysfs_feature(func):
     def wrapper(self):
-        func(self)
+        return func(self)
 
     return wrapper
