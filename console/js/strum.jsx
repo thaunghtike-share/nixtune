@@ -38,7 +38,6 @@ var AcksinStrum  = React.createClass({
         c.push(<AcksinStrumContainer key="container" container={s.Container} />);
         c.push(<AcksinStrumProcesses key="processes" processes={s.Processes} />);
 
-
         this.setState({
           content: c,
           stats: s,
