@@ -28,11 +28,14 @@ test:
 archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT) output.zip
 
+github-release:
+	-github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "STRUM $(VERSION)" 
+	-github-release upload --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz" --file $(PRODUCT)-$(VERSION).tar.gz
+
 release: website-assets lambda-build build archive
 	-git commit -m "Version $(VERSION)"
 	-git tag v$(VERSION) && git push --tags
-	github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "STRUM $(VERSION)" 
-	github-release upload --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}" --file $(PRODUCT)-$(VERSION).tar.gz
+	$(MAKE) github-release
 	s3cmd put --acl-public $(PRODUCT)-$(VERSION).tar.gz s3://assets.acksin.com/$(PRODUCT)/${VERSION}/$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz
 
 website-assets:
