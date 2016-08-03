@@ -30,8 +30,8 @@ func (a output) Run(args []string) int {
 		s = stats.New([]int{})
 	)
 
-	if len(args) > 1 {
-		switch args[1] {
+	if len(args) != 0 {
+		switch args[0] {
 		case "flat":
 			fmt.Printf("%s", s.Flat())
 		}
