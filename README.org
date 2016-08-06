@@ -22,7 +22,7 @@ sudo strum
 To run the tool and view it on [[https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/strum][STRUM Cloud]] run the following:
 
 #+begin_src sh
-ACKSIN_API_KEY=getitontheconsole sudo strum -cloud
+sudo ACKSIN_API_KEY=getitontheconsole strum agent
 #+end_src
 
 * Getting Started & Documentation
