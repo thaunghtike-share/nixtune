@@ -46,7 +46,7 @@ website-assets:
 	echo "description: Documentation for STRUM. Tool to diagnoses Linux augmented with Machine Learning" >> docs.html.erb
 	echo "---" >> docs.html.erb
 	cat DOCS.html >> docs.html.erb
-	rm docs.html
+	rm DOCS.html
 	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/strum/
 
 lambda-build:
