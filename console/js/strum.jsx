@@ -9,7 +9,6 @@
 var AcksinStrum  = React.createClass({
   getInitialState: function() {
     return {
-      statsId: document.location.hash.replace(/^#\//, ''),
       stats: {},
       content: [],
       userInfo: {
@@ -61,7 +60,7 @@ var AcksinStrum  = React.createClass({
 
           <pre>
             <code>
-              sudo ACKSIN_API_KEY={this.state.userInfo.APIKey} strum -cloud
+              sudo ACKSIN_API_KEY={this.state.userInfo.APIKey} strum agent
             </code>
           </pre>
         </div>
