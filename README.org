@@ -1,9 +1,21 @@
-#+TITLE: Acksin STRUM
+#+TITLE: STRUM
 
 #+begin_html
 <a href="https://travis-ci.org/acksin/strum"><img src="https://travis-ci.org/acksin/strum.svg?branch=master" /></a>
 <a href="https://godoc.org/github.com/acksin/strum"><img src="https://godoc.org/github.com/acksin/strum?status.svg" alt="GoDoc"></a>
+
+<pre>
+            ,d                                               
+            88                                               
+,adPPYba, MM88MMM 8b,dPPYba, 88       88 88,dPYba,,adPYba,   
+I8[    ""   88    88P'   "Y8 88       88 88P'   "88"    "8a  
+ `"Y8ba,    88    88         88       88 88      88      88  
+aa    ]8I   88,   88         "8a,   ,a88 88      88      88  
+`"YbbdP"'   "Y888 88          `"YbbdP'Y8 88      88      88  
+</pre>
 #+end_html
+
+
 
 * Introduction
 
