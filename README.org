@@ -43,6 +43,10 @@ primarily code there for things. In the future we will have similar
 dependencies for SysFS. In addition to that we use the Go libraries
 provided by the Cloud providers.
 
+** Situational awareness
+
+
+
 ** [[https://github.com/acksin/strum/wiki/AI-Mental-Models][Mental Models]]
 
 Mental models are the various feature columns that we use to train the
