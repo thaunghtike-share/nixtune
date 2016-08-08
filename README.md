@@ -57,7 +57,7 @@ of the operating system. Furthermore, as we go up the stack with
 Containers and maintain clusters instead of individual machines we
 need to know how one service affects the others.
 
-![OODA](https://assets.acksin.com.s3.amazonaws.com/images/strum_ooda.png)
+![OODA](https://assets.acksin.com/images/strum_ooda.png)
 
 ### Situational awareness
 
