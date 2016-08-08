@@ -23,11 +23,11 @@ var AcksinStrum  = React.createClass({
       });
     }.bind(this));
 
-    if(this.state.statsId == "") {
+    if(this.props.statsId == "") {
       return;
     }
 
-    $.get(BridgeAPI + "/v1/strum/stats/" + this.state.statsId , function(result) {
+    $.get(BridgeAPI + "/v1/strum/stats/" + this.props.statsId , function(result) {
       $.get(result.URL, function(stats) {
         var s = JSON.parse(stats);
         var c = [];
