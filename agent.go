@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -37,20 +38,12 @@ func (a *agent) Help() string {
 	return "Run a STRUM Cloud agent."
 }
 
-func (a *agent) Run(args []string) int {
-	var err error
-
-	if a.Config.APIKey = os.Getenv("ACKSIN_API_KEY"); a.Config.APIKey == "" {
-		fmt.Fprintln(os.Stderr, "Set the ACKSIN_API_KEY.")
-		fmt.Fprintln(os.Stderr, "The API Key can be gathered at https://www.acksin.com/console/credentials")
-		return -1
-	}
-
+func (a *agent) Post() error {
 	s := stats.New([]int{})
 	jsonStr, err := json.Marshal(s)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Failed to parse json")
-		return -1
+		log.Println(err)
+		return err
 	}
 
 	u := statsURL
@@ -64,8 +57,8 @@ func (a *agent) Run(args []string) int {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "1 An error occured", err)
-		return -1
+		log.Println(err)
+		return err
 	}
 	defer resp.Body.Close()
 
@@ -76,11 +69,28 @@ func (a *agent) Run(args []string) int {
 	}
 
 	if err = json.Unmarshal(body, &respForm); err != nil {
-		fmt.Fprintln(os.Stderr, "An error occured", err)
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (a *agent) Run(args []string) int {
+	if a.Config.APIKey = os.Getenv("ACKSIN_API_KEY"); a.Config.APIKey == "" {
+		fmt.Fprintln(os.Stderr, "Set the ACKSIN_API_KEY.")
+		fmt.Fprintln(os.Stderr, "The API Key can be gathered at https://www.acksin.com/console/credentials")
 		return -1
 	}
 
-	fmt.Printf("https://www.acksin.com/console/strum/#/%s\n", respForm.ID)
+	for {
+		if err := a.Post(); err != nil {
+			return -1
+		}
 
-	return 1
+		select {
+		case <-time.After(1 * time.Hour):
+			log.Println("Ping")
+		}
+	}
 }
