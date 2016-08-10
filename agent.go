@@ -11,23 +11,21 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
+	"errors"
+	"github.com/acksin/strum/shared"
 	"github.com/acksin/strum/stats"
 )
 
 // Agent runs a STRUM Cloud agent.
 type agent struct {
-	Config struct {
-		APIKey   string
-		URL      string
-		Duration time.Duration
-	}
+	Config shared.Config
+
+	configFile string
 }
 
 func (a *agent) Synopsis() string {
@@ -38,7 +36,25 @@ func (a *agent) Help() string {
 	return "Run a STRUM Cloud agent."
 }
 
-func (a *agent) Post() error {
+func (a *agent) parseConfig() error {
+	b, err := ioutil.ReadFile(a.configFile)
+	if err != nil {
+		return err
+	}
+
+	err = json.Unmarshal(b, &a.Config)
+	if err != nil {
+		return err
+	}
+
+	if a.Config.APIKey == "" {
+		return errors.New("Set the `APIKey`. For STRUM Cloud this can be found at https://www.acksin.com/console/credentials")
+	}
+
+	return nil
+}
+
+func (a *agent) post() error {
 	s := stats.New([]int{})
 	jsonStr, err := json.Marshal(s)
 	if err != nil {
@@ -46,12 +62,7 @@ func (a *agent) Post() error {
 		return err
 	}
 
-	u := statsURL
-	if os.Getenv("ACKSIN_DEBUG") != "" {
-		u = statsDebugURL
-	}
-
-	req, err := http.NewRequest("POST", u, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest("POST", a.Config.URL, bytes.NewBuffer(jsonStr))
 	req.Header.Set("X-Acksin-API-Key", a.Config.APIKey)
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
@@ -77,14 +88,22 @@ func (a *agent) Post() error {
 }
 
 func (a *agent) Run(args []string) int {
-	if a.Config.APIKey = os.Getenv("ACKSIN_API_KEY"); a.Config.APIKey == "" {
-		fmt.Fprintln(os.Stderr, "Set the ACKSIN_API_KEY.")
-		fmt.Fprintln(os.Stderr, "The API Key can be gathered at https://www.acksin.com/console/credentials")
+	log.Println("Starting STRUM Agent...")
+
+	if len(args) == 0 {
+		log.Println("need to pass a config file")
+		return -1
+	}
+
+	a.configFile = args[0]
+
+	if err := a.parseConfig(); err != nil {
+		log.Println(err)
 		return -1
 	}
 
 	for {
-		if err := a.Post(); err != nil {
+		if err := a.post(); err != nil {
 			return -1
 		}
 

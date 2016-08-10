@@ -18,11 +18,12 @@ command:
 STRUM primarily runs as a daemon which regularily pushes diagnostics
 to a central server. Acksin runs
 [STRUM Cloud](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/strum)
-providing this capability. You can also run it from the source code here.
+providing this capability.  Check out
+[config.json.template](config.json.template) for agent configuration.
 
 $un the following:
 
-    sudo ACKSIN_API_KEY=getitontheconsole strum agent
+    sudo strum agent config.json
 
 ## Getting Started & Documentation
 

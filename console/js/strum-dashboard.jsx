@@ -9,6 +9,7 @@
 var AcksinStrumDashboard  = React.createClass({
   getInitialState: function() {
     return {
+      configCode: "",
       content: [],
       userInfo: {
         APIKey: "",
@@ -17,7 +18,14 @@ var AcksinStrumDashboard  = React.createClass({
   },
   componentDidMount: function() {
     $.get(BridgeAPI + "/v1/user", function(result) {
+      var config;
+      config =  "{\n";
+      config += '    "APIKey": "' + result.APIKey + '",\n';
+      config += '    "URL": "https://api.acksin.com/v1/strum/stats"\n';
+      config += '}\n';
+
       this.setState({
+        configCode: config,
         userInfo: result
       });
     }.bind(this));
@@ -59,11 +67,21 @@ var AcksinStrumDashboard  = React.createClass({
         </table>
 
         <div>
-          <a href="/strum">Download STRUM</a> and run the following:
+          <p>
+            <a href="/strum">Download STRUM</a> create the following config which is already
+            populated with your API key. We recommend storing it <code>/etc/config/strum.json</code>
+          </p>
 
           <pre>
             <code>
-              sudo ACKSIN_API_KEY={this.state.userInfo.APIKey} strum agent
+              {this.state.configCode}
+            </code>
+          </pre>
+
+          Run the following:
+          <pre>
+            <code>
+              sudo strum agent /etc/config/strum.json
             </code>
           </pre>
         </div>
