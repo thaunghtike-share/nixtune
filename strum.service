@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Restart=on-failure
-ExecStart=/usr/local/sbin/strum agent -config=/etc/strum.json
+ExecStart=/usr/local/sbin/strum agent /etc/strum.json
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
