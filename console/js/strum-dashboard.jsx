@@ -21,7 +21,7 @@ var AcksinStrumDashboard  = React.createClass({
       var config;
       config =  "{\n";
       config += '    "APIKey": "' + result.APIKey + '",\n';
-      config += '    "URL": "https://www.acksin.com/v1/strum/stats"\n';
+      config += '    "URL": "https://api.acksin.com/v1/strum/stats"\n';
       config += '}\n';
 
       this.setState({
