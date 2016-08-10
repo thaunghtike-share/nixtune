@@ -27,11 +27,6 @@ https://acksin.com/strum
 `, version)
 }
 
-const (
-	statsURL      = "https://api.acksin.com/v1/strum/stats"
-	statsDebugURL = "http://localhost:8080/v1/strum/stats"
-)
-
 func main() {
 	c := cli.NewCLI("strum", version)
 	c.Args = os.Args[1:]
