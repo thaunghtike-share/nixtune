@@ -2,6 +2,8 @@
 
 * 0.5.0
 
+ - systemd Unit File for deploying as a daemon.
+ - Config file to configure the agent.
  - New CLI to allow collecting agent.
  - Tuning recommendations on the Console.
 
