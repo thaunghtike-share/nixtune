@@ -22,6 +22,8 @@ type Config struct {
 
 // ParseConfig reads and validates a configuration file.
 func ParseConfig(configFile string) (c *Config, err error) {
+	c = &Config{}
+
 	b, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		return nil, err
