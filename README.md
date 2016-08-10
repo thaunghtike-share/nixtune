@@ -10,6 +10,8 @@ Learning to help figure out issues with your infrastructure.
 
 ## Quick Start
 
+[Download STRUM](https://www.acksin.com/strum)
+
 STRUM outputs its data in JSON to the command line. Run the following
 command:
 
