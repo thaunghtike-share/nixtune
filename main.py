@@ -24,7 +24,7 @@ import pandas as pd
 import random
 
 file = "config.json"
-
+columns = ['Process',
 def parse_json():
     # Here we will parse a JSON file with various Linux information
     # such as CPU, Networking, IO, Memory, Processes, Limits, Disks
@@ -33,14 +33,15 @@ def parse_json():
     with open(file) as f:
         data = json.load(f)
 
-    #train_file = csv.writer(open("train.csv", "wb+"))
-    #test_file = csv.writer(open("test.csv", "wb+"))
+    train_file = csv.writer(open("train.csv", "wb+"))
+    test_file = csv.writer(open("test.csv", "wb+"))
 
     # Let's look at and count the processes
     processes = data['Processes']
     index = 0
 
     for process in processes:
+        print(process['Exe'])
         print(process['PID'])
         print(process['Memory']['Swap']['Size'])
         index += 1
