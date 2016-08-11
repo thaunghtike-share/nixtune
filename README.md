@@ -1,3 +1,5 @@
+![STRUM](https://www.acksin.com/imgs/logos/strum/logo.png)
+
 # STRUM
 
 <a href="https://travis-ci.org/acksin/strum"><img src="https://travis-ci.org/acksin/strum.svg?branch=master" /></a>
