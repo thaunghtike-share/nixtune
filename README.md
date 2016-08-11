@@ -79,7 +79,17 @@ there is minimal operational issues. Mental Models are kernel changes
 as well as various feature columns that are used to train the Machine
 Learning Algorithms.
 
-This data is contained in the [ai/mental_models](https://github.com/acksin/strum/tree/master/ai/mental_models) directory.
+This data is contained in the [ai/mental_models](ai/mental_models) directory.
+
+## Codebase
+
+The code is split into a couple different sections:
+
+ - [CLI Tool](stats): Collects stats from the System and Containers.
+ - [Mental Models](ai/mental_models): Take System stats and creates models for AI. AWS Lambda code.
+ - [Tensorflow AI](ai/tensorflow): Uses Mental Models to generate train AI for various tasks.
+ - [Console](console/js): ReactJS Frontend App used on STRUM Cloud
+ - Server: This component is not yet open sourced.
 
 ## License
 
