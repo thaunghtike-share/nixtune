@@ -1,7 +1,7 @@
 # Autotune
 
-<a href="https://travis-ci.org/acksin/strum"><img src="https://travis-ci.org/acksin/strum.svg?branch=master" /></a>
-<a href="https://godoc.org/github.com/acksin/strum"><img src="https://godoc.org/github.com/acksin/strum?status.svg" alt="GoDoc"></a>
+<a href="https://travis-ci.org/acksin/autotune"><img src="https://travis-ci.org/acksin/autotune.svg?branch=master" /></a>
+<a href="https://godoc.org/github.com/acksin/autotune"><img src="https://godoc.org/github.com/acksin/autotune?status.svg" alt="GoDoc"></a>
 
 ## Introduction
 
@@ -10,26 +10,26 @@ Learning to help figure out issues with your infrastructure.
 
 ## Quick Start
 
-[Download Autotune](https://www.acksin.com/strum)
+[Download Autotune](https://www.acksin.com/autotune)
 
 Autotune outputs its data in JSON to the command line. Run the following
 command:
 
-    sudo strum output
+    sudo autotune output
 
 Autotune primarily runs as a daemon which regularily pushes diagnostics
 to a central server. Acksin runs
-[Autotune Cloud](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/strum)
+[Autotune Cloud](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/autotune)
 providing this capability.  Check out
 [config.json.template](config.json.template) for agent configuration.
 
 $un the following:
 
-    sudo strum agent config.json
+    sudo autotune agent config.json
 
 ## Getting Started & Documentation
 
-All documentation is on the [Autotune website](https://www.acksin.com/strum).
+All documentation is on the [Autotune website](https://www.acksin.com/autotune).
 
 ## Developing Autotune
 
@@ -60,7 +60,7 @@ of the operating system. Furthermore, as we go up the stack with
 Containers and maintain clusters instead of individual machines we
 need to know how one service affects the others.
 
-![OODA](https://assets.acksin.com/images/strum_ooda.png)
+![OODA](https://assets.acksin.com/images/autotune_ooda.png)
 
 ### Situational awareness
 
@@ -68,17 +68,17 @@ Autotune's goal is to be situationally aware about the Containers, the
 System, the Cluster and the Cloud so that it can help you make
 effective decisions. By keeping track of this various information
 about the cluster we can help point you to potential issues. Autotune is
-not trying to replace application level instrumentation such as
+not trying to replace application level inautotuneentation such as
 Graphite and Datadog. Our tools are at the system level.
 
-### [Mental Models](https://github.com/acksin/strum/wiki/Mental-Models)
+### [Mental Models](https://github.com/acksin/autotune/wiki/Mental-Models)
 
 Mental Models are how a system and a cluster should behave such that
 there is minimal operational issues. Mental Models are kernel changes
 as well as various feature columns that are used to train the Machine
 Learning Algorithms.
 
-This data is contained in the [ai/mental_models](https://github.com/acksin/strum/tree/master/ai/mental_models) directory.
+This data is contained in the [ai/mental_models](https://github.com/acksin/autotune/tree/master/ai/mental_models) directory.
 
 ## License
 

@@ -17,7 +17,7 @@ var AcksinAutotuneRAW  = React.createClass({
       return;
     }
 
-    $.get(BridgeAPI + "/v1/strum/stats/" + this.props.statsId , function(result) {
+    $.get(BridgeAPI + "/v1/autotune/stats/" + this.props.statsId , function(result) {
       $.get(result.URL, function(stats) {
         var s = JSON.parse(stats);
         var c = [];

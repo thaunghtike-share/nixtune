@@ -17,7 +17,7 @@ var AcksinAutotuneAutotune = React.createClass({
       return;
     }
 
-    $.get(BridgeAPI + "/v1/strum/autotune/" + this.props.statsId , function(result) {
+    $.get(BridgeAPI + "/v1/autotune/autotune/" + this.props.statsId , function(result) {
       $.get(result.URL, function(stats) {
         this.setState(result);
       }.bind(this));

@@ -30,7 +30,7 @@ var AcksinAutotuneNav = React.createClass({
           <a href={"/console/autotune/#/" + this.props.statsId}>Autotune</a>
         </li>
         <li role="presentation" className={this.isActive("raw")}>
-          <a href={"/console/strum/#/" + this.props.statsId}>RAW</a>
+          <a href={"/console/autotune/#/" + this.props.statsId}>RAW</a>
         </li>
       </ul>
     );

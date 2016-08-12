@@ -1,5 +1,5 @@
 {
-    "name": "strum",
+    "name": "autotune",
     "description": "Convert Autotune stats to actionable stats",
     "tags": ["linux", "diagnostics"],
     "license": "MPL",
