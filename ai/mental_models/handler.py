@@ -11,7 +11,7 @@ import sys
 from memory import Memory
 from networking import Networking
 
-class Strum(object):
+class Autotune(object):
     def __init__(self, config_file, id):
         self.ID = id
 
@@ -53,7 +53,7 @@ def handler(event, context):
     if context.function_name == "strum-prod-mentalmodels":
         config_file = "config.prod.json"
 
-    strum = Strum(config_file, event['ID'])
+    strum = Autotune(config_file, event['ID'])
 
     memory = Memory(strum)
     networking = Networking(strum)

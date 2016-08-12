@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinStrumSystem  = React.createClass({
+var AcksinAutotuneSystem  = React.createClass({
   getInitialState: function() {
     return null;
   },
@@ -15,58 +15,58 @@ var AcksinStrumSystem  = React.createClass({
       <div>
         <h2>System</h2>
 
-        <AcksinStrumSystemMemory memory={this.props.system.Memory} />
-        <AcksinStrumSystemDisk disk={this.props.system.Disk} />
-        <AcksinStrumSystemNetwork network={this.props.system.Network} />
-        <AcksinStrumSystemKernel kernel={this.props.system.Kernel} />
+        <AcksinAutotuneSystemMemory memory={this.props.system.Memory} />
+        <AcksinAutotuneSystemDisk disk={this.props.system.Disk} />
+        <AcksinAutotuneSystemNetwork network={this.props.system.Network} />
+        <AcksinAutotuneSystemKernel kernel={this.props.system.Kernel} />
       </div>
     );
   }
 });
 
-var AcksinStrumSystemMemory  = React.createClass({
+var AcksinAutotuneSystemMemory  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Memory</h3>
 
-        <AcksinStrumTable property={this.props.memory} />
+        <AcksinAutotuneTable property={this.props.memory} />
       </div>
     );
   }
 });
 
-var AcksinStrumSystemDisk  = React.createClass({
+var AcksinAutotuneSystemDisk  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Disk</h3>
 
-        <AcksinStrumTable property={this.props.disk} />
+        <AcksinAutotuneTable property={this.props.disk} />
       </div>
     );
   }
 });
 
-var AcksinStrumSystemNetwork  = React.createClass({
+var AcksinAutotuneSystemNetwork  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Network</h3>
 
-        <AcksinStrumTable property={this.props.network} />
+        <AcksinAutotuneTable property={this.props.network} />
       </div>
     );
   }
 });
 
-var AcksinStrumSystemKernel  = React.createClass({
+var AcksinAutotuneSystemKernel  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Kernel</h3>
 
-        <AcksinStrumTable property={this.props.kernel} />
+        <AcksinAutotuneTable property={this.props.kernel} />
       </div>
     );
   }

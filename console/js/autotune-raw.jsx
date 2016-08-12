@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinStrumRAW  = React.createClass({
+var AcksinAutotuneRAW  = React.createClass({
   getInitialState: function() {
     return {
       content: [],
@@ -22,10 +22,10 @@ var AcksinStrumRAW  = React.createClass({
         var s = JSON.parse(stats);
         var c = [];
 
-        c.push(<AcksinStrumCloud key="cloud" cloud={s.Cloud} />);
-        c.push(<AcksinStrumSystem key="system" system={s.System} />);
-        c.push(<AcksinStrumContainer key="container" container={s.Container} />);
-        c.push(<AcksinStrumProcesses key="processes" processes={s.Processes} />);
+        c.push(<AcksinAutotuneCloud key="cloud" cloud={s.Cloud} />);
+        c.push(<AcksinAutotuneSystem key="system" system={s.System} />);
+        c.push(<AcksinAutotuneContainer key="container" container={s.Container} />);
+        c.push(<AcksinAutotuneProcesses key="processes" processes={s.Processes} />);
 
         this.setState({
           content: c,
@@ -37,7 +37,7 @@ var AcksinStrumRAW  = React.createClass({
   render: function() {
     return (
         <div>
-          <AcksinStrumNav statsId={this.props.statsId} />
+          <AcksinAutotuneNav statsId={this.props.statsId} />
 
           {this.state.content}
         </div>

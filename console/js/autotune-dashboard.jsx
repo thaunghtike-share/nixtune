@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinStrumDashboard  = React.createClass({
+var AcksinAutotuneDashboard  = React.createClass({
   getInitialState: function() {
     return {
       configCode: "",

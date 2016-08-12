@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinStrumNav = React.createClass({
+var AcksinAutotuneNav = React.createClass({
   getInitialState: function() {
     switch(document.location.pathname) {
       case "/console/autotune/":

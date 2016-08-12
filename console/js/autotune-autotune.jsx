@@ -7,7 +7,7 @@
  */
 
 
-var AcksinStrumAutotune = React.createClass({
+var AcksinAutotuneAutotune = React.createClass({
   getInitialState: function() {
     return {
     };
@@ -26,7 +26,7 @@ var AcksinStrumAutotune = React.createClass({
   render: function() {
     return (
       <div>
-        <AcksinStrumNav statsId={this.props.statsId} />
+        <AcksinAutotuneNav statsId={this.props.statsId} />
 
         <p>
           After analyzing the node the following changes can give a boost in performance.
@@ -34,10 +34,10 @@ var AcksinStrumAutotune = React.createClass({
         </p>
 
         <h2>ProcFS</h2>
-        <AcksinStrumTable property={this.state.ProcFS} />
+        <AcksinAutotuneTable property={this.state.ProcFS} />
 
         <h2>SysFS</h2>
-        <AcksinStrumTable property={this.state.SysFS} />
+        <AcksinAutotuneTable property={this.state.SysFS} />
       </div>
     );
   }
