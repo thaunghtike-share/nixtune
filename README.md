@@ -1,3 +1,5 @@
+![Autotune](https://www.acksin.com/imgs/logos/autotune/logo.png)
+
 # Autotune
 
 <a href="https://travis-ci.org/acksin/autotune"><img src="https://travis-ci.org/acksin/autotune.svg?branch=master" /></a>
@@ -17,13 +19,15 @@ command:
 
     sudo autotune output
 
-Autotune primarily runs as a daemon which regularily pushes diagnostics
-to a central server. Acksin runs
+Autotune primarily runs as a daemon which regularily pushes
+diagnostics to a central server. Acksin runs
 [Autotune Cloud](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/autotune)
-providing this capability.  Check out
-[config.json.template](config.json.template) for agent configuration.
+providing this capability. You can get the configuration on the Acksin
+Console or you can check out
+[config.json.template](config.json.template) for agent
+configuration. We will open source the server side in the future.
 
-$un the following:
+Run the following:
 
     sudo autotune agent config.json
 
@@ -36,6 +40,14 @@ All documentation is on the [Autotune website](https://www.acksin.com/autotune).
 Autotune's command line portion is primarily written in Go whereas the
 Machine Learning is written in Python. We will go over how to code for
 each part.
+
+The code is split into a couple different sections:
+
+ - [CLI Tool](stats): Collects stats from the System and Containers.
+ - [Mental Models](ai/mental_models): Take System stats and creates models for AI. AWS Lambda code.
+ - [Tensorflow AI](ai/tensorflow): Uses Mental Models to generate train AI for various tasks.
+ - [Console](console/js): ReactJS Frontend App used on STRUM Cloud
+ - Server: This component is not yet open sourced.
 
 ### Primary Dependencies
 
@@ -78,7 +90,7 @@ there is minimal operational issues. Mental Models are kernel changes
 as well as various feature columns that are used to train the Machine
 Learning Algorithms.
 
-This data is contained in the [ai/mental_models](https://github.com/acksin/autotune/tree/master/ai/mental_models) directory.
+This data is contained in the [ai/mental_models](ai/mental_models) directory.
 
 ## License
 
