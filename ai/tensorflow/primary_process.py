@@ -67,7 +67,16 @@ def parse_json():
         print(process['Exe'])
         print(process['PID'])
 
-    #
+    # Now let's look at the memory
+    memory = system['Memory']
+    phys_mem = memory['Physical']
+    swap_mem = memory['Swap']
+    virt_mem = memory['Virtual']
+
+    # And the block devices
+    block_devices = system['Disk']['BlockDevices']
+    for device in block_devices:
+        print(device['name'])
 
     index = 0
 
