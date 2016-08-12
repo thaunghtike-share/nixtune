@@ -6,8 +6,9 @@ How to do a release:
  - Update [[https://github.com/acksin/autotune/releases][Github Release]] Notes
  - Release [[https://www.acksin.com][acksin.com]]
 
-* 0.5.x
+* 0.6.x
 
+ - Rename STRUM to Autotune
  - Deploy both dev and prod stages for mental models.
  - Console now should human readable times using moment.js
 
