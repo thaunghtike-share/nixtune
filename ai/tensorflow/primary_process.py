@@ -23,8 +23,8 @@ train_columns = [
 ]
 
 test_columns = [
-    "word",
-    "label"
+    "CPU",
+    "Memory"
 ]
 
 categorical_columns = [
@@ -33,6 +33,8 @@ categorical_columns = [
 continuous_columns = []
 
 labels = []
+
+file = "config.json"
 
 def parse_json():
     with open(file) as f:
@@ -56,8 +58,16 @@ def parse_json():
     print("Labels", labels)
 
     # Now let's subset the data by the individual cards and shuffle them
-    card_data = data['cards']
-    random.shuffle(card_data)
+    system = data['System']
+    # random.shuffle(card_data)
+
+    # Here are the processes
+    processes = system['Processes']
+    for process in processes:
+        print(process['Exe'])
+        print(process['PID'])
+
+    #
 
     index = 0
 
