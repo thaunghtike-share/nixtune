@@ -9,10 +9,13 @@
 var AcksinAutotuneNav = React.createClass({
   getInitialState: function() {
     switch(document.location.pathname) {
-      case "/console/autotune/":
-        console.log("autotune");
+      case "/console/autotune/tuning/":
         return {
           item: "autotune"
+        }
+      case "/console/autotune/diagnostics/":
+        return {
+          item: "raw"
         }
     }
 
@@ -27,10 +30,10 @@ var AcksinAutotuneNav = React.createClass({
     return (
       <ul className="nav nav-tabs">
         <li role="presentation" className={this.isActive("autotune")}>
-          <a href={"/console/autotune/#/" + this.props.statsId}>Autotune</a>
+          <a href={"/console/autotune/tuning/#/" + this.props.statsId}>Tuning</a>
         </li>
         <li role="presentation" className={this.isActive("raw")}>
-          <a href={"/console/autotune/#/" + this.props.statsId}>RAW</a>
+          <a href={"/console/autotune/diagnostics/#/" + this.props.statsId}>Diagnostics</a>
         </li>
       </ul>
     );
