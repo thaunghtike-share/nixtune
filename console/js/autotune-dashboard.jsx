@@ -1,4 +1,4 @@
-/* Acksin STRUM - Linux Diagnostics
+/* Acksin Autotune - Linux Diagnostics
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -68,7 +68,7 @@ var AcksinStrumDashboard  = React.createClass({
 
         <div>
           <p>
-            <a href="/strum">Download STRUM</a> create the following config which is already
+            <a href="/strum">Download Autotune</a> create the following config which is already
             populated with your API key. We recommend storing it <code>/etc/config/strum.json</code>
           </p>
 
