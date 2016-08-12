@@ -9,8 +9,8 @@
 package stats
 
 import (
-	"github.com/acksin/strum/stats/io"
-	"github.com/acksin/strum/stats/memory"
+	"github.com/acksin/autotune/stats/io"
+	"github.com/acksin/autotune/stats/memory"
 )
 
 // Process is information about a Linux process

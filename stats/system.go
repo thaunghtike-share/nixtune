@@ -9,9 +9,9 @@
 package stats
 
 import (
-	"github.com/acksin/strum/stats/disk"
-	"github.com/acksin/strum/stats/memory"
-	"github.com/acksin/strum/stats/network"
+	"github.com/acksin/autotune/stats/disk"
+	"github.com/acksin/autotune/stats/memory"
+	"github.com/acksin/autotune/stats/network"
 )
 
 // System contains information about the system

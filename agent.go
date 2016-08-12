@@ -16,8 +16,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/acksin/strum/shared"
-	"github.com/acksin/strum/stats"
+	"github.com/acksin/autotune/shared"
+	"github.com/acksin/autotune/stats"
 )
 
 // Agent runs a STRUM Cloud agent.

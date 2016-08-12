@@ -23,12 +23,12 @@ var (
 func copyright() string {
 	return fmt.Sprintf(`Acksin STRUM %s.
 Copyright (c) 2016. Acksin.
-https://acksin.com/strum
+https://acksin.com/autotune
 `, version)
 }
 
 func main() {
-	c := cli.NewCLI("strum", version)
+	c := cli.NewCLI("autotune", version)
 	c.Args = os.Args[1:]
 
 	c.Commands = map[string]cli.CommandFactory{
