@@ -36,6 +36,8 @@ labels = []
 
 file = "config.json"
 
+mem_types = ['Total', 'Free', 'Used', 'Cached']
+
 def parse_json():
     with open(file) as f:
         data = json.load(f)
@@ -52,11 +54,11 @@ def parse_json():
 
     # Since the Tensorflow DNN (Deep Neural Network) wants the response variable in terms of numbers
     # Here we will change the labels into numbers (their respective indices)
-
+    """
     global labels
     labels = [value for color, value in data["labelNames"].iteritems()]
     print("Labels", labels)
-
+    """
     # Now let's subset the data by the individual cards and shuffle them
     system = data['System']
     # random.shuffle(card_data)
@@ -72,6 +74,12 @@ def parse_json():
     phys_mem = memory['Physical']
     swap_mem = memory['Swap']
     virt_mem = memory['Virtual']
+
+    """
+    for mem in mem_types:
+        "phys_{}".format(mem) = phys_mem[mem]
+        "swap_{}".format(mem) = swap_mem[mem]
+    """
 
     # And the block devices
     block_devices = system['Disk']['BlockDevices']
