@@ -6,7 +6,7 @@ How to do a release:
  - Update [[https://github.com/acksin/autotune/releases][Github Release]] Notes
  - Release [[https://www.acksin.com][acksin.com]]
 
-* 0.6.x
+* 0.6.0
 
  - Rename STRUM to Autotune
  - Deploy both dev and prod stages for mental models.
