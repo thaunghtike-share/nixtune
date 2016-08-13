@@ -10,9 +10,7 @@
 Autotune is a Cloud and Container aware diagnostics that uses Machine
 Learning to help figure out issues with your infrastructure.
 
-## Quick Start
-
-[Download Autotune](https://www.acksin.com/autotune)
+## [Quick Start and Download](https://www.acksin.com/autotune)
 
 Autotune outputs its data in JSON to the command line. Run the following
 command:
