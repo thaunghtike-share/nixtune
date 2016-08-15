@@ -61,7 +61,7 @@ provided by the Cloud providers.
 
 Autotune is based around the work of
 [John Boyd](https://en.wikipedia.org/wiki/John_Boyd_(military_strategist))
-with his Observe Orient Decide and Act paradigm, also called
+with his Observe, Orient, Decide and Act paradigm, also called
 the OODA loop.
 
 UNIX has traditionally been very much about composition of tools which
@@ -70,7 +70,8 @@ services. However, we are now in the era of Linux as applicance. Linux
 is now just a single layer with one or two apps being the main users
 of the operating system. Furthermore, as we go up the stack with
 Containers and maintain clusters instead of individual machines we
-need to know how one service affects the others.
+need to know how one service affects the others. We need to understand
+the entire system.
 
 ![OODA](https://assets.acksin.com/images/autotune_ooda.png)
 
@@ -79,9 +80,10 @@ need to know how one service affects the others.
 Autotune's goal is to be situationally aware about the Containers, the
 System, the Cluster and the Cloud so that it can help you make
 effective decisions. By keeping track of this various information
-about the cluster we can help point you to potential issues. Autotune is
-not trying to replace application level inautotuneentation such as
-Graphite and Datadog. Our tools are at the system level.
+about the cluster we can help point you to potential issues. Autotune
+is not trying to replace application level instrumentation and
+monitoring services such as Graphite and Datadog. Autotune is being
+built to augment those services.
 
 ### [Mental Models](https://github.com/acksin/autotune/wiki/Mental-Models)
 
