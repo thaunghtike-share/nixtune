@@ -26,7 +26,7 @@ test:
 	go tool vet **/*.go
 
 archive:
-	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT) output.zip
+	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
 
 github-release:
 	-github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "Autotune $(VERSION)" 

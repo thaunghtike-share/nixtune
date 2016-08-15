@@ -36,7 +36,7 @@ var AcksinAutotuneDashboard  = React.createClass({
       for(var i = 0; i < result.length; i++) {
         c.push(
           <tr key={result[i].ID}>
-            <td><a href={"/console/autotune/#/" + result[i].ID}>{result[i].InstanceID}</a></td>
+            <td><i className="fa fa-amazon" aria-hidden="true"></i> <a href={"/console/autotune/tuning/#/" + result[i].ID}>{result[i].InstanceID}</a></td>
             <td>{result[i].InstanceType}</td>
             <td>{moment(result[i].CreatedAt).calendar()}</td>
             <td><a href={"/console/autotune/#/" + result[i].ID}><i className="fa fa-cogs" aria-hidden="true"></i></a></td>
