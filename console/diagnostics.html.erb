@@ -11,7 +11,7 @@ title: Acksin Console - Autotune
    var statsId  = document.location.hash.replace(/^#\//, '');
 
    if(statsId) {
-     ReactDOM.render(<AcksinAutotuneRAW  statsId={statsId} />, document.getElementById('autotune'));
+     ReactDOM.render(<AcksinAutotuneDiagnostics statsId={statsId} />, document.getElementById('autotune'));
    } else {
      document.location.href = "/console/autotune";
    }
