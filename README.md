@@ -5,6 +5,8 @@
 <a href="https://travis-ci.org/acksin/autotune"><img src="https://travis-ci.org/acksin/autotune.svg?branch=master" /></a>
 <a href="https://godoc.org/github.com/acksin/autotune"><img src="https://godoc.org/github.com/acksin/autotune?status.svg" alt="GoDoc"></a>
 
+IRC: [#acksin on Freenode](https://www.acksin.com/irc)
+
 ## Introduction
 
 Autotune is a Cloud and Container aware diagnostics that uses Machine
