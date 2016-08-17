@@ -1,34 +1,35 @@
-package autotune
+# Copyright (C) 2016 Acksin <hey@acksin.com>
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-type IO struct{}
+from decorators import *
+import mental_model
 
-func (f *IO) GetProfile() *Profile {
-	p := &Profile{
-		Name:         "io",
-		Subscription: StartupSubscription,
-		Description:  "Settings for IO optimizations",
-		References: []string{
-			"http://www.brendangregg.com/linuxperf.html",
-		},
-		SysFS: f.sysfs(),
-	}
+class IO(mental_models.MentalModel):
+    """
+    References:
+      - http://www.brendangregg.com/linuxperf.html
+    """
 
-	return p
-}
+    def __init__(self, autotune):
+        self.autotune = autotune
 
-func (f *IO) sysfs() map[string]*ProfileKV {
-	p := make(map[string]*ProfileKV)
-	p["/sys/block/*/queue/rq_afinity"] = &ProfileKV{
-		Value: "2",
-	}
+    @sysfs_feature
+    def sysfs_block_queue_rq_afinity(self):
+        return {
+            "/sys/block/*/queue/rq_afinity": "2"
+        }
 
-	p["/sys/block/*/queue/scheduler"] = &ProfileKV{
-		Value: "noop",
-	}
+    @sysfs_feature
+    def sysfs_block_queue_scheduler(self):
+        return {
+            "/sys/block/*/queue/scheduler": "noop"
+        }
 
-	p["/sys/block/*/queue/read_ahead_kb"] = &ProfileKV{
-		Value: "256",
-	}
-
-	return p
-}
+    @sysfs_feature
+    def sysfs_block_queue_read_ahead_kb(self):
+        return {
+            "/sys/block/*/queue/read_ahead_kb": "256",
+        }
