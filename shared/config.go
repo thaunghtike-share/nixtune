@@ -14,15 +14,21 @@ import (
 	"io/ioutil"
 )
 
+type AWS struct {
+	AccessKey string
+	SecretKey string
+}
+
+type Cloud struct {
+	AWS *AWS
+}
+
 // Config is the configuration used by the Autotune Agent.
 type Config struct {
 	APIKey string
 	URL    string
 
-	AWS struct {
-		AccessKey string
-		SecretKey string
-	}
+	Cloud *Cloud
 }
 
 // ParseConfig reads and validates a configuration file.

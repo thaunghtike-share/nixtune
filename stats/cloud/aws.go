@@ -13,6 +13,9 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws/ec2metadata"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ec2"
+
+	"github.com/acksin/autotune/shared"
 )
 
 // AWSStats returns the relevant AWS information about the current
@@ -35,8 +38,9 @@ type AWSStats struct {
 	SecurityGroups  string `metadata:"security-groups"`
 
 	Spot struct {
-		Termination string
-	}
+		Termination string `json:",omitempty"`
+	} `json:",omitempty"`
+
 	// TODO: These need to be converted into iteration tasks.
 	// block-device-mapping/
 	// metrics/
@@ -64,9 +68,28 @@ func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
 	}
 }
 
+func (i *AWSStats) getFull() {
+	svc := ec2.New(session.New(), &aws.Config{
+		Region: aws.String("us-west-2"),
+	})
+
+	resp, err := svc.DescribeInstances(nil)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("> Number of reservation sets: ", len(resp.Reservations))
+	for idx, res := range resp.Reservations {
+		fmt.Println("  > Number of instances: ", len(res.Instances))
+		for _, inst := range resp.Reservations[idx].Instances {
+			fmt.Println("    - Instance ID: ", *inst.InstanceId)
+		}
+	}
+}
+
 // NewAWS returns an AWSStats if the current machine is an AWS
 // instance otherwise it returns nil.
-func NewAWS() (i *AWSStats) {
+func NewAWS(a *shared.Config) (i *AWSStats) {
 	metadata := ec2metadata.New(session.New())
 
 	// Verify that this is in fact an AWS machine.
@@ -80,6 +103,10 @@ func NewAWS() (i *AWSStats) {
 	data, err := metadata.GetMetadata("spot/termination")
 	if err == nil {
 		i.Spot.Termination = data
+	}
+
+	if a.Cloud != nil && a.Cloud.AWS != nil {
+		i.getFull()
 	}
 
 	return

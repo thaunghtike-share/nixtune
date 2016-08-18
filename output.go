@@ -27,7 +27,7 @@ func (a output) Help() string {
 
 func (a output) Run(args []string) int {
 	var (
-		s = stats.New()
+		s = stats.New(nil)
 	)
 
 	if len(args) != 0 {
@@ -35,7 +35,6 @@ func (a output) Run(args []string) int {
 		case "flat":
 			fmt.Printf("%s", s.Flat())
 		}
-
 	} else {
 		fmt.Printf("%s", s.JSON())
 	}
