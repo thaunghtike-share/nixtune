@@ -27,7 +27,7 @@ func (a output) Help() string {
 
 func (a output) Run(args []string) int {
 	var (
-		s = stats.New([]int{})
+		s = stats.New()
 	)
 
 	if len(args) != 0 {

@@ -36,7 +36,7 @@ func (a *agent) Help() string {
 }
 
 func (a *agent) post() error {
-	s := stats.New([]int{})
+	s := stats.New()
 	jsonStr, err := json.Marshal(s)
 	if err != nil {
 		log.Println(err)
