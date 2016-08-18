@@ -14,11 +14,15 @@ import (
 	"io/ioutil"
 )
 
+// AWS keys to get metrics via the API.
 type AWS struct {
+	// AccessKey is the AWS Access Key
 	AccessKey string
+	// SecretKey is the AWS Secret Key
 	SecretKey string
 }
 
+// Cloud configuration.
 type Cloud struct {
 	AWS *AWS
 }
