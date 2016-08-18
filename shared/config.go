@@ -18,6 +18,11 @@ import (
 type Config struct {
 	APIKey string
 	URL    string
+
+	AWS struct {
+		AccessKey string
+		SecretKey string
+	}
 }
 
 // ParseConfig reads and validates a configuration file.
