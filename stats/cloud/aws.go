@@ -44,6 +44,8 @@ type AWSStats struct {
 	// placement/
 	// public-keys/
 	// services/
+
+	// Full
 }
 
 func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
