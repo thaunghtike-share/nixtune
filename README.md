@@ -1,4 +1,4 @@
-![Autotune](https://assets.acksin.com/images/autotune.png)
+![Autotune](https://www.acksin.com/imgs/logos/spider-788ea680.png)
 
 # Autotune
 
