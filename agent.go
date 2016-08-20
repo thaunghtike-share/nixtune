@@ -45,6 +45,9 @@ func (a *agent) post() error {
 
 	req, err := http.NewRequest("POST", a.Config.URL, bytes.NewBuffer(jsonStr))
 	req.Header.Set("X-Acksin-API-Key", a.Config.APIKey)
+	if a.Config.MachineName != "" {
+		req.Header.Set("X-Acksin-MachineName", a.Config.MachineName)
+	}
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
@@ -92,7 +95,7 @@ func (a *agent) Run(args []string) int {
 
 		select {
 		case <-time.After(1 * time.Hour):
-			log.Println("Ping")
+			log.Println("Sending Stats.")
 		}
 	}
 }
