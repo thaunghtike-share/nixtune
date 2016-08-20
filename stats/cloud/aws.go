@@ -103,14 +103,17 @@ func NewAWS(a *shared.Config) (i *AWSStats) {
 	i = &AWSStats{}
 	i.parseMetadata(metadata)
 
-	data, err := metadata.GetMetadata("spot/termination")
-	if err == nil {
+	if data, err := metadata.GetMetadata("placement/availability-zone"); err == nil {
+		i.Placement.AvailabilityZone = data
+	}
+
+	if data, err := metadata.GetMetadata("spot/termination"); err == nil {
 		i.Spot.Termination = data
 	}
 
-	if a.Cloud != nil && a.Cloud.AWS != nil {
-		i.getFull()
-	}
+	// if a.Cloud != nil && a.Cloud.AWS != nil {
+	// 	i.getFull()
+	// }
 
 	return
 }
