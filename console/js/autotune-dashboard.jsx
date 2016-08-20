@@ -17,7 +17,7 @@ var AcksinAutotuneDashboard  = React.createClass({
     }
   },
   componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/autotune/nodes", function(result) {
+    $.get(BridgeAPI + "/v1/autotune/nodes/aws", function(result) {
       var c = [];
 
       if(result != null) {
