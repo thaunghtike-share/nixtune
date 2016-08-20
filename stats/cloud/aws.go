@@ -37,15 +37,18 @@ type AWSStats struct {
 	ReservationID   string `metadata:"reservation-id"`
 	SecurityGroups  string `metadata:"security-groups"`
 
+	Placement struct {
+		AvailabilityZone string `metadata:"availability-zone"`
+	} `metadata:"placement"`
+
 	Spot struct {
-		Termination string `json:",omitempty"`
-	} `json:",omitempty"`
+		Termination string `metadata:"termination" json:",omitempty"`
+	} `metadata:"spot" json:",omitempty"`
 
 	// TODO: These need to be converted into iteration tasks.
 	// block-device-mapping/
 	// metrics/
 	// network/
-	// placement/
 	// public-keys/
 	// services/
 
