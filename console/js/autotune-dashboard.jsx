@@ -17,32 +17,12 @@ var AcksinAutotuneDashboard  = React.createClass({
     }
   },
   componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/autotune/nodes/aws", function(result) {
-      var c = [];
-
-      if(result != null) {
-        for(var i = 0; i < result.length; i++) {
-          c.push(
-            <tr key={result[i].ID}>
-              <td><i className="fa fa-amazon" aria-hidden="true"></i> <a href={"/console/autotune/tuning/#/" + result[i].ID}>{result[i].InstanceID}</a></td>
-              <td>{result[i].InstanceType}</td>
-              <td>{moment(result[i].CreatedAt).calendar()}</td>
-              <td><a href={"/console/autotune/#/" + result[i].ID}><i className="fa fa-cogs" aria-hidden="true"></i></a></td>
-            </tr>
-          );
-        }
-
-        this.setState({
-          content: c
-        });
-      }
-    }.bind(this));
-
     $.get(BridgeAPI + "/v1/user", function(result) {
       var config;
       config =  "{\n";
       config += '    "APIKey": "' + result.APIKey + '",\n';
       config += '    "URL": "https://api.acksin.com/v1/autotune/stats"\n';
+      config += '    "MachineName": "uniquenameforyourmachine"\n';
       config += '}\n';
 
       this.setState({
@@ -54,19 +34,9 @@ var AcksinAutotuneDashboard  = React.createClass({
   render: function() {
     return (
       <div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>InstanceID</th>
-              <th>InstanceType</th>
-              <th>Last Updated</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.content}
-          </tbody>
-        </table>
+        <AcksinAutotuneDashboardMachineName />
+
+        <AcksinAutotuneDashboardAWS />
 
         <div>
           <p>
