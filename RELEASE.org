@@ -6,6 +6,10 @@ How to do a release:
  - Update [[https://github.com/acksin/autotune/releases][Github Release]] Notes
  - Release [[https://www.acksin.com][acksin.com]]
 
+* 0.6.1
+
+ - Support for MachineName instead of just relying on AWS InstanceIDs.
+
 * 0.6.0
 
  - Rename STRUM to Autotune
