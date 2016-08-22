@@ -3,8 +3,13 @@
 How to do a release:
 
  - =make release=
- - Update [[https://github.com/acksin/autotune/releases][Github Release]] Notes
+ - Update [[https://github.com/acksin/acksin/releases][Github Release]] Notes
  - Release [[https://www.acksin.com][acksin.com]]
+
+* 0.6.2
+
+ - Renamed Autotune to the name of the company Acksin to avoid
+   confusion with the musical software named Auto-Tune.
 
 * 0.6.1
 

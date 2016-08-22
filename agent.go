@@ -17,7 +17,7 @@ import (
 	"time"
 
 	"github.com/acksin/autotune/shared"
-	"github.com/acksin/autotune/stats"
+	"github.com/acksin/acksin/stats"
 )
 
 // Agent runs a Autotune Cloud agent.
