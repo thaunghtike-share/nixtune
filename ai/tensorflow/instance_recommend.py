@@ -199,46 +199,11 @@ def parse_json():
     """
 
     index = 0
+
     """
-    Not sure how this section will go;
-    We need data from multiple computers?
+    Once we get more data we will be able to fill out this section!
     """
-    for card in card_data:
-        # Here we will split up the data into 2/3 training and 1/3 test
-        ratio = 3
 
-        if len(card['labels']) == 0:
-            print(card['id'])
-            #unlabeled_file.writerow([card['id'],
-            #tokenize_row_write(unlabeled_file, card['name'],
-            #card['desc'], "")])
-            #unlabeled_file.writerow([card['id'],
-            #card['name'], ""])
-            tokenize_row_write(
-                unlabeled_file,
-                card['id'],
-                card['name'],
-                card['desc'],
-                ""
-            )
-            continue
-
-        write_to_file = None
-        if index % ratio == 0:
-            write_to_file = test_file
-        else:
-            write_to_file = train_file
-
-        label = card['labels'][0]['name']
-        tokenize_row_write(
-            write_to_file,
-            "",
-            card['name'],
-            card['desc'],
-            labels.index(label)
-        )
-
-        index += 1
 
 def categorize(model_dir, model):
     # Categorical Columns
