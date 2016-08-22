@@ -60,15 +60,26 @@ func (a *AWSStats) parseMetadata(m *ec2metadata.EC2Metadata) {
 
 	for i := 0; i < st.NumField(); i++ {
 		metadataTag := st.Field(i).Tag.Get("metadata")
-		if metadataTag != "" {
-			data, err := m.GetMetadata(metadataTag)
-			if err != nil {
-				continue
-			}
 
-			reflect.ValueOf(a).Elem().Field(i).SetString(data)
+		if metadataTag != "" {
+			switch st.Field(i).Type.Kind() {
+			case reflect.Struct:
+			// No-op: Just going to handle this manually for now.
+			default:
+				data, err := m.GetMetadata(metadataTag)
+				if err != nil {
+					continue
+				}
+
+				reflect.ValueOf(a).Elem().Field(i).SetString(data)
+			}
 		}
 	}
+}
+
+// Get the AWS Region that this machine is in.
+func (i *AWSStats) region() {
+
 }
 
 func (i *AWSStats) getFull() {
@@ -111,9 +122,9 @@ func NewAWS(a *shared.Config) (i *AWSStats) {
 		i.Spot.Termination = data
 	}
 
-	// if a.Cloud != nil && a.Cloud.AWS != nil {
-	// 	i.getFull()
-	// }
+	if a.Cloud != nil && a.Cloud.AWS != nil {
+		i.getFull()
+	}
 
 	return
 }
