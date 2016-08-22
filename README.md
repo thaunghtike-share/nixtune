@@ -1,30 +1,30 @@
-![Autotune](https://www.acksin.com/imgs/logos/spider-788ea680.png)
+![Acksin](https://www.acksin.com/imgs/logos/spider-788ea680.png)
 
-# Autotune
+# Acksin
 
-<a href="https://travis-ci.org/acksin/autotune"><img src="https://travis-ci.org/acksin/autotune.svg?branch=master" /></a>
-<a href="https://godoc.org/github.com/acksin/autotune"><img src="https://godoc.org/github.com/acksin/autotune?status.svg" alt="GoDoc"></a>
+<a href="https://travis-ci.org/acksin/acksin"><img src="https://travis-ci.org/acksin/acksin.svg?branch=master" /></a>
+<a href="https://godoc.org/github.com/acksin/acksin"><img src="https://godoc.org/github.com/acksin/acksin?status.svg" alt="GoDoc"></a>
 
 IRC: [#acksin on Freenode](https://www.acksin.com/irc)
 
 ## Introduction
 
-Autotune is a Cloud and Container aware diagnostics and tuning
+Acksin is a Cloud and Container aware diagnostics and tuning
 tool. It uses Machine Learning to find optimizations in your
 infrastructure. The goal is to make your servers more performant,
 reduce the amount you spend on servers, and help reduce the
 environmental footprint.
 
-## [Quick Start and Download](https://www.acksin.com/autotune)
+## [Quick Start and Download](https://www.acksin.com/)
 
-Autotune outputs its data in JSON to the command line. Run the
+Acksin outputs its data in JSON to the command line. Run the
 following command:
 
-    sudo autotune output
+    sudo acksin output
 
-Autotune primarily runs as a daemon which regularily pushes
-diagnostics to a central server. Acksin runs a service called
-[Autotune Cloud](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/autotune)
+Acksin primarily runs as a daemon which regularily pushes diagnostics
+to a central server. Acksin runs a service called
+[Acksin Console](https://www.acksin.com/console/login?redirectTo=https://www.acksin.com/console/)
 providing this capability. You can get the configuration on the Acksin
 Console or you can check out
 [config.json.template](config.json.template) for agent
@@ -32,15 +32,15 @@ configuration. We will open source the server side in the near future.
 
 Run the following:
 
-    sudo autotune agent config.json
+    sudo acksin agent config.json
 
 ## Getting Started & Documentation
 
-All documentation is on the [Autotune website](https://www.acksin.com/autotune).
+All documentation is on the [Acksin website](https://www.acksin.com/).
 
-## Developing Autotune
+## Developing Acksin
 
-Autotune's command line portion is primarily written in Go whereas the
+Acksin's command line portion is primarily written in Go whereas the
 Machine Learning is written in Python. The code is split into a
 couple different sections:
 
@@ -50,22 +50,22 @@ couple different sections:
    models for AI. Currently this is a program that runs on AWS Lambda.
  - [Tensorflow AI](ai/tensorflow): We use the output generated from
    the Mental Models to create train AI for the various tasks.
- - [Console](console/js): ReactJS Frontend App used on Autotune Cloud.
+ - [Console](console/js): ReactJS Frontend App used on Acksin Cloud.
  - Server: This component is not yet open sourced. This is will be a
    Go server which will be built into the command line.
 
 ### Primary Dependencies
 
-The primary dependency of Autotune is the
+The primary dependency of Acksin is the
 [ProcFS Library](https://github.com/acksin/procfs) we use.  Any code
 that needs to read from ProcFS should go there. Most of the Command
 Line App is a wrapper for that library. In the future we will have
 similar dependencies for SysFS. In addition to that we use the Go
 libraries provided by the Cloud providers.
 
-### Deploying Autotune
+### Deploying Acksin
 
-Autotune has several components that need to be deployed to make a
+Acksin has several components that need to be deployed to make a
 complete system. This includes the Command Line Tool, Mental Models,
 AI, Console, and Server.
 
@@ -117,7 +117,7 @@ We love contributors to the project. Please check out the
 
 ## Goals
 
-Autotune is based around the work of
+Acksin is based around the work of
 [John Boyd](https://en.wikipedia.org/wiki/John_Boyd_(military_strategist))
 with his Observe, Orient, Decide and Act paradigm, also called
 the OODA loop.
@@ -135,15 +135,15 @@ the entire system.
 
 ### Situational awareness
 
-Autotune's goal is to be situationally aware about the Containers, the
+Acksin's goal is to be situationally aware about the Containers, the
 System, the Cluster and the Cloud so that it can help you make
 effective decisions. By keeping track of this various information
-about the cluster we can help point you to potential issues. Autotune
+about the cluster we can help point you to potential issues. Acksin
 is not trying to replace application level instrumentation and
-monitoring services such as Graphite and Datadog. Autotune is being
+monitoring services such as Graphite and Datadog. Acksin is being
 built to augment those services.
 
-### [Mental Models](https://github.com/acksin/autotune/wiki/Mental-Models)
+### [Mental Models](https://github.com/acksin/acksin/wiki/Mental-Models)
 
 Mental Models are how a system and a cluster should behave such that
 there is minimal operational issues. Mental Models are kernel changes
