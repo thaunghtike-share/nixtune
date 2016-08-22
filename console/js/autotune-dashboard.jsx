@@ -40,8 +40,8 @@ var AcksinAutotuneDashboard  = React.createClass({
 
         <div>
           <p>
-            <a href="/autotune">Download Autotune</a> create the following config which is already
-            populated with your API key. We recommend storing it <code>/etc/config/autotune.json</code>
+            <a href="/">Download Acksin</a> create the following config which is already
+            populated with your API key. We recommend storing it <code>/etc/config/acksin.json</code>
           </p>
 
           <pre>
@@ -53,7 +53,7 @@ var AcksinAutotuneDashboard  = React.createClass({
           Run the following:
           <pre>
             <code>
-              sudo autotune agent /etc/config/autotune.json
+              sudo acksin agent /etc/config/acksin.json
             </code>
           </pre>
         </div>
