@@ -21,7 +21,7 @@ var AcksinAutotuneDashboard  = React.createClass({
       var config;
       config =  "{\n";
       config += '    "APIKey": "' + result.APIKey + '",\n';
-      config += '    "URL": "https://api.acksin.com/v1/autotune/stats"\n';
+      config += '    "URL": "https://api.acksin.com/v1/stats"\n';
       config += '    "MachineName": "uniquenameforyourmachine"\n';
       config += '}\n';
 

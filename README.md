@@ -15,7 +15,7 @@ infrastructure. The goal is to make your servers more performant,
 reduce the amount you spend on servers, and help reduce the
 environmental footprint.
 
-## [Quick Start and Download](https://www.acksin.com/acksin)
+## [Quick Start and Download](https://www.acksin.com/)
 
 Acksin outputs its data in JSON to the command line. Run the
 following command:
@@ -131,7 +131,7 @@ Containers and maintain clusters instead of individual machines we
 need to know how one service affects the others. We need to understand
 the entire system.
 
-![OODA](https://assets.acksin.com/images/acksin_ooda.png)
+![OODA](https://assets.acksin.com/images/autotune_ooda.png)
 
 ### Situational awareness
 
