@@ -16,6 +16,7 @@
 # To make an instance type recommendation for the user
 # We will be using the open source software Tensorflow for this task
 # And utilizing their strong Neural Network code
+# In this case we will utilize the Wide and Deep model
 
 from __future__ import absolute_import
 from __future__ import division
@@ -191,7 +192,6 @@ def parse_json():
     # Placeholder names being used
 
     """
-
     net_util_data = data["Network Utilization"]
     in_traffic_data = data["Input Traffic"]
     out_traffic_data = data["Output Traffic"]
@@ -199,15 +199,21 @@ def parse_json():
     """
 
     index = 0
-
+    """
+    Not sure how this section will go;
+    We need data from multiple computers?
+    """
     for card in card_data:
         # Here we will split up the data into 2/3 training and 1/3 test
         ratio = 3
 
         if len(card['labels']) == 0:
             print(card['id'])
-            #unlabeled_file.writerow([card['id'], tokenize_row_write(unlabeled_file, card['name'], card['desc'], "")])
-            #unlabeled_file.writerow([card['id'], card['name'], ""])
+            #unlabeled_file.writerow([card['id'],
+            #tokenize_row_write(unlabeled_file, card['name'],
+            #card['desc'], "")])
+            #unlabeled_file.writerow([card['id'],
+            #card['name'], ""])
             tokenize_row_write(
                 unlabeled_file,
                 card['id'],
@@ -235,34 +241,41 @@ def parse_json():
         index += 1
 
 def categorize(model_dir, model):
-    word_hashed = tf.contrib.layers.sparse_column_with_hash_bucket(
-        "word",
+    # Categorical Columns
+    process_hashed = tf.contrib.layers.sparse_column_with_hash_bucket(
+        "process_data",
         hash_bucket_size = 1000
     )
-    # label_hashed =
-    # tf.contrib.layers.sparse_column_with_keys(column_name="label",
-    # keys=labels)
+    # Continuous Columns
+    cpu_hashed = tf.contrib.layers.real_valued_column("cpu_data")
+    memory_hashed = tf.contrib.layers.real_valued_column("memory_data")
+    net_util_hashed = tf.contrib.layers.real_valued_column("net_util_data")
+    in_traffic_hashed = tf.contrib.layers.real_valued_column("in_traffic_data")
+    out_traffic_hashed = tf.contrib.layers.real_valued_column("out_traffic_data")
+    io_usage_hashed = tf.contrib.layers.real_valued_column("io_usage_data")
+
+
 
     # Now we will make our sets of wide and deep columns
     wide_columns = [
-        word_hashed,
-        # label_hashed,
-        #tf.contrib.layers.crossed_column(
-        #                 [word_hashed,
-        #                  label_hashed],
-                         hash_bucket_size=int(1e4)
-                     )
+        process_hashed,
     ]
 
     deep_columns = [
         tf.contrib.layers.embedding_column(
-            word_hashed,
+            process_hashed,
             dimension = 1
         ),
+        cpu_hashed,
+        memory_hashed,
+        net_util_hashed,
+        in_traffic_hashed,
+        out_traffic_hashed,
+        io_usage_hashed
     ]
 
-    # These are the number of classes we are trying to predict
-    num_classes = 10
+    # These are the number of instance types we are trying to predict
+    num_classes = 48
 
     # Here we will build a Logistic Regression Model or a Deep Neural Network Classifier depending on need
 
@@ -318,8 +331,6 @@ def input_func(df):
     return feature_cols, label
 
 
-
-
 def train_and_evaluate(model_call, card_name):
     # With this function, we will be parsing through Trello cards,
     # getting the tokenized words of the title/description (while
@@ -361,6 +372,10 @@ def train_and_evaluate(model_call, card_name):
 
 if __name__ == '__main__':
     parse_json()
-    train_and_evaluate("both")
-    #train_and_evaluate("deep")
-    #train_and_evaluate("wide")
+    if len(sys.argv == 2):
+        if sys.argv[1] == 'both':
+            train_and_evaluate("both")
+        if sys.argv[1] == 'deep':
+            train_and_evaluate("deep")
+        if sys.argv[1] == 'wide':
+            train_and_evaluate("wide")
