@@ -7,56 +7,12 @@
  */
 
 var AcksinAutotuneDashboard  = React.createClass({
-  getInitialState: function() {
-    return {
-      configCode: "",
-      content: [],
-      userInfo: {
-        APIKey: "",
-      }
-    }
-  },
-  componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/user", function(result) {
-      var config;
-      config =  "{\n";
-      config += '    "APIKey": "' + result.APIKey + '",\n';
-      config += '    "URL": "https://api.acksin.com/v1/stats"\n';
-      config += '    "MachineName": "uniquenameforyourmachine"\n';
-      config += '}\n';
-
-      this.setState({
-        configCode: config,
-        userInfo: result
-      });
-    }.bind(this));
-  },
   render: function() {
     return (
       <div>
         <AcksinAutotuneDashboardMachineName />
-
         <AcksinAutotuneDashboardAWS />
-
-        <div>
-          <p>
-            <a href="/">Download Acksin</a> create the following config which is already
-            populated with your API key. We recommend storing it <code>/etc/config/acksin.json</code>
-          </p>
-
-          <pre>
-            <code>
-              {this.state.configCode}
-            </code>
-          </pre>
-
-          Run the following:
-          <pre>
-            <code>
-              sudo acksin agent /etc/config/acksin.json
-            </code>
-          </pre>
-        </div>
+        <AcksinAutotuneConfigGen />
       </div>
     );
   }
