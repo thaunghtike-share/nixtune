@@ -55,6 +55,7 @@ test_columns = [
 categorical_columns = [
     "Primary Process"
 ]
+
 continuous_columns = [
     "Network Utilization",
     "Input Traffic",
