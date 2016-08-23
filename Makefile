@@ -24,6 +24,7 @@ test:
 	golint ./...
 	go test -cover ./...
 	go tool vet **/*.go
+	cd ai && make lint
 
 archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)

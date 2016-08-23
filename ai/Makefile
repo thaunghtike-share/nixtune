@@ -8,3 +8,7 @@ dev:
 
 deps:
 	npm install -g serverless@beta
+	pip install astroid isort pylint
+
+lint:
+	find . -name "*py" | grep -v "psycopg2" | xargs pylint
