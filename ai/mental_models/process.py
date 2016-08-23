@@ -53,7 +53,7 @@ UbuntuSystemProcesses = [
     "rcu",
     "rdma",
     "/sbin/agetty",
-    "/sbin/dhclient (deleted)",
+    "/sbin/dhclient",
     "/sbin/iscsid",
     "/sbin/lvmetad",
     "/sbin/mdadm",
@@ -62,7 +62,7 @@ UbuntuSystemProcesses = [
     "/usr/bin/dbus-daemon",
     "/usr/bin/docker-containerd",
     "/usr/bin/dockerd",
-    "/usr/bin/lxcfs (deleted)",
+    "/usr/bin/lxcfs",
     "/usr/lib/accountsservice/accounts-daemon",
     "/usr/lib/policykit-1/polkitd",
     "/usr/lib/snapd/snapd",
@@ -80,11 +80,9 @@ UbuntuSystemProcesses = [
     "xenwatch",
     "xfs",
     "xfsalloc",
-
-
 ]
 
 # SystemProcesses contains a list of the system processes that are
 # installed by the system by default.
 
-SystemProcesses = UbuntuSystemProcess
+SystemProcesses = UbuntuSystemProcesses
