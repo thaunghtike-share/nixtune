@@ -1,4 +1,4 @@
-PRODUCT := autotune
+PRODUCT := acksin
 VERSION := $(shell cat VERSION)
 WEBSITE := acksin.com
 
@@ -11,7 +11,7 @@ build: deps test
 deps:
 	go get github.com/aktau/github-release
 	go get -u github.com/golang/lint/golint
-	go get ./...
+	go get -u ./...
 	-cd ai && $(MAKE) deps
 
 dev-deps:
@@ -29,7 +29,7 @@ archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
 
 github-release:
-	-github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "Autotune $(VERSION)" 
+	-github-release release --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "Acksin $(VERSION)" 
 	-github-release upload --user acksin --repo $(PRODUCT) --tag v$(VERSION) --name "$(PRODUCT)-$(shell uname)-$(shell uname -i)-${VERSION}.tar.gz" --file $(PRODUCT)-$(VERSION).tar.gz
 
 release: website-assets lambda-build build archive
@@ -41,13 +41,13 @@ release: website-assets lambda-build build archive
 website-assets:
 	emacs DOCS.org --batch --eval '(org-html-export-to-html nil nil nil t)'  --kill
 	echo "---" > docs.html.erb
-	echo "title: Autotune Docs" >> docs.html.erb
+	echo "title: Acksin Docs" >> docs.html.erb
 	echo "layout: docs" >> docs.html.erb
-	echo "description: Documentation for Autotune. Tool to diagnoses Linux augmented with Machine Learning" >> docs.html.erb
+	echo "description: Documentation for Acksin, a Cloud and Container aware diagnostics and tuning tool for Linux." >> docs.html.erb
 	echo "---" >> docs.html.erb
 	cat DOCS.html >> docs.html.erb
 	rm DOCS.html
-	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/autotune/
+	-cp docs.html.erb $$GOPATH/src/github.com/acksin/fugue/acksin.com/source/
 
 lambda-build:
 	cd ai && $(MAKE) release
