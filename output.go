@@ -11,7 +11,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/acksin/autotune/stats"
+	"github.com/acksin/acksin/stats"
 )
 
 type output struct {

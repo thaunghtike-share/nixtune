@@ -7,86 +7,12 @@
  */
 
 var AcksinAutotuneDashboard  = React.createClass({
-  getInitialState: function() {
-    return {
-      configCode: "",
-      content: [],
-      userInfo: {
-        APIKey: "",
-      }
-    }
-  },
-  componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/autotune/nodes", function(result) {
-      var c = [];
-
-      if(result != null) {
-        for(var i = 0; i < result.length; i++) {
-          c.push(
-            <tr key={result[i].ID}>
-              <td><i className="fa fa-amazon" aria-hidden="true"></i> <a href={"/console/autotune/tuning/#/" + result[i].ID}>{result[i].InstanceID}</a></td>
-              <td>{result[i].InstanceType}</td>
-              <td>{moment(result[i].CreatedAt).calendar()}</td>
-              <td><a href={"/console/autotune/#/" + result[i].ID}><i className="fa fa-cogs" aria-hidden="true"></i></a></td>
-            </tr>
-          );
-        }
-
-        this.setState({
-          content: c
-        });
-      }
-    }.bind(this));
-
-    $.get(BridgeAPI + "/v1/user", function(result) {
-      var config;
-      config =  "{\n";
-      config += '    "APIKey": "' + result.APIKey + '",\n';
-      config += '    "URL": "https://api.acksin.com/v1/autotune/stats"\n';
-      config += '}\n';
-
-      this.setState({
-        configCode: config,
-        userInfo: result
-      });
-    }.bind(this));
-  },
   render: function() {
     return (
       <div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>InstanceID</th>
-              <th>InstanceType</th>
-              <th>Last Updated</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.content}
-          </tbody>
-        </table>
-
-        <div>
-          <p>
-            <a href="/autotune">Download Autotune</a> create the following config which is already
-            populated with your API key. We recommend storing it <code>/etc/config/autotune.json</code>
-          </p>
-
-          <pre>
-            <code>
-              {this.state.configCode}
-            </code>
-          </pre>
-
-          Run the following:
-          <pre>
-            <code>
-              sudo autotune agent /etc/config/autotune.json
-            </code>
-          </pre>
-        </div>
+        <AcksinAutotuneDashboardMachineName />
+        <AcksinAutotuneDashboardAWS />
+        <AcksinAutotuneConfigGen />
       </div>
     );
   }
