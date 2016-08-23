@@ -4,19 +4,20 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# In this program we are looking at various metrics and computer usage...
-# 1. Network Utilization
-# 2. In/Out Network traffic
-# 3. Stats
-# 4. Memory usage
-# 5. CPU usage
-# 6. IO Usage
-# 7. Primary Process
+"""
+We are looking at various metrics and computer usage:
 
-# To make an instance type recommendation for the user
-# We will be using the open source software Tensorflow for this task
-# And utilizing their strong Neural Network code
-# In this case we will utilize the Wide and Deep model
+1. Network Utilization
+2. In/Out Network traffic
+3. Stats
+4. Memory usage
+5. CPU usage
+6. IO Usage
+7. Primary Process
+
+We will be using the Wide and Deep model provided by Tensorflow to
+provide recommendations.
+"""
 
 from __future__ import absolute_import
 from __future__ import division
