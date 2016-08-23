@@ -1,5 +1,6 @@
 {
     "APIKey": "",
-    "URL": "https://api.acksin.com/v1/autotune/stats",
+    "URL": "https://api.acksin.com/v1/stats",
+    "MachineName": "nameofthemachine",
     "Debug": false
 }

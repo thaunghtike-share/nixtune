@@ -1,4 +1,4 @@
-#+TITLE: Autotune
+#+TITLE: Acksin
 #+AUTHOR: Acksin
 #+OPTIONS: html-postamble:nil body-only: t
 
@@ -18,14 +18,14 @@ that is left out because of a lack of permissions. As such it is
 better to run the tool as =sudo=.
 
 #+begin_src sh
-sudo autotune output
+sudo acksin output
 #+end_src
 
 * Introduction
 
-Acksin Autotune is the tool to diagnose Linux issues quickly. It gives
+Acksin is the tool to diagnose Linux issues quickly. It gives
 you a complete picture of the CPU, Memory, IO, Networking, Processes,
-Kernel Limits, etc. of a system. Autotune was born out of the frustration
+Kernel Limits, etc. of a system. Acksin was born out of the frustration
 that diagnosing an issue was to go through a mental checklist and
 dealing with fallible human memory (especially at 3am when the pager
 goes off). We hope that this tool will help.
@@ -42,7 +42,7 @@ If a MySQL machine is high CPU your workflow may be running =top= to
 see what the CPUs are like, =free= to see if the machine is swapping,
 =ss= to see if there are a lot of connections, etc.
 
-Autotune will give you a birds eye view of the system and a process
+Acksin will give you a birds eye view of the system and a process
 quickly.
 
 * Basic Usage
@@ -91,31 +91,31 @@ syntax.
 ** Getting Help
 
 #+begin_src sh :results output example :exports both
-autotune --help
+acksin --help
 #+end_src
 
 ** Basic Usage
 
 #+begin_src sh :results output code json :exports both :noweb
-autotune
+acksin
 #+end_src
 
 ** Alternate Outputs
 
 #+begin_src sh :results output code json :exports both :noweb
-autotune output flat
+acksin output flat
 #+end_src
 
-** Autotune Cloud
+** Acksin Cloud
 
-Autotune Cloud is a web interface to look at the details of your machines
+Acksin Cloud is a web interface to look at the details of your machines
 data.
 
 * Diagnostics
 
-Acksin Autotune is a tool for diagnosing issues quickly. It deals with
-things at the system level, the cloud level, and at the process level.
-The output of Autotune therefore has the following output:
+Acksin is a tool for diagnosing issues quickly. It deals with things
+at the system level, the cloud level, and at the process level.  The
+output of Acksin therefore has the following output:
 
 #+begin_src json
   {
@@ -131,7 +131,7 @@ The output of Autotune therefore has the following output:
 The output of the =.System= section looks like the following:
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.System'
+acksin output | jq '.System'
 #+end_src
 
 #+RESULTS:
@@ -222,7 +222,7 @@ autotune output | jq '.System'
 *** Memory
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.System.Memory'
+acksin output | jq '.System.Memory'
 #+end_src
 
 #+RESULTS:
@@ -262,7 +262,7 @@ lead to high CPU usage and poor performance.
 *** Disk
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.System.Disk'
+acksin output | jq '.System.Disk'
 #+end_src
 
 #+RESULTS:
@@ -413,7 +413,7 @@ output. The key is the full path to the change. On the Linux kernel
 that is in =/proc/sys/=.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.System.Kernel'
+acksin output | jq '.System.Kernel'
 #+end_src
 
 #+RESULTS:
@@ -439,7 +439,7 @@ diagnostic information that can be immediately useful.
 *** Docker
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Container.Docker'
+acksin output | jq '.Container.Docker'
 #+end_src
 
 #+RESULTS:
@@ -515,7 +515,7 @@ machine for the tasks of the application.
 The key =.Cloud.AWS= provides the following output.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Cloud.AWS'
+acksin output | jq '.Cloud.AWS'
 #+end_src
 
 #+RESULTS:
@@ -542,7 +542,7 @@ autotune output | jq '.Cloud.AWS'
 *** DigitalOcean
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Cloud.DigitalOcean'
+acksin output | jq '.Cloud.DigitalOcean'
 #+end_src
 
 #+RESULTS:
@@ -591,7 +591,7 @@ autotune output | jq '.Cloud.DigitalOcean'
 Here we want to get information about the process with the =PID= 2277.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Processes[0]'
+acksin output | jq '.Processes[0]'
 #+end_src
 
 #+RESULTS:
@@ -621,7 +621,7 @@ autotune output | jq '.Processes[0]'
 We can see the memory usage for the process.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Processes[0].Memory'
+acksin output | jq '.Processes[0].Memory'
 #+end_src
 
 #+RESULTS:
@@ -649,7 +649,7 @@ We can get information about the IO of a process. We can see what
 files it has open as well as the limits that it has.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Processes[0].IO'
+acksin output | jq '.Processes[0].IO'
 #+end_src
 
 #+RESULTS:
@@ -669,7 +669,7 @@ autotune output | jq '.Processes[0].IO'
 We can see here what the kernel limits are for the process.
 
 #+begin_src sh :results output code :exports both :noweb
-autotune output | jq '.Processes[0].IO.Limits'
+acksin output | jq '.Processes[0].IO.Limits'
 #+end_src
 
 #+RESULTS:

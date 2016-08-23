@@ -24,14 +24,22 @@ type AWS struct {
 
 // Cloud configuration.
 type Cloud struct {
+	// AWS credentials
 	AWS *AWS
 }
 
 // Config is the configuration used by the Autotune Agent.
 type Config struct {
+	// APIKey that you can find at
+	// https://www.acksin.com/console/credentials
 	APIKey string
-	URL    string
-
+	// URL is the API URL that the agent will be pinging.
+	URL string
+	// MachineName is how the machine will be labeled on the
+	// Console.
+	MachineName string
+	// Cloud contains credentials for the Cloud providers so we
+	// can attain additional information.
 	Cloud *Cloud
 }
 
