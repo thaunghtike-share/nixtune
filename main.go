@@ -21,14 +21,14 @@ var (
 )
 
 func copyright() string {
-	return fmt.Sprintf(`Acksin Autotune %s.
-Copyright (c) 2016. Acksin.
-https://acksin.com/autotune
+	return fmt.Sprintf(`Acksin %s.
+Copyright (c) 2016. Acksin, LLC.
+https://www.acksin.com
 `, version)
 }
 
 func main() {
-	c := cli.NewCLI("autotune", version)
+	c := cli.NewCLI("acksin", version)
 	c.Args = os.Args[1:]
 
 	c.Commands = map[string]cli.CommandFactory{
