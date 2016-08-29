@@ -50,7 +50,7 @@ def handler(event, context):
     """
 
     config_file = "config.dev.json"
-    if context.function_name == "autotune-prod-mentalmodels":
+    if context is not None and context.function_name == "autotune-prod-mentalmodels":
         config_file = "config.prod.json"
 
     autotune = Autotune(config_file, event['ID'])
