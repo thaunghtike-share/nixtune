@@ -33,8 +33,9 @@ var AcksinAutotuneConfigGen  = React.createClass({
   render: function() {
     return (
       <div>
+        <h2>acksin.json</h2>
         <p>
-          <a href="/">Download Acksin</a> create the following config which is already
+          <a href="/quickstart">Download Acksin</a> create the following config which is already
           populated with your API key. We recommend storing it <code>/etc/config/acksin.json</code>
         </p>
 
