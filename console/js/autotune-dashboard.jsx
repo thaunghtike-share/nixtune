@@ -12,7 +12,8 @@ var AcksinAutotuneDashboard  = React.createClass({
       <div>
         <AcksinAutotuneDashboardMachineName />
         <AcksinAutotuneDashboardAWS />
-        <AcksinAutotuneConfigGen />
+
+        <AcksinQuickstart getRecommendations={false} />
       </div>
     );
   }
