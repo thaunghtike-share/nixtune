@@ -14,6 +14,19 @@
 # 7. Primary Process
 
 # To make an instance type recommendation for the user
+"""Abhi:
+-distill what each type of instance is good for.
+-we need to map types of machines to the apps that they run so we can make
+recommendations
+-so can fill out the page with appropriate information
+such as instance type and the use case applications
+-also do it for
+google cloud and azure
+-we need to do recommendations of instance
+types and one of those is to figure out if we can recommend alternate
+instance types
+"""
+
 # We will be using the open source software Tensorflow for this task
 # And utilizing their strong Neural Network code
 # In this case we will utilize the Wide and Deep model
@@ -95,7 +108,7 @@ azs = [
     "us-west-2c",
 ]
 
-inst_type = [
+aws_inst_types = [
     "c1.medium",
     "c1.xlarge",
     "c3.2xlarge",
@@ -147,6 +160,75 @@ inst_type = [
     "x1.32xlarge",
 ]
 
+gcp_inst_types = [
+    "n1-standard-1",
+    "n1-standard-2",
+    "n1-standard-4",
+    "n1-standard-8",
+    "n1-standard-16",
+    "n1-standard-32",
+    "n1-highmem-2",
+    "n1-highmem-4",
+    "n1-highmem-8",
+    "n1-highmem-16",
+    "n1-highmem-32",
+    "n1-highcpu-2",
+    "n1-highcpu-4",
+    "n1-highcpu-8",
+    "n1-highcpu-16",
+    "n1-highcpu-32",
+    "f1-micro",
+    "g1-small",
+]
+
+azure_inst_types = [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9",
+    "A10",
+    "A11",
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D1v2",
+    "D2v2",
+    "D3v2",
+    "D4v2",
+    "D5v2",
+    "D11v2",
+    "D12v2",
+    "D13v2",
+    "D14v2",
+    "D15v2",
+    "F1",
+    "F2",
+    "F4",
+    "F8",
+    "F16",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5"
+]
+
+instance_providers = [
+    "AWS",
+    "GCP",
+    "Azure"
+]
 
 def parse_json():
     with open(file) as f:
@@ -222,6 +304,8 @@ def categorize(model_dir, model):
 
 
     # Now we will make our sets of wide and deep columns
+    # Need to add crossed columns
+
     wide_columns = [
         process_hashed,
     ]
@@ -242,7 +326,8 @@ def categorize(model_dir, model):
     # These are the number of instance types we are trying to predict
     num_classes = 48
 
-    # Here we will build a Logistic Regression Model or a Deep Neural Network Classifier depending on need
+    # Here we will build a Logistic Regression Model or a Deep Neural
+    # Network Classifier depending on need
 
     if model == "wide":
         m = tf.contrib.learn.LinearClassifier(
