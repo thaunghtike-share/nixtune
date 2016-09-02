@@ -32,19 +32,6 @@ import sys
 import random
 import numpy as np
 
-"""Abhi:
--distill what each type of instance is good for.
--we need to map types of machines to the apps that they run so we can make
-recommendations
--so can fill out the page with appropriate information
-such as instance type and the use case applications
--also do it for
-google cloud and azure
--we need to do recommendations of instance
-types and one of those is to figure out if we can recommend alternate
-instance types
-"""
-
 train_columns = [
     "Network Utilization",
     "Input Traffic",
