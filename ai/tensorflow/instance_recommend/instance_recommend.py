@@ -272,9 +272,25 @@ def parse_json():
     index = 0
 
     """
-    Once we get more data we will be able to fill out this section!
-    """
+    Here's some pseudocode
 
+    inst_type_provider = ...
+    poss_inst_types = ...
+    if inst_type_provider = "AWS":
+        poss_inst_types = aws_inst_types
+    if inst_type_provider = "GCP":
+        poss_inst_types = gcp_inst_types
+    if inst_type_provider = "Azure":
+        poss_inst_types = azure_inst_types
+
+
+    if memory_data < 1:
+        ...
+    if process_data == ...:
+        ...
+    if cpu_data < 5:
+        ...
+    """
 
 def categorize(model_dir, model):
     # Categorical Columns
