@@ -29,8 +29,8 @@ class Memory(mental_model.MentalModel):
         size.
 
         http://askubuntu.com/questions/198549/what-is-cached-in-the-top-command
-
         """
+
         if self.memory['Physical']['Free'] > 0:
             percent_used = self.memory['Physical']['Free'] / self.memory['Physical']['Total']
             return percent_used < 0.5

@@ -4,32 +4,20 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# In this program we are looking at various metrics and computer usage...
-# 1. Network Utilization
-# 2. In/Out Network traffic
-# 3. Stats
-# 4. Memory usage
-# 5. CPU usage
-# 6. IO Usage
-# 7. Primary Process
-
-# To make an instance type recommendation for the user
-"""Abhi:
--distill what each type of instance is good for.
--we need to map types of machines to the apps that they run so we can make
-recommendations
--so can fill out the page with appropriate information
-such as instance type and the use case applications
--also do it for
-google cloud and azure
--we need to do recommendations of instance
-types and one of those is to figure out if we can recommend alternate
-instance types
 """
+We are looking at various metrics and computer usage:
 
-# We will be using the open source software Tensorflow for this task
-# And utilizing their strong Neural Network code
-# In this case we will utilize the Wide and Deep model
+1. Network Utilization
+2. In/Out Network traffic
+3. Stats
+4. Memory usage
+5. CPU usage
+6. IO Usage
+7. Primary Process
+
+We will be using the Wide and Deep model provided by Tensorflow to
+provide recommendations.
+"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -43,6 +31,19 @@ import csv
 import sys
 import random
 import numpy as np
+
+"""Abhi:
+-distill what each type of instance is good for.
+-we need to map types of machines to the apps that they run so we can make
+recommendations
+-so can fill out the page with appropriate information
+such as instance type and the use case applications
+-also do it for
+google cloud and azure
+-we need to do recommendations of instance
+types and one of those is to figure out if we can recommend alternate
+instance types
+"""
 
 train_columns = [
     "Network Utilization",
@@ -67,6 +68,7 @@ test_columns = [
 categorical_columns = [
     "Primary Process"
 ]
+
 continuous_columns = [
     "Network Utilization",
     "Input Traffic",
