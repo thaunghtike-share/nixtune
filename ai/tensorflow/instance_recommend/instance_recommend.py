@@ -276,6 +276,7 @@ def parse_json():
 
     inst_type_provider = ...
     poss_inst_types = ...
+
     if inst_type_provider = "AWS":
         poss_inst_types = aws_inst_types
     if inst_type_provider = "GCP":
