@@ -44,7 +44,7 @@ class Networking(mental_model.MentalModel):
     @procfs_feature
     def procfs_net_ipv4_ip_local_port_range(self):
         """
-        On a typical machine there are around 28000 ports available to be
+        On a typical machine there are around 28,000 ports available to be
         bound to. This number can get exhausted quickly if there are many
         connections. We will increase this.
         """
@@ -59,6 +59,8 @@ class Networking(mental_model.MentalModel):
         The size of the receive buffer for all the sockets. 16MB per socket.
         """
 
+        # TODO: Adjust this per the instance size.
+
         return {
             "/proc/sys/net/core/rmem_max": "16777216"
         }
@@ -68,6 +70,9 @@ class Networking(mental_model.MentalModel):
         """
         The size of the buffer for all the sockets. 16MB per socket.
         """
+
+        # TODO: Adjust this per the instance size.
+
         return {
             "/proc/sys/net/core/wmem_max": "16777216",
         }
@@ -77,6 +82,9 @@ class Networking(mental_model.MentalModel):
         """
         (min, default, max): The sizes of the receive buffer for the IP protocol.
         """
+
+
+        # TODO: Adjust this per the instance size.
 
         return {
             "/proc/sys/net/ipv4/tcp_rmem": "4096 87380 16777216",
@@ -88,6 +96,8 @@ class Networking(mental_model.MentalModel):
         (min, default, max): The sizes of the write buffer for the IP protocol.
         """
 
+        # TODO: Adjust this per the instance size.
+
         return {
             "/proc/sys/net/ipv4/tcp_wmem": "4096 65536 16777216",
         }
@@ -97,6 +107,8 @@ class Networking(mental_model.MentalModel):
         """
         Increase the number syn requests allowed. Sets how many half-open connections to backlog queue
         """
+
+        # TODO: Adjust this per the instance size.
 
         return {
             "/proc/sys/net/ipv4/tcp_max_syn_backlog": "20480",
