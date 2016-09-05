@@ -4,9 +4,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import json
-import psycopg2
 import sys
+sys.path.append("site-packages")
+
+import json
+import pg8000
 
 from memory import Memory
 from networking import Networking
@@ -16,7 +18,13 @@ class Autotune(object):
         self.ID = id
 
         self.config = json.load(open(config_file, 'r'))
-        self.conn = psycopg2.connect(self.config['database'])
+        self.conn = pg8000.connect(
+            user=self.config['username'],
+            password=self.config['password'],
+            database=self.config['database'],
+            host=self.config['host'],
+            ssl=self.config['ssl']
+        )
 
         cur = self.conn.cursor()
         cur.execute("SELECT data FROM autotune_stats where id = %s", (id,))
