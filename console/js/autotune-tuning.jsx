@@ -34,7 +34,7 @@ var AcksinAutotuneTuning = React.createClass({
         </p>
 
         <h2>ProcFS</h2>
-        <AcksinAutotuneTable property={this.state.ProcFS} />
+        <AcksinAutotuneTableProcFS procfs={this.state.ProcFS} />
 
         <h2>SysFS</h2>
         <AcksinAutotuneTable property={this.state.SysFS} />
