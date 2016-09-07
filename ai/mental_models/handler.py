@@ -4,18 +4,16 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import sys
-sys.path.append("site-packages")
-
+import sys; sys.path.append("site-packages")
 import json
 import pg8000
+import boto3
 
 from memory import Memory
 from networking import Networking
 
 class Autotune(object):
     def __init__(self, config_file):
-
         self.config = json.load(open(config_file, 'r'))
         self.conn = pg8000.connect(
             user=self.config['username'],
@@ -85,11 +83,16 @@ def run_model(config_file, event_id):
 
     autotune.close()
 
-def run_upgrade(config_file):
+def run_upgrade(config_file, function_name):
     autotune = Autotune(config_file)
+    client = boto3.client('lambda')
 
     for autotune_id in autotune.get_ids():
-        run_model(config_file, autotune_id)
+        client.invoke(
+            FunctionName=function_name,
+            InvocationType='Event',
+            Payload=bytearray(json.dumps({'ID': autotune_id}), 'utf-8'),
+        )
 
 def handler(event, context):
     """
@@ -103,7 +106,7 @@ def handler(event, context):
     if event.has_key('ID'):
         run_model(config_file, event['ID'])
     elif event.has_key('Upgrade'):
-        run_upgrade(config_file)
+        run_upgrade(config_file, context.function_name)
 
     return {
         'Message': "OK"

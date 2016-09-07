@@ -15,6 +15,13 @@ service: autotune
 provider:
   name: aws
   runtime: python2.7
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: "*"
+
+
 
 # you can overwrite defaults here
 defaults:
@@ -33,6 +40,7 @@ functions:
     mentalmodels:
         handler: handler.handler
         memorySize: 128
+        timeout: 300
 
 #       you can add any of the following events
 #       events:
