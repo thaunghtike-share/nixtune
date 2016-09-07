@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import string
+
 def ai_feature(func):
     def wrapper(self):
         return func(self)
@@ -21,9 +23,14 @@ def procfs_feature(func):
 
         returned = {}
         for k, v in output.items():
-            if self.autotune.stats['System']['Kernel'].has_key(k) and \
-               not self.autotune.stats['System']['Kernel'][k] == v:
-                returned = dict(returned.items() + output.items())
+            kernel = self.autotune.stats['System']['Kernel']
+            if kernel.has_key(k) and not kernel[k] == v:
+                change = {
+                    'Current': kernel[k],
+                    'Replacement': v,
+                    'Docs': string.strip(func.__doc__),
+                }
+                returned = dict(returned.items() + [(k, change)])
 
         return returned
 

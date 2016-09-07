@@ -25,3 +25,4 @@ _testmain.go
 /ai/mental_models/*.pyc
 /autotune
 /docs.html.erb
+/ai/mental_models/site-packages/
