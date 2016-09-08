@@ -4,19 +4,16 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import sys
-sys.path.append("site-packages")
-
+import sys; sys.path.append("site-packages")
 import json
 import pg8000
+import boto3
 
 from memory import Memory
 from networking import Networking
 
 class Autotune(object):
-    def __init__(self, config_file, id):
-        self.ID = id
-
+    def __init__(self, config_file):
         self.config = json.load(open(config_file, 'r'))
         self.conn = pg8000.connect(
             user=self.config['username'],
@@ -25,6 +22,21 @@ class Autotune(object):
             host=self.config['host'],
             ssl=self.config['ssl']
         )
+
+    def get_ids(self):
+        """
+        Get the entire list of stats ids from the database.
+        """
+
+        cur = self.conn.cursor()
+        cur.execute("SELECT id::varchar FROM autotune_stats")
+        ids = [i[0] for i in cur.fetchall()]
+        cur.close()
+
+        return ids
+
+    def get_id(self, id):
+        self.ID = id
 
         cur = self.conn.cursor()
         cur.execute("SELECT data FROM autotune_stats where id = %s", (id,))
@@ -52,16 +64,11 @@ class Autotune(object):
     def close(self):
         self.conn.close()
 
-def handler(event, context):
-    """
-    Run on AWS Lambda.
-    """
+def run_model(config_file, event_id):
+    print "Running {}".format(event_id)
 
-    config_file = "config.dev.json"
-    if context is not None and context.function_name == "autotune-prod-mentalmodels":
-        config_file = "config.prod.json"
-
-    autotune = Autotune(config_file, event['ID'])
+    autotune = Autotune(config_file)
+    autotune.get_id(event_id)
 
     memory = Memory(autotune)
     networking = Networking(autotune)
@@ -76,11 +83,41 @@ def handler(event, context):
 
     autotune.close()
 
+def run_upgrade(config_file, function_name):
+    autotune = Autotune(config_file)
+    client = boto3.client('lambda')
+
+    for autotune_id in autotune.get_ids():
+        client.invoke(
+            FunctionName=function_name,
+            InvocationType='Event',
+            Payload=bytearray(json.dumps({'ID': autotune_id}), 'utf-8'),
+        )
+
+def handler(event, context):
+    """
+    Run on AWS Lambda.
+    """
+
+    config_file = "config.dev.json"
+    if context is not None and context.function_name == "autotune-prod-mentalmodels":
+        config_file = "config.prod.json"
+
+    if event.has_key('ID'):
+        run_model(config_file, event['ID'])
+    elif event.has_key('Upgrade'):
+        run_upgrade(config_file, context.function_name)
+
     return {
         'Message': "OK"
     }
 
 if __name__ == "__main__":
-    print handler({
-        'ID': sys.argv[1]
-    }, None)
+    if sys.argv[1] == 'Upgrade':
+        print handler({
+            'Upgrade': True,
+        }, None)
+    else:
+        print handler({
+            'ID': sys.argv[1]
+        }, None)
