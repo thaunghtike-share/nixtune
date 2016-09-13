@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -14,6 +14,8 @@ import (
 	"os"
 
 	"github.com/mitchellh/cli"
+
+	"github.com/acksin/acksin/server"
 )
 
 var (
@@ -37,6 +39,9 @@ func main() {
 		},
 		"output": func() (cli.Command, error) {
 			return &output{}, nil
+		},
+		"server": func() (cli.Command, error) {
+			return &server.Server{}, nil
 		},
 	}
 

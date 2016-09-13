@@ -12,3 +12,5 @@ ADD acksin /autotune
 ADD website /website
 
 EXPOSE 8080
+
+ENTRYPOINT /acksin server
