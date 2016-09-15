@@ -26,3 +26,4 @@ _testmain.go
 /autotune
 /docs.html.erb
 /ai/mental_models/site-packages/
+/website/javascripts/build/
