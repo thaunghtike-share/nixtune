@@ -7,17 +7,18 @@
  */
 
 
-var AcksinAutotuneTuning = React.createClass({
+var AcksinConsoleTuning = React.createClass({
   getInitialState: function() {
     return {
+      machineId: this.props.params.machineId
     };
   },
   componentDidMount: function() {
-    if(this.props.statsId == "") {
+    if(this.state.machineId == "") {
       return;
     }
 
-    $.get(BridgeAPI + "/v1/autotune/tuning/" + this.props.statsId, function(result) {
+    $.get(BridgeAPI + "/v1/autotune/tuning/" + this.state.machineId, function(result) {
       $.get(result.URL, function(stats) {
         this.setState(result);
       }.bind(this));
@@ -26,18 +27,16 @@ var AcksinAutotuneTuning = React.createClass({
   render: function() {
     return (
       <div>
-        <AcksinAutotuneNav statsId={this.props.statsId} />
-
         <p>
           After analyzing the node the following changes can give a boost in performance.
           We are keeping an eye out and additional tuning will appear here.
         </p>
 
         <h2>ProcFS</h2>
-        <AcksinAutotuneTableProcFS procfs={this.state.ProcFS} />
+        <AcksinConsoleTableProcFS procfs={this.state.ProcFS} />
 
         <h2>SysFS</h2>
-        <AcksinAutotuneTable property={this.state.SysFS} />
+        <AcksinConsoleTable property={this.state.SysFS} />
       </div>
     );
   }

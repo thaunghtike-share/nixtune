@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneTable = React.createClass({
+var AcksinConsoleTable = React.createClass({
   render: function() {
     var property = this.props.property;
 
@@ -16,7 +16,7 @@ var AcksinAutotuneTable = React.createClass({
       for(var i in property) {
         its.push(
           <tr key={i}>
-            <td><AcksinAutotuneTable property={property[i]} /></td>
+            <td><AcksinConsoleTable property={property[i]} /></td>
           </tr>
         );
       }
@@ -33,7 +33,7 @@ var AcksinAutotuneTable = React.createClass({
         its.push(
           <tr key={i}>
             <td><strong>{i}</strong></td>
-            <td><AcksinAutotuneTable property={property[i]} /></td>
+            <td><AcksinConsoleTable property={property[i]} /></td>
           </tr>
         );
       }

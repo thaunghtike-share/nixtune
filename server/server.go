@@ -13,7 +13,12 @@ import (
 	"net/http"
 )
 
+var (
+	version string
+)
+
 type Server struct {
+	Version string
 }
 
 func (s *Server) Synopsis() string {
@@ -25,11 +30,11 @@ func (s *Server) Help() string {
 }
 
 func (s *Server) Run(args []string) int {
+	version = s.Version
+
 	setup()
 
-	r := commonRouter(router())
-
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":8080", commonRouter(router())))
 
 	return 0
 }

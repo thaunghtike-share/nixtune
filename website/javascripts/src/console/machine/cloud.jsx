@@ -6,25 +6,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneCloud  = React.createClass({
+var AcksinConsoleCloud  = React.createClass({
   render: function() {
     return (
       <div>
         <h2>Cloud</h2>
 
-        <AcksinAutotuneCloudAWS aws={this.props.cloud.AWS} />
+        <AcksinConsoleCloudAWS aws={this.props.cloud.AWS} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneCloudAWS = React.createClass({
+var AcksinConsoleCloudAWS = React.createClass({
   render: function() {
     return (
       <div>
         <h3>AWS</h3>
 
-        <AcksinAutotuneTable property={this.props.aws} />
+        <AcksinConsoleTable property={this.props.aws} />
       </div>
     );
   }

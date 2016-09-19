@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneProcesses  = React.createClass({
+var AcksinConsoleProcesses  = React.createClass({
   getInitialState: function() {
     var c = [];
 
@@ -17,7 +17,7 @@ var AcksinAutotuneProcesses  = React.createClass({
         <tr key={"proc" + i}>
           <td>{proc.Exe}</td>
           <td>
-            <AcksinAutotuneTable property={proc.IO.FD} />
+            <AcksinConsoleTable property={proc.IO.FD} />
           </td>
         </tr>
       );

@@ -6,14 +6,31 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneDashboard  = React.createClass({
+var AcksinConsoleDashboard  = React.createClass({
+  getInitialState: function() {
+    return {
+      user: {
+        Username: ""
+      }
+    }
+  },
+  componentDidMount: function() {
+    $.get(BridgeAPI + "/v1/user", function(result) {
+      this.setState({
+        user: result
+      });
+    }.bind(this)).fail(function() {
+      document.location = "/a/auth";
+    });
+  },
   render: function() {
     return (
       <div>
-        <AcksinAutotuneDashboardMachineName />
-        <AcksinAutotuneDashboardAWS />
+        <div className="container">
+          <AcksinConsoleTopNav user={this.state.user} />
 
-        <AcksinQuickstart getRecommendations={false} />
+          {this.props.children}
+        </div>
       </div>
     );
   }

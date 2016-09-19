@@ -7,7 +7,7 @@
  */
 
 
-var AcksinAutotuneTableProcFS = React.createClass({
+var AcksinConsoleTableProcFS = React.createClass({
   render: function() {
     var trs = [];
 

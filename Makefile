@@ -14,6 +14,9 @@ deps:
 	go get -u ./...
 	-cd ai && $(MAKE) deps
 
+js-deps:
+	npm install babel-cli babel-preset-es2015 babel-preset-react
+
 dev-deps:
 	sudo add-apt-repository -y ppa:ubuntu-elisp/ppa && sudo apt-get -qq update && sudo apt-get -qq -f install && sudo apt-get -qq install emacs-snapshot && sudo apt-get -qq install emacs-snapshot-el;
 	emacs --version
@@ -51,3 +54,11 @@ website-assets:
 
 lambda-build:
 	cd ai && $(MAKE) release
+
+jswatch:
+	mkdir -p website/javascripts/build/
+	babel website/javascripts/src --watch --out-file website/javascripts/build/acksin.js
+
+js:
+	babel website/javascripts/src --out-file website/javascripts/build/acksin.js
+

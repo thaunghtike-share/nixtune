@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneSystem  = React.createClass({
+var AcksinConsoleSystem  = React.createClass({
   getInitialState: function() {
     return null;
   },
@@ -15,58 +15,58 @@ var AcksinAutotuneSystem  = React.createClass({
       <div>
         <h2>System</h2>
 
-        <AcksinAutotuneSystemMemory memory={this.props.system.Memory} />
-        <AcksinAutotuneSystemDisk disk={this.props.system.Disk} />
-        <AcksinAutotuneSystemNetwork network={this.props.system.Network} />
-        <AcksinAutotuneSystemKernel kernel={this.props.system.Kernel} />
+        <AcksinConsoleSystemMemory memory={this.props.system.Memory} />
+        <AcksinConsoleSystemDisk disk={this.props.system.Disk} />
+        <AcksinConsoleSystemNetwork network={this.props.system.Network} />
+        <AcksinConsoleSystemKernel kernel={this.props.system.Kernel} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneSystemMemory  = React.createClass({
+var AcksinConsoleSystemMemory  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Memory</h3>
 
-        <AcksinAutotuneTable property={this.props.memory} />
+        <AcksinConsoleTable property={this.props.memory} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneSystemDisk  = React.createClass({
+var AcksinConsoleSystemDisk  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Disk</h3>
 
-        <AcksinAutotuneTable property={this.props.disk} />
+        <AcksinConsoleTable property={this.props.disk} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneSystemNetwork  = React.createClass({
+var AcksinConsoleSystemNetwork  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Network</h3>
 
-        <AcksinAutotuneTable property={this.props.network} />
+        <AcksinConsoleTable property={this.props.network} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneSystemKernel  = React.createClass({
+var AcksinConsoleSystemKernel  = React.createClass({
   render: function() {
     return (
       <div>
         <h3>Kernel</h3>
 
-        <AcksinAutotuneTable property={this.props.kernel} />
+        <AcksinConsoleTable property={this.props.kernel} />
       </div>
     );
   }

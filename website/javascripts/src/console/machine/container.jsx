@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneContainer  = React.createClass({
+var AcksinConsoleContainer  = React.createClass({
   getInitialState: function() {
     return null;
   },
@@ -15,19 +15,19 @@ var AcksinAutotuneContainer  = React.createClass({
       <div>
         <h2>Container</h2>
 
-        <AcksinAutotuneContainerDocker docker={this.props.container.Docker} />
+        <AcksinConsoleContainerDocker docker={this.props.container.Docker} />
       </div>
     );
   }
 });
 
-var AcksinAutotuneContainerDocker  = React.createClass({
+var AcksinConsoleContainerDocker  = React.createClass({
   getInitialState: function() {
     var containersTable = [];
     var imagesTable = [];
 
     for(var k in this.props.docker.Containers) {
-      contaienrsTable.push(
+      containersTable.push(
         <tr key={k}>
           <td>{k}</td>
           <td>{JSON.stringify(this.props.docker.Containers[k])}</td>

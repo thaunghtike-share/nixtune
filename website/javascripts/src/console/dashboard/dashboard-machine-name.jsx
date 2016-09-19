@@ -6,24 +6,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var AcksinAutotuneDashboardAWS  = React.createClass({
+var AcksinConsoleDashboardMachineName  = React.createClass({
   getInitialState: function() {
     return {
       content: [],
     }
   },
   componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/autotune/nodes/aws", function(result) {
+    $.get(BridgeAPI + "/v1/autotune/nodes", function(result) {
       var c = [];
 
       if(result != null) {
         for(var i = 0; i < result.length; i++) {
           c.push(
             <tr key={result[i].ID}>
-              <td><i className="fa fa-amazon" aria-hidden="true"></i> <a href={"/console/autotune/tuning/#/" + result[i].ID}>{result[i].InstanceID}</a></td>
-              <td>{result[i].InstanceType}</td>
+              <td>
+                <ReactRouter.Link to={`/console/machine/${result[i].ID}/tuning`}>{result[i].MachineName}</ReactRouter.Link>
+              </td>
               <td>{moment(result[i].CreatedAt).calendar()}</td>
-              <td><a href={"/console/autotune/#/" + result[i].ID}><i className="fa fa-cogs" aria-hidden="true"></i></a></td>
+              <td>
+                <ReactRouter.Link to={`/console/machine/${result[i].ID}/diagnostics`}><i className="fa fa-cogs" aria-hidden="true"></i></ReactRouter.Link>
+              </td>
             </tr>
           );
         }
@@ -41,12 +44,11 @@ var AcksinAutotuneDashboardAWS  = React.createClass({
 
     return (
       <div>
-        <h2>AWS Instances</h2>
+        <h2>Machines</h2>
         <table className="table">
           <thead>
             <tr>
-              <th>InstanceID</th>
-              <th>InstanceType</th>
+              <th>Machine Name</th>
               <th>Last Updated</th>
               <th></th>
             </tr>

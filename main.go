@@ -41,7 +41,7 @@ func main() {
 			return &output{}, nil
 		},
 		"server": func() (cli.Command, error) {
-			return &server.Server{}, nil
+			return &server.Server{Version: version}, nil
 		},
 	}
 
