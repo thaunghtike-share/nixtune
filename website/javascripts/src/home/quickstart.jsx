@@ -13,7 +13,7 @@ var AcksinQuickstart = React.createClass({
       this.setState({
         userInfo: null
       });
-    });
+    }.bind(this));
   },
   getRecommendations: function() {
     if(this.props.getRecommendations == undefined || this.props.getRecommendations) {
