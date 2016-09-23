@@ -29,3 +29,4 @@ _testmain.go
 /website/javascripts/build/
 /acksin
 /node_modules/
+/website/javascripts/bower_components/
