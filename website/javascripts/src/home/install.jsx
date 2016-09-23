@@ -62,7 +62,6 @@ var AcksinQuickstartCreateAccount = React.createClass({
 });
 
 
-
 var AcksinQuickstartDownloadAndRunConfig = React.createClass({
   render: function() {
     if(this.props.userInfo != null) {

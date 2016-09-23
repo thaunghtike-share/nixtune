@@ -8,15 +8,7 @@
 
 $(document).ready(function() {
   ReactDOM.render((
-    <ReactRouter.Router history={ReactRouter.browserHistory}>
-      <ReactRouter.Route path="/" component={AcksinWelcome} > </ReactRouter.Route>
-      <ReactRouter.Route path="/irc" component={AcksinIRC} > </ReactRouter.Route>
-      <ReactRouter.Route path="/privacy" component={AcksinPrivacyPage} > </ReactRouter.Route>
-      <ReactRouter.Route path="/tos" component={AcksinTOSPage} > </ReactRouter.Route>
-
-      <ReactRouter.Route path="/docs/" component={AcksinDocs} >
-      </ReactRouter.Route>
-
+    <ReactRouter.Router onUpdate={gaRouterUpdated} history={ReactRouter.browserHistory}>
       <ReactRouter.Route path="/console/" component={AcksinConsoleDashboard} >
         <ReactRouter.IndexRoute component={AcksinConsoleConsole}/>
         <ReactRouter.Route path="billing" component={AcksinBilling}/>

@@ -1,3 +1,13 @@
+$(document).ready(function() {
+  ReactDOM.render(<AcksinQuickstart />, document.getElementById('quickstart-app'));
+});
+
+var userInfo = null;
+
+function setUser(u) {
+  userInfo = u;
+}
+
 var AcksinQuickstart = React.createClass({
   getInitialState: function() {
     return {
@@ -5,13 +15,9 @@ var AcksinQuickstart = React.createClass({
     };
   },
   componentDidMount: function() {
-    $.get(BridgeAPI + "/v1/user", function(result) {
-      this.setState({
-        userInfo: result
-      });
-    }.bind(this)).fail(function() {
-      this.setState({
-        userInfo: null
+    $.getScript(BridgeAPI + "/v1/user?callback=setUser", function( script, textStatus ) {
+       this.setState({
+        userInfo: userInfo
       });
     }.bind(this));
   },

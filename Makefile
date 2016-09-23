@@ -55,10 +55,15 @@ website-assets:
 lambda-build:
 	cd ai && $(MAKE) release
 
-jswatch:
-	mkdir -p website/javascripts/build/
-	babel website/javascripts/src --watch --out-file website/javascripts/build/acksin.js
+jswatch: console-jswatch home-jswatch
+
+console-jswatch:
+	mkdir -p website/javascripts/build/ && babel website/javascripts/src/console --watch --out-file website/javascripts/build/console.js
+
+home-jswatch:
+	babel website/javascripts/src/home --watch --out-file website/javascripts/build/home.js
 
 js:
-	babel website/javascripts/src --out-file website/javascripts/build/acksin.js
+	babel website/javascripts/src/home --out-file website/javascripts/build/home.js
+	babel website/javascripts/src/home --out-file website/javascripts/build/console.js
 
