@@ -106,7 +106,7 @@ var AcksinQuickstartDownloadAndRunCurl = React.createClass({
             which will download the appropriate binary as well
             as the <code>acksin.json</code> config file into your <code>$PWD</code>.
             <br/>
-            <code>{"\curl -sSL " + document.location.origin + "/install.sh | bash"}</code>
+            <code>{"\curl -sSL https://www.acksin.com/install.sh | bash"}</code>
           </p>
         </div>
       );
@@ -118,7 +118,7 @@ var AcksinQuickstartDownloadAndRunCurl = React.createClass({
         <p>
           Use the following <code>curl</code> command to download the appropriate binary and the<code>config.json</code> for your account into the <code>$PWD</code> and then have it run.
           <br/>
-          <code>{"\curl -sSL " + document.location.origin + "/install.sh | bash -s " + this.props.userInfo.APIKey + " " + this.props.nameOfMachine}</code>
+          <code>{"\curl -sSL https://www.acksin.com/install.sh | bash -s " + this.props.userInfo.APIKey + " " + this.props.nameOfMachine}</code>
         </p>
       </div>
     );

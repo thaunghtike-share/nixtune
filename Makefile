@@ -65,5 +65,5 @@ home-jswatch:
 
 js:
 	babel website/javascripts/src/home --out-file website/javascripts/build/home.js
-	babel website/javascripts/src/home --out-file website/javascripts/build/console.js
+	babel website/javascripts/src/console --out-file website/javascripts/build/console.js
 

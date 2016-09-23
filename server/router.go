@@ -25,7 +25,5 @@ func router() *mux.Router {
 	r.Handle("/v1/autotune/tuning/{id}", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET")
 	r.Handle("/v1/autotune/autotune/{id}", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET") // Deprecated
 
-	r.HandleFunc("/install.sh", QuickInstallHandler).Methods("GET")
-
 	return r
 }
