@@ -16,45 +16,39 @@ import (
 )
 
 func GetMachinesHandler(w http.ResponseWriter, r *http.Request) {
-	type autotuneNode struct {
-		ID          string
-		CreatedAt   string
-		MachineName string
+	type machine struct {
+		ID        string
+		Name      string
+		CreatedAt string
 	}
 
 	var (
-		nodes    []autotuneNode
+		machines []machine
 		username = authUsername(r)
 	)
 
-	rows, err := userDB().Query(`SELECT 
-                      id, 
-                      created_at, 
-                      machine_name 
-                 FROM autotune_stats s1 WHERE s1.username = $1 
+	rows, err := userDB().Query(`SELECT id, name, created_at
+                 FROM acksin_machines s1 WHERE s1.username = $1 
                   AND s1.created_at = (SELECT MAX(s2.created_at) 
-                                         FROM autotune_stats s2 
-                                        WHERE s2.machine_name = s1.machine_name)
+                                         FROM acksin_machines s2 
+                                        WHERE s2.name = s1.name)
              ORDER BY created_at desc;`, username)
-
 	if err != nil {
 		log.Println(err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		var n autotuneNode
+		var n machine
 
-		err := rows.Scan(&n.ID, &n.CreatedAt, &n.MachineName)
-		if err != nil {
+		if err := rows.Scan(&n.ID, &n.Name, &n.CreatedAt); err == nil {
+			machines = append(machines, n)
+		} else {
 			log.Println(err)
-			continue
 		}
-
-		nodes = append(nodes, n)
 	}
 
-	respondJSON(w, nodes)
+	respondJSON(w, machines)
 }
 
 // TODO: This logic is completely broken
