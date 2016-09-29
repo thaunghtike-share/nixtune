@@ -30,3 +30,12 @@ _testmain.go
 /acksin
 /node_modules/
 /website/javascripts/bower_components/
+/config.dev.json
+/config.prod.json
+/ai/mental_models/config.dev.json
+/ai/mental_models/config.prod.json
+/ai/mental_models/serverless.env.yml
+/ai/mental_models/.serverless/
+/website
+
+*pyc

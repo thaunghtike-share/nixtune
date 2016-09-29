@@ -1,3 +1,4 @@
 deps:
-	pip install -t ./site-packages pg8000
+	echo "None"
+	#pip install -t ./site-packages <pkg>
 

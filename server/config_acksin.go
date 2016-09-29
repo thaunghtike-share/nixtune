@@ -30,7 +30,7 @@ func userDB() *sql.DB {
 	return c.UserDB()
 }
 
-func acksinRowBucket() string {
+func acksinBucket() string {
 	return c.Acksin.Bucket
 }
 

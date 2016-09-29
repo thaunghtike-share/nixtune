@@ -15,15 +15,20 @@ import (
 func router() *mux.Router {
 	r := mux.NewRouter()
 
-	r.Handle("/v1/autotune/stats", authMiddleware(PostAutotuneStatsHandler)).Methods("POST") // Deprecated.
-	r.Handle("/v1/stats", authMiddleware(PostAutotuneStatsHandler)).Methods("POST")
+	r.Handle("/v1/autotune/stats", authMiddleware(PostStatsHandler)).Methods("POST") // Deprecated.
+	r.Handle("/v1/stats", authMiddleware(PostStatsHandler)).Methods("POST")
 
 	// Console API
-	r.Handle("/v1/autotune/nodes/aws", authMiddleware(GetAutotuneAWSNodesHandler)).Methods("GET")
-	r.Handle("/v1/autotune/nodes", authMiddleware(GetAutotuneNodesHandler)).Methods("GET")
-	r.Handle("/v1/autotune/stats/{id}", authMiddleware(GetAutotuneStatsHandler)).Methods("GET")
-	r.Handle("/v1/autotune/tuning/{id}", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET")
-	r.Handle("/v1/autotune/autotune/{id}", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET") // Deprecated
+	r.Handle("/v1/machines", authMiddleware(GetMachinesHandler)).Methods("GET")
+	r.Handle("/v1/machines/{id}/diagnostics", authMiddleware(GetMachineDiagnosticsHandler)).Methods("GET")
+	r.Handle("/v1/machines/{id}/tuning", authMiddleware(GetMachineTuningHandler)).Methods("GET")
+	//r.Handle("/v1/machines/{id}/security", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET")
+
+	r.Handle("/v1/cloud/aws", authMiddleware(GetAWSCloudHandler)).Methods("GET")
+	// r.Handle("/v1/security", authMiddleware()).Methods("GET")
+	// r.Handle("/v1/cloud", authMiddleware()).Methods("GET")
+	// r.Handle("/v1/cloud/stats/{statId}", authMiddleware()).Methods("GET")
+	// r.Handle("/v1/cloud/{instanceId}", authMiddleware()).Methods("GET")
 
 	return r
 }
