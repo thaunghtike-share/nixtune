@@ -37,7 +37,7 @@ if __name__ == "__main__":
     if sys.argv[1] == 'Cloud':
         print handler({
             'Cloud': True,
-            'ID': 'username/cloud/aws/1234/',
+            'ID': sys.argv[2],
             'AWSAccessKey': os.environ['AWS_ACCESS_KEY'],
             'AWSSecretKey': os.environ['AWS_SECRET_KEY'],
         }, None)
