@@ -20,8 +20,8 @@ func router() *mux.Router {
 
 	// Console API
 	r.Handle("/v1/machines", authMiddleware(GetMachinesHandler)).Methods("GET")
-	r.Handle("/v1/machines/{id}/diagnostics", authMiddleware(GetMachineDiagnosticsHandler)).Methods("GET")
-	r.Handle("/v1/machines/{id}/tuning", authMiddleware(GetMachineTuningHandler)).Methods("GET")
+	r.Handle("/v1/machines/{id}/stats", authMiddleware(GetMachineDiagnosticsHandler)).Methods("GET")
+	r.Handle("/v1/machines/{id}/tuning/{tuningType}", authMiddleware(GetMachineTuningHandler)).Methods("GET")
 	//r.Handle("/v1/machines/{id}/security", authMiddleware(GetAutotuneAutotuneHandler)).Methods("GET")
 
 	r.Handle("/v1/cloud/aws", authMiddleware(GetAWSCloudHandler)).Methods("GET")

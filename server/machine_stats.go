@@ -23,6 +23,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
+// MachineStats is the data that we receive from the agent that we
+// will put into S3 and a Metadata table.
 type MachineStats struct {
 	Username  string
 	Name      string
@@ -30,7 +32,9 @@ type MachineStats struct {
 	Timestamp int64
 }
 
-// /<username>/machine/<name>/<timestamp>
+// ID represents the prefix where we will store information in the S3 bucket.
+//
+// <username>/machine/<name>/<timestamp>
 func (s *MachineStats) ID() string {
 	return fmt.Sprintf("%s/machine/%s/%d", s.Username, s.Name, s.Timestamp)
 }
@@ -39,6 +43,8 @@ func (s *MachineStats) s3Key() string {
 	return fmt.Sprintf(filepath.Join(s.ID(), "stats.json"))
 }
 
+// Create write the stats data from the agent to S3 and if that was
+// successful to a metadata table in a DB.
 func (s *MachineStats) Create() error {
 	s.Timestamp = time.Now().UTC().Unix()
 
@@ -53,6 +59,8 @@ func (s *MachineStats) Create() error {
 	if err != nil {
 		return err
 	}
+
+	userDB().QueryRow("INSERT INTO acksin_machines(username, name, id) VALUES ($1, $2, $3) RETURNING id", s.Username, s.Name, s.ID())
 
 	return nil
 }
@@ -104,6 +112,9 @@ func PostStatsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	machineName := r.Header.Get("X-Acksin-MachineName")
+	if machineName == "" {
+		machineName = "noname"
+	}
 
 	s := &MachineStats{
 		Username: username,
@@ -111,13 +122,15 @@ func PostStatsHandler(w http.ResponseWriter, r *http.Request) {
 		Stats:    b,
 	}
 
-	if err = s.Create(); err != nil {
-		log.Println(err)
-		respondJSON(w, errorResponse{"Failed to save stats.", 500})
-		return
-	}
+	// POST responses should be fast. Offload the processing.
+	go func(stats *MachineStats) {
+		if err := stats.Create(); err != nil {
+			log.Println(err)
+			return
+		}
 
-	go s.RunModels()
+		stats.RunModels()
+	}(s)
 
 	respondJSON(w, struct{}{})
 }
