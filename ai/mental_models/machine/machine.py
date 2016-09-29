@@ -8,7 +8,7 @@ import json
 import os
 import boto3
 
-class Autotune(object):
+class Machine(object):
     def __init__(self, config_file):
         self.config = json.load(open(config_file, 'r'))
 

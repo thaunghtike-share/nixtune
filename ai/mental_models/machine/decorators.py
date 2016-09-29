@@ -23,7 +23,7 @@ def procfs_feature(func):
 
         returned = {}
         for k, v in output.items():
-            kernel = self.autotune.stats['System']['Kernel']
+            kernel = self.machine.stats['System']['Kernel']
             if kernel.has_key(k) and not kernel[k] == v:
                 change = {
                     'Current': kernel[k],
