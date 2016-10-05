@@ -9,19 +9,63 @@
 package server
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
+
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-func GetMachinesHandler(w http.ResponseWriter, r *http.Request) {
-	type machine struct {
-		ID        string
-		Name      string
-		CreatedAt string
+var (
+	// features is the list of available features that we have about the machine.
+	features = [...]string{
+		"procfs",
+		"sysfs",
+		"quick",
+	}
+)
+
+type machine struct {
+	ID        string
+	Name      string
+	CreatedAt string
+}
+
+func (s *machine) features(featuresType string) []byte {
+	for _, b := range features {
+		if b == featuresType {
+			return s.s3Content(featuresType)
+		}
 	}
 
+	return []byte("")
+}
+
+func (s *machine) s3Content(key string) []byte {
+	req, err := s3svc().GetObject(&s3.GetObjectInput{
+		Bucket: aws.String(acksinBucket()),
+		Key:    aws.String(filepath.Join(s.ID, key+".json")),
+	})
+
+	if err != nil {
+		log.Println(err)
+		return []byte("")
+	}
+
+	b, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Println(err)
+		return []byte("")
+	}
+
+	return b
+}
+
+func GetMachinesHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		machines []machine
 		username = authUsername(r)
@@ -51,45 +95,26 @@ func GetMachinesHandler(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, machines)
 }
 
-// TODO: This logic is completely broken
-func GetMachineDiagnosticsHandler(w http.ResponseWriter, r *http.Request) {
+func GetMachineFeaturesHandler(w http.ResponseWriter, r *http.Request) {
 	var (
-		vars     = mux.Vars(r)
-		id       = vars["id"]
-		username = authUsername(r)
+		vars        = mux.Vars(r)
+		machineName = vars["machineName"]
+		features    = vars["features"]
+		username    = authUsername(r)
+		m           machine
 	)
 
-	s := &MachineStats{
-		Username: username,
-		Name:     id,
-	}
-
-	url := s.GetURL()
-	if url == "" {
-		respondJSON(w, errorResponse{"Failed to find that id", 404})
-		return
-	}
-
-	respondJSON(w, struct{ URL string }{url})
-}
-
-func GetMachineTuningHandler(w http.ResponseWriter, r *http.Request) {
-	type autotune struct {
-		ID     string
-		ProcFS JSONB
-		SysFS  JSONB
-	}
-
-	var (
-		vars     = mux.Vars(r)
-		a        autotune
-		username = authUsername(r)
-	)
-
-	err := userDB().QueryRow(`SELECT id, procfs_features, sysfs_features FROM autotune_stats WHERE username = $1 AND id = $2;`, username, vars["id"]).Scan(&a.ID, &a.ProcFS, &a.SysFS)
+	err := userDB().QueryRow(`SELECT id, name, created_at 
+                   FROM acksin_machines s1
+                  WHERE s1.username = $1 
+                    AND s1.name = $2
+                    AND s1.created_at = (SELECT MAX(s2.created_at)
+                                          FROM acksin_machines s2
+                                         WHERE s2.username = s1.username
+                                           AND s2.name = s2.name);`, username, machineName).Scan(&m.ID, &m.Name, &m.CreatedAt)
 	if err != nil {
 		log.Println(err)
 	}
 
-	respondJSON(w, a)
+	respondJSON(w, m.features(features))
 }

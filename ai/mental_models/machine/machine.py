@@ -11,15 +11,7 @@ import boto3
 class Machine(object):
     def __init__(self, config_file):
         self.config = json.load(open(config_file, 'r'))
-
         self.s3 = boto3.client('s3')
-
-    def write_object(self, key, value):
-        self.s3.put_object(
-            Bucket=self.config['s3_bucket'],
-            Key=os.path.join(self.ID, key),
-            Body=value.encode('utf-8')
-        )
 
     def get_id(self, id):
         self.ID = id
@@ -31,11 +23,12 @@ class Machine(object):
 
         self.stats = json.loads(resp['Body'].read())
 
-    def write_ai_features(self, features):
-        self.write_object("ai_features.json", json.dumps(features))
+    def write_features(self, key, features):
+        self.write_object("{}.json".format(key), json.dumps(features))
 
-    def write_procfs_features(self, features):
-        self.write_object("procfs.json", json.dumps(features))
-
-    def write_sysfs_features(self, features):
-        self.write_object("sysfs.json", json.dumps(features))
+    def write_object(self, key, value):
+        self.s3.put_object(
+            Bucket=self.config['s3_bucket'],
+            Key=os.path.join(self.ID, key),
+            Body=value.encode('utf-8')
+        )

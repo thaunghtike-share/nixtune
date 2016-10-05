@@ -26,6 +26,9 @@ func respondJSON(w http.ResponseWriter, i interface{}) {
 	case errorResponse:
 		http.Error(w, string(jsonResponse), v.Code)
 		return
+	case []byte:
+		w.Write(i.([]byte))
+		return
 	}
 
 	w.Write(jsonResponse)

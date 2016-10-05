@@ -9,7 +9,7 @@ RUN rm -rf /tmp/* /var/tmp/*
 ENV ACKSIN_ENV production
 
 ADD acksin /acksin
-ADD website /website
+COPY website /website
 
 EXPOSE 8080
 

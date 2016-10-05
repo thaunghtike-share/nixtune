@@ -65,21 +65,6 @@ func (s *MachineStats) Create() error {
 	return nil
 }
 
-func (s *MachineStats) GetURL() string {
-	req, _ := s3svc().GetObjectRequest(&s3.GetObjectInput{
-		Bucket: aws.String(acksinBucket()),
-		Key:    aws.String(s.s3Key()),
-	})
-
-	urlStr, err := req.Presign(60 * time.Minute)
-	if err != nil {
-		log.Println("Failed to sign request", err)
-		return ""
-	}
-
-	return urlStr
-}
-
 func (s *MachineStats) RunModels() {
 	b, _ := json.Marshal(struct {
 		Machine bool

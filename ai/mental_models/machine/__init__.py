@@ -9,11 +9,11 @@ from machine import Machine
 from memory import Memory
 from networking import Networking
 
-def run_model(config_file, event_id):
-    print "Running {}".format(event_id)
+def run_model(config_file, machine_id):
+    print "Running {}".format(machine_id)
 
     machine = Machine(config_file)
-    machine.get_id(event_id)
+    machine.get_id(machine_id)
 
     memory = Memory(machine)
     networking = Networking(machine)
@@ -22,6 +22,11 @@ def run_model(config_file, event_id):
     procfs_features = dict(memory.procfs_features().items() + networking.procfs_features().items())
     sysfs_features = dict(memory.sysfs_features().items() + networking.sysfs_features().items())
 
-    machine.write_ai_features(ai_features)
-    machine.write_procfs_features(procfs_features)
-    machine.write_sysfs_features(sysfs_features)
+    machine.write_features('ai_features', ai_features)
+    machine.write_features('procfs', procfs_features)
+    machine.write_features('sysfs', sysfs_features)
+
+    machine.write_features('quick', {
+        'Security': 0,
+        'Stats': len(procfs_features) + len(sysfs_features),
+    })
