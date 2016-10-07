@@ -83,15 +83,23 @@ def run_model(config_file, event_id):
 
     autotune.close()
 
+
 def run_upgrade(config_file, function_name):
+    def chunks(l, n):
+        """
+        Yield successive n-sized chunks from l.
+        """
+        for i in range(0, len(l), n):
+            yield l[i:i + n]
+
     autotune = Autotune(config_file)
     client = boto3.client('lambda')
 
-    for autotune_id in autotune.get_ids():
+    for autotune_ids in chunks(autotune.get_ids(), 50):
         client.invoke(
             FunctionName=function_name,
             InvocationType='Event',
-            Payload=bytearray(json.dumps({'ID': autotune_id}), 'utf-8'),
+            Payload=bytearray(json.dumps({'IDs': autotune_ids}), 'utf-8'),
         )
 
 def handler(event, context):
@@ -105,6 +113,9 @@ def handler(event, context):
 
     if event.has_key('ID'):
         run_model(config_file, event['ID'])
+    if event.has_key('IDs'):
+        for autotune_id in event['IDs']:
+            run_model(config_file, autotune_id)
     elif event.has_key('Upgrade'):
         run_upgrade(config_file, context.function_name)
 
