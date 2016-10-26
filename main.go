@@ -14,8 +14,6 @@ import (
 	"os"
 
 	"github.com/mitchellh/cli"
-
-	"github.com/acksin/acksin/server"
 )
 
 var (
@@ -39,9 +37,6 @@ func main() {
 		},
 		"output": func() (cli.Command, error) {
 			return &output{}, nil
-		},
-		"server": func() (cli.Command, error) {
-			return &server.Server{Version: version}, nil
 		},
 	}
 
