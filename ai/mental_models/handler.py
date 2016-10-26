@@ -25,6 +25,7 @@ def handler(event, context):
         cloud.run_model(
             config_file,
             event['ID'],
+            event['Timestamp'],
             event['AWSAccessKey'],
             event['AWSSecretKey']
         )
@@ -38,6 +39,7 @@ if __name__ == "__main__":
         print handler({
             'Cloud': True,
             'ID': sys.argv[2],
+            'Timestamp': sys.argv[3],
             'AWSAccessKey': os.environ['AWS_ACCESS_KEY'],
             'AWSSecretKey': os.environ['AWS_SECRET_KEY'],
         }, None)

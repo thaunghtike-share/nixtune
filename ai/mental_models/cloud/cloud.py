@@ -9,10 +9,10 @@ import json
 from aws import CloudAWS
 
 class Cloud(object):
-    def __init__(self, config_file, id, aws_access_key, aws_secret_key):
+    def __init__(self, config_file, id, timestamp, aws_access_key, aws_secret_key):
         self.config = json.load(open(config_file, 'r'))
 
-        aws_cloud = CloudAWS(self.config, id, aws_access_key, aws_secret_key)
+        aws_cloud = CloudAWS(self.config, id, timestamp, aws_access_key, aws_secret_key)
         aws_cloud.get_instances()
 
     def network_usage(self):

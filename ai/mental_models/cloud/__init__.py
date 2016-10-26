@@ -6,5 +6,5 @@
 
 from cloud import Cloud
 
-def run_model(config_file, id, aws_access_key, aws_secret_key):
-     Cloud(config_file, id, aws_access_key, aws_secret_key)
+def run_model(config_file, id, timestamp, aws_access_key, aws_secret_key):
+     Cloud(config_file, id, timestamp, aws_access_key, aws_secret_key)

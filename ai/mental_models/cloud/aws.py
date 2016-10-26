@@ -9,10 +9,12 @@ import os
 import boto3
 
 class CloudAWS(object):
-    def __init__(self, config, id, aws_access_key, aws_secret_key):
+    def __init__(self, config, id, timestamp, aws_access_key, aws_secret_key):
         self.config = config
 
         self.ID = id
+        self.Timestamp = timestamp
+
         self.aws_access_key = aws_access_key
         self.aws_secret_key = aws_secret_key
 
@@ -45,12 +47,21 @@ class CloudAWS(object):
 class CloudAWSEC2Instance(object):
     def __init__(self, aws, instance):
         aws.write_object(
-            "{}/stats.json".format(instance['InstanceId']),
+            "{}/{}/stats.json".format(instance['InstanceId']),
             json.dumps(instance, cls=AcksinEncoder)
         )
 
-        # CloudAWSMetrics(aws, instance)
+        CloudAWSMetrics(aws, instance)
         CloudAWSSecurity(aws, instance)
+
+class CloudAWSMetrics(object):
+    def __init__(self, aws, instance):
+        self.aws = aws
+        self.instance = instance
+
+        client = boto3.client('cloudwatch')
+
+
 
 class CloudAWSSecurity(object):
     def __init__(self, aws, instance):
