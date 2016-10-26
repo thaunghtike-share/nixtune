@@ -20,6 +20,13 @@ provider:
       Action:
         - "lambda:InvokeFunction"
       Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+      Resource: "*"
+      # TODO: This needs to be limited to just the bucket you are using.
+
 
 
 
@@ -50,11 +57,3 @@ functions:
 #           - s3: ${bucket}
 #           - schedule: rate(10 minutes)
 #           - sns: greeter-topic
-
-# you can add CloudFormation resource templates here
-#resources:
-#    Resources:
-#      newResource:
-#        Type: AWS::S3::Bucket
-#        Properties:
-#          BucketName: newBucket

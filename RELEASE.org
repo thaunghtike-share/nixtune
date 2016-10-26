@@ -9,6 +9,7 @@ How to do a release:
 * 0.6.x
 
  - [#177] Mental Models now show the documentation of the ProcFS changes.
+ - [#184] Including the Server components of running the application.
 
 * 0.6.2
 

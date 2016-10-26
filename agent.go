@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -16,8 +16,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/acksin/autotune/shared"
 	"github.com/acksin/acksin/stats"
+	"github.com/acksin/autotune/shared"
 )
 
 // Agent runs a Autotune Cloud agent.
