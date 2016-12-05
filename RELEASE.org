@@ -6,6 +6,11 @@ How to do a release:
  - Update [[https://github.com/acksin/acksin/releases][Github Release]] Notes
  - Release [[https://www.acksin.com][acksin.com]]
 
+* 0.6.x
+
+ - [#177] Mental Models now show the documentation of the ProcFS changes.
+ - [#184] Including the Server components of running the application.
+
 * 0.6.2
 
  - Renamed Autotune to the name of the company Acksin to avoid

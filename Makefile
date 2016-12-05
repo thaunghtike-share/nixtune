@@ -51,3 +51,4 @@ website-assets:
 
 lambda-build:
 	cd ai && $(MAKE) release
+

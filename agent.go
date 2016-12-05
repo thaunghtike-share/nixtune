@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -16,11 +16,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/acksin/autotune/shared"
+	"github.com/acksin/acksin/shared"
 	"github.com/acksin/acksin/stats"
 )
 
-// Agent runs a Autotune Cloud agent.
+// Agent runs a Acksin Cloud agent.
 type agent struct {
 	Config *shared.Config
 
@@ -28,11 +28,11 @@ type agent struct {
 }
 
 func (a *agent) Synopsis() string {
-	return "Run a Autotune Cloud agent."
+	return "Run a Acksin agent."
 }
 
 func (a *agent) Help() string {
-	return "Run a Autotune Cloud agent."
+	return "Run a Acksin agent."
 }
 
 func (a *agent) post() error {
@@ -74,7 +74,7 @@ func (a *agent) post() error {
 func (a *agent) Run(args []string) int {
 	var err error
 
-	log.Println("Starting Autotune Agent...")
+	log.Println("Starting Acksin Agent...")
 
 	if len(args) == 0 {
 		log.Println("need to pass a config file")
