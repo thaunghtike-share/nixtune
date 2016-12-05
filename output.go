@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -11,7 +11,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/acksin/autotune/stats"
+	"github.com/acksin/acksin/stats"
 )
 
 type output struct {

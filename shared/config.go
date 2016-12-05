@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -16,8 +16,14 @@ import (
 
 // Config is the configuration used by the Autotune Agent.
 type Config struct {
+	// APIKey that you can find at
+	// https://www.acksin.com/console/credentials
 	APIKey string
-	URL    string
+	// URL is the API URL that the agent will be pinging.
+	URL string
+	// MachineName is how the machine will be labeled on the
+	// Console.
+	MachineName string
 }
 
 // ParseConfig reads and validates a configuration file.
