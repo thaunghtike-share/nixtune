@@ -23,7 +23,6 @@ _testmain.go
 *.test
 *.prof
 /ai/mental_models/*.pyc
-/autotune
 /docs.html.erb
 /ai/mental_models/site-packages/
 /website/javascripts/build/

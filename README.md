@@ -1,21 +1,15 @@
-![Acksin](https://www.acksin.com/imgs/logos/spider-788ea680.png)
-
 # Acksin
 
 <a href="https://travis-ci.org/acksin/acksin"><img src="https://travis-ci.org/acksin/acksin.svg?branch=master" /></a>
 <a href="https://godoc.org/github.com/acksin/acksin"><img src="https://godoc.org/github.com/acksin/acksin?status.svg" alt="GoDoc"></a>
 
-IRC: [#acksin on Freenode](https://www.acksin.com/irc)
-
 ## Introduction
 
-Acksin is a Cloud and Container aware diagnostics and tuning
-tool. It uses Machine Learning to find optimizations in your
-infrastructure. The goal is to make your servers more performant,
-reduce the amount you spend on servers, and help reduce the
-environmental footprint.
+Acksin is Automatic Transmission for Linux. It attempts to performance
+enhance your Linux server based on the type of services that you run
+on it making sure that Linux is pulling its weight.
 
-## [Quick Start and Download](https://www.acksin.com/)
+## [Quick Start and Download](https://www.acksin.com/#quickstart)
 
 Acksin outputs its data in JSON to the command line. Run the
 following command:
@@ -48,11 +42,6 @@ couple different sections:
    Containers.
  - [Mental Models](ai/mental_models): Take System stats and creates
    models for AI. Currently this is a program that runs on AWS Lambda.
- - [Tensorflow AI](ai/tensorflow): We use the output generated from
-   the Mental Models to create train AI for the various tasks.
- - [Console](console/js): ReactJS Frontend App used on Acksin Cloud.
- - Server: This component is not yet open sourced. This is will be a
-   Go server which will be built into the command line.
 
 ### Primary Dependencies
 
@@ -114,43 +103,6 @@ make dev
 
 We love contributors to the project. Please check out the
 [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-## Goals
-
-Acksin is based around the work of
-[John Boyd](https://en.wikipedia.org/wiki/John_Boyd_(military_strategist))
-with his Observe, Orient, Decide and Act paradigm, also called
-the OODA loop.
-
-UNIX has traditionally been very much about composition of tools which
-works exceedingly well when you have a single machine with multiple
-services. However, we are now in the era of Linux as applicance. Linux
-is now just a single layer with one or two apps being the main users
-of the operating system. Furthermore, as we go up the stack with
-Containers and maintain clusters instead of individual machines we
-need to know how one service affects the others. We need to understand
-the entire system.
-
-![OODA](https://assets.acksin.com/images/autotune_ooda.png)
-
-### Situational awareness
-
-Acksin's goal is to be situationally aware about the Containers, the
-System, the Cluster and the Cloud so that it can help you make
-effective decisions. By keeping track of this various information
-about the cluster we can help point you to potential issues. Acksin
-is not trying to replace application level instrumentation and
-monitoring services such as Graphite and Datadog. Acksin is being
-built to augment those services.
-
-### [Mental Models](https://github.com/acksin/acksin/wiki/Mental-Models)
-
-Mental Models are how a system and a cluster should behave such that
-there is minimal operational issues. Mental Models are kernel changes
-as well as various feature columns that are used to train the Machine
-Learning Algorithms.
-
-This data is contained in the [ai/mental_models](ai/mental_models) directory.
 
 ## License
 

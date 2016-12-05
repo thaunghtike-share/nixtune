@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: autotune
+service: acksin
 provider:
   name: aws
   runtime: python2.7

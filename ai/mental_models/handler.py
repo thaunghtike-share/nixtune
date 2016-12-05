@@ -16,7 +16,7 @@ def handler(event, context):
     """
 
     config_file = "config.dev.json"
-    if context is not None and context.function_name == "autotune-prod-mentalmodels":
+    if context is not None and context.function_name == "acksin-prod-mentalmodels":
         config_file = "config.prod.json"
 
     if event.has_key('Machine'):
