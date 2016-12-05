@@ -1,4 +1,4 @@
-/* Acksin Autotune - Linux Diagnostics
+/*
  * Copyright (C) 2016 Acksin <hey@acksin.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,9 +9,9 @@
 package stats
 
 import (
-	"github.com/acksin/autotune/stats/disk"
-	"github.com/acksin/autotune/stats/memory"
-	"github.com/acksin/autotune/stats/network"
+	"github.com/acksin/acksin/stats/disk"
+	"github.com/acksin/acksin/stats/memory"
+	"github.com/acksin/acksin/stats/network"
 )
 
 // System contains information about the system

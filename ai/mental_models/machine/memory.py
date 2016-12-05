@@ -8,10 +8,10 @@ from decorators import *
 import mental_model
 
 class Memory(mental_model.MentalModel):
-    def __init__(self, autotune):
-        self.autotune = autotune
-        self.memory = self.autotune.stats['System']['Memory']
-        self.kernel = self.autotune.stats['System']['Kernel']
+    def __init__(self, machine):
+        self.machine = machine
+        self.memory = self.machine.stats['System']['Memory']
+        self.kernel = self.machine.stats['System']['Kernel']
 
     @ai_feature
     def is_swapping(self):
@@ -54,6 +54,9 @@ class Memory(mental_model.MentalModel):
         Linux will spend more time trying to reclaim memory.
         """
 
+        # TODO: Check the amount of ram on the machine and adjust this
+        # number appropriately. We mostly want the ability to SSH in
+        # if things hit the fan.
         return {
             "/proc/sys/vm/min_free_kbytes": "65536"
         }
@@ -61,9 +64,9 @@ class Memory(mental_model.MentalModel):
     @sysfs_feature
     def sysfs_mm_transparent_hugepages(self):
         """
-        Explit huge page usage making the page size of 2 or 4 MB
-        instead of 4kb. Should reduce CPU overhead and improve MMU
-        page translation.
+        Explict huge page usage making the page size of 2 or 4 MB instead
+        of 4kb. Should reduce CPU overhead and improve MMU page
+        translation.
         """
 
         return {
