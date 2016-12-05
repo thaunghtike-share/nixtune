@@ -8,7 +8,6 @@ import sys; sys.path.append("site-packages")
 import os
 
 import machine
-import cloud
 
 def handler(event, context):
     """
@@ -19,32 +18,14 @@ def handler(event, context):
     if context is not None and context.function_name == "acksin-prod-mentalmodels":
         config_file = "config.prod.json"
 
-    if event.has_key('Machine'):
-        machine.run_model(config_file, event['ID'])
-    elif event.has_key('Cloud'):
-        cloud.run_model(
-            config_file,
-            event['ID'],
-            event['Timestamp'],
-            event['AWSAccessKey'],
-            event['AWSSecretKey']
-        )
+    machine.run_model(config_file, event['ID'])
 
     return {
         'Message': "OK"
     }
 
 if __name__ == "__main__":
-    if sys.argv[1] == 'Cloud':
-        print handler({
-            'Cloud': True,
-            'ID': sys.argv[2],
-            'Timestamp': sys.argv[3],
-            'AWSAccessKey': os.environ['AWS_ACCESS_KEY'],
-            'AWSSecretKey': os.environ['AWS_SECRET_KEY'],
-        }, None)
-    else:
-        print handler({
-            'Machine': True,
-            'ID': sys.argv[1]
-        }, None)
+    print handler({
+        'Machine': True,
+        'ID': sys.argv[1]
+    }, None)
