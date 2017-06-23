@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+ * Copyright (C) 2016 opszero <hey@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,8 +9,8 @@
 package stats
 
 import (
-	"github.com/acksin/acksin/stats/io"
-	"github.com/acksin/acksin/stats/memory"
+	"github.com/opszero/opszero/stats/io"
+	"github.com/opszero/opszero/stats/memory"
 )
 
 // Process is information about a Linux process

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+ * Copyright (C) 2016 opszero <hey@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,8 +12,8 @@ package disk
 import (
 	"log"
 
-	"github.com/acksin/acksin/stats/mvp"
-	"github.com/acksin/go-fstab"
+	"github.com/opszero/opszero/stats/mvp"
+	"github.com/opszero/go-fstab"
 )
 
 // Disk returns information about the block drives on the machine.

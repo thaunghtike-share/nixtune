@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Acksin,LLC <abhi@opszero.com>
+ * Copyright (C) 2016 opszero,LLC <abhi@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,14 +21,14 @@ var (
 )
 
 func copyright() string {
-	return fmt.Sprintf(`Acksin %s.
-Copyright (c) 2016. Acksin, LLC.
+	return fmt.Sprintf(`opszero %s.
+Copyright (c) 2016. opszero, LLC.
 https://www.opszero.com
 `, version)
 }
 
 func main() {
-	c := cli.NewCLI("acksin", version)
+	c := cli.NewCLI("opszero", version)
 	c.Args = os.Args[1:]
 
 	c.Commands = map[string]cli.CommandFactory{
