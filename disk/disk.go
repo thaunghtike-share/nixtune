@@ -10,13 +10,17 @@
 package disk
 
 import (
+	"encoding/json"
 	"log"
 
-	"github.com/opszero/opszero/stats/mvp"
+	"os/exec"
+
+	"github.com/acksin/acksin/stats/mvp"
 	"github.com/opszero/go-fstab"
 )
 
 // Disk returns information about the block drives on the machine.
+
 type Disk struct {
 	BlockDevices []mvp.BlockDevice
 	FStab        fstab.Mounts
@@ -36,25 +40,6 @@ func New() *Disk {
 	}
 }
 
-/*
- * Copyright (C) 2017 Acksin, LLC <hi@opszero.com>
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
-// Package mvp contains a bunch of code which is a minimum viable
-// product. We either call out to other
-package mvp
-
-import (
-	"encoding/json"
-	"log"
-	"os/exec"
-)
-
-// BlockDevice returns the blockdevice information about the
 type BlockDevice struct {
 	Name       string        `json:"name"`
 	MajMin     string        `json:"maj:min"`

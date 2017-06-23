@@ -7,13 +7,20 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/opszero/autotune/cloud"
+	"github.com/opszero/autotune/disk"
+	"github.com/opszero/autotune/io"
+	"github.com/opszero/autotune/memory"
+	"github.com/opszero/autotune/networking"
+	"github.com/opszero/autotune/process"
 )
 
 var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "foo",
+	Use:   "autotune",
 	Short: "A brief description of your application",
 	Long: `A longer description that spans multiple lines and likely contains
 examples and usage of using your application. For example:
@@ -37,6 +44,13 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	RootCmd.AddCommand(memory.Cmd)
+	RootCmd.AddCommand(disk.Cmd)
+	RootCmd.AddCommand(io.Cmd)
+	RootCmd.AddCommand(networking.Cmd)
+	RootCmd.AddCommand(process.Cmd)
+	RootCmd.AddCommand(cloud.Cmd)
 }
 
 // initConfig reads in config file and ENV variables if set.
