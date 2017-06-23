@@ -11,7 +11,7 @@ enhance your Linux server based on the services you are running.
 
 Run the following to get started.
 
-    sudo opszero --help
+    sudo autotune --help
 
 ## Building
 
