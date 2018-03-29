@@ -26,7 +26,7 @@ _testmain.go
 /docs.html.erb
 /ai/mental_models/site-packages/
 /website/javascripts/build/
-/acksin
+/autotune
 /node_modules/
 /website/javascripts/bower_components/
 /config.dev.json
@@ -38,3 +38,5 @@ _testmain.go
 /website
 
 *pyc
+autotune
+sigfiles.go
