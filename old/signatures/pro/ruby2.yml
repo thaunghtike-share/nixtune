@@ -1,0 +1,4 @@
+name: ruby2
+description: Changes for Ruby 2.0+
+deps:
+  - networking

@@ -32,6 +32,8 @@ type Stats struct {
 	Cloud *cloud.Cloud
 	// Processes are the process information of the system
 	Processes []Process
+
+	config *shared.Config
 }
 
 func (n *Stats) processes() procfs.Procs {
@@ -66,7 +68,7 @@ func (n *Stats) UnmarshalJSON(d []byte) error {
 
 // New returns stats of the machine with pids filtering for
 // processes. If pids are empty then it returns all process stats.
-func New(pids []int) (s *Stats) {
+func New(c *shared.Config) (s *Stats) {
 	s = &Stats{}
 
 	s.System.Memory = memory.New()
@@ -75,7 +77,7 @@ func New(pids []int) (s *Stats) {
 	s.System.Kernel = kernel.New()
 
 	s.Container = container.New()
-	s.Cloud = cloud.New()
+	s.Cloud = cloud.New(c)
 
 	for _, proc := range s.processes() {
 		exe, err := proc.Executable()
@@ -91,9 +93,7 @@ func New(pids []int) (s *Stats) {
 			IO:     io.NewProcess(proc),
 		}
 
-		if len(pids) == 0 || s.containsPid(pids, proc) {
-			s.Processes = append(s.Processes, p)
-		}
+		s.Processes = append(s.Processes, p)
 	}
 
 	return s
