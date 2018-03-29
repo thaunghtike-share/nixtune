@@ -13,10 +13,10 @@ Run the following to get started.
     
 ## Recommendations
 
- - [ ] Networking
+ - [X] Networking
  - [ ] FS
- - [ ] IO
- - [ ] Memory
+ - [X] IO
+ - [X] Memory
  
 ## Testing
 
