@@ -2,8 +2,7 @@
 
 ~Note: Still Under Development~
 
-Nixtune will recommend tunings for your Linux server based on various
-softare that you run.
+Nixtune recommends performance tuning for your Linux server.
 
 ## Usage
 
