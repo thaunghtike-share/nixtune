@@ -1,4 +1,0 @@
-name: ruby18
-description: Configuration for Ruby 1.8.
-deps:
-  - networking
