@@ -1,31 +1,35 @@
-# Autotune
+# Nixtune
 
 ~Note: Still Under Development~
 
-Autotune is Automatic Transmission for Linux. It attempts to performance
-enhance your Linux server based on the services you are running.
-
-<a href="https://travis-ci.org/opszero/autotune"><img src="https://travis-ci.org/opszero/autotune.svg?branch=master" /></a>
-<a href="https://godoc.org/github.com/opszero/autotune"><img src="https://godoc.org/github.com/opszero/autotune?status.svg" alt="GoDoc"></a>
+Nixtune will recommend tunings for your Linux server based on various
+softare that you run.
 
 ## Usage
 
 Run the following to get started.
 
-    sudo autotune --help
+    python nixtune.py
+    
+## Recommendations
 
-## Building
+ - [ ] Networking
+ - [ ] FS
+ - [ ] IO
+ - [ ] Memory
+ 
+## Testing
 
-To build the command line tool run the following:
-
-```
-make deps
-make build
-```
-
+ - [ ] Nginx
+ - [ ] Postgres
+ - [ ] Apache
+ - [ ] NodeJS
+ - [ ] Go
+ - [ ] Rails
+    
 ## License
 
-Copyright (C) 2017 Acksin, LLC <hi@opszero.com>
+Copyright (C) 2016-2018 Acksin, LLC <hi@opszero.com>
 
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
