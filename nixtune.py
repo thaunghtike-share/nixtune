@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+#
 # Copyright (C) 2016 opszero <hey@opszero.com>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,9 +21,9 @@ def procfs_feature(func):
         for k, v in output.items():
             change = {
                 'Value': v,
-                'Docs': string.strip(func.__doc__),
+                'Docs': func.__doc__.strip(),
             }
-            returned = dict(returned.items() + [(k, change)])
+            returned.update({k: change})
 
         return returned
 
@@ -41,7 +43,7 @@ class MentalModel(object):
 
     def procfs_features(self):
         procfs = []
-        for k, f in self.__class__.__dict__.iteritems():
+        for k, f in self.__class__.__dict__.items():
             if callable(f) and k.startswith('procfs_'):
                 procfs += f(self).items()
 
@@ -49,7 +51,7 @@ class MentalModel(object):
 
     def sysfs_features(self):
         sysfs = []
-        for k, f in self.__class__.__dict__.iteritems():
+        for k, f in self.__class__.__dict__.items():
             if callable(f) and k.startswith('sysfs_'):
                 sysfs += f(self).items()
 
@@ -497,6 +499,11 @@ class IO(MentalModel):
 # # }
 
 
+def procfs_print(procfs, feature):
+    print("# {}".format(feature['Docs']))
+    print("echo {} > {}".format(feature['Value'], procfs))
+    print("")
+
 def main():
     attributes = [
         Memory(),
@@ -506,13 +513,15 @@ def main():
     ]
 
     for a in attributes:
-        for procfs, feature, in a.procfs_features().iteritems():
-            print("# {}".format(feature['Docs']))
-            print("echo {} > {}".format(feature['Value'], procfs))
-            print("")
-
+        for procfs, feature, in a.procfs_features().items():
+            procfs_print(procfs, feature)
 
         #print(a.sysfs_features())
+
+    apps = []
+    for app in apps:
+        if app.exists():
+            procfs_print(procfs, feature)
         
 if __name__=='__main__':
     main()
