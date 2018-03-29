@@ -8,6 +8,10 @@
 
 package cloud
 
+import (
+	"github.com/acksin/autotune/shared"
+)
+
 // Cloud contains the metadata provided by the cloud providers.
 type Cloud struct {
 	// AWS provides information about AWS EC2 metadata.
@@ -21,9 +25,9 @@ type Cloud struct {
 
 // New creates a new Cloud object and fills in any metadata from the
 // cloud providers.
-func New() (c *Cloud) {
+func New(a *shared.Config) (c *Cloud) {
 	c = &Cloud{
-		AWS:          NewAWS(),
+		AWS:          NewAWS(a),
 		DigitalOcean: NewDigitalOcean(),
 	}
 

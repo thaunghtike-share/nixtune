@@ -38,3 +38,5 @@ _testmain.go
 /website
 
 *pyc
+autotune
+sigfiles.go

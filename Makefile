@@ -7,6 +7,8 @@ build: # deps test
 	go build -ldflags "-X main.version=$(VERSION)"
 
 deps:
+	go get -u google.golang.org/grpc
+	go get -a github.com/golang/protobuf/protoc-gen-go
 	go get github.com/aktau/github-release
 	go get -u github.com/golang/lint/golint
 	# go get -u ./...
@@ -15,6 +17,7 @@ test:
 	golint ./...
 	go test -cover ./...
 	go tool vet **/*.go
+	cd ai && make lint
 
 archive:
 	tar cvzf $(PRODUCT)-$(VERSION).tar.gz $(PRODUCT)
