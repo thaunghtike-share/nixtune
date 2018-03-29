@@ -1,5 +1,5 @@
-/* Acksin STRUM - Linux Diagnostics
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+/*
+ * Copyright (C) 2017 Acksin, LLC <hi@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,9 +9,9 @@
 package stats
 
 import (
-	"github.com/acksin/strum/stats/disk"
-	"github.com/acksin/strum/stats/memory"
-	"github.com/acksin/strum/stats/network"
+	"github.com/opszero/opszero/stats/disk"
+	"github.com/opszero/opszero/stats/memory"
+	"github.com/opszero/opszero/stats/network"
 )
 
 // System contains information about the system
