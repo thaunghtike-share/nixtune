@@ -1,5 +1,5 @@
-/* Acksin Autotune - Linux Diagnostics
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+/*
+ * Copyright (C) 2017 Acksin, LLC <hi@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,17 +11,15 @@ package stats
 import (
 	"encoding/json"
 
-	"github.com/acksin/procfs"
+	"github.com/opszero/procfs"
 
-	"github.com/acksin/acksin/shared"
-
-	"github.com/acksin/acksin/stats/cloud"
-	"github.com/acksin/acksin/stats/container"
-	"github.com/acksin/acksin/stats/disk"
-	"github.com/acksin/acksin/stats/io"
-	"github.com/acksin/acksin/stats/kernel"
-	"github.com/acksin/acksin/stats/memory"
-	"github.com/acksin/acksin/stats/network"
+	"github.com/opszero/opszero/stats/cloud"
+	"github.com/opszero/opszero/stats/container"
+	"github.com/opszero/opszero/stats/disk"
+	"github.com/opszero/opszero/stats/io"
+	"github.com/opszero/opszero/stats/kernel"
+	"github.com/opszero/opszero/stats/memory"
+	"github.com/opszero/opszero/stats/network"
 )
 
 // Stats contains both the system and process statistics.
