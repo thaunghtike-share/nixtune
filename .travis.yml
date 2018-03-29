@@ -3,7 +3,8 @@ sudo: true
 language: go
 
 go:
-  - 1.6
+  - tip
+  - 1.8
 
 install:
   - make deps
