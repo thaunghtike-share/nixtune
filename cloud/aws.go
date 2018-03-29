@@ -1,5 +1,5 @@
-/* Acksin STRUM - Linux Diagnostics
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+/*
+ * Copyright (C) 2016 opszero <hey@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this

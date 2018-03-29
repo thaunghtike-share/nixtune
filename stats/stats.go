@@ -1,5 +1,5 @@
-/* Acksin STRUM - Linux Diagnostics
- * Copyright (C) 2016 Acksin <hey@acksin.com>
+/*
+ * Copyright (C) 2017 Acksin, LLC <hi@opszero.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,14 +11,15 @@ package stats
 import (
 	"encoding/json"
 
-	"github.com/acksin/procfs"
+	"github.com/opszero/procfs"
 
-	"github.com/acksin/strum/cloud"
-	"github.com/acksin/strum/container"
-	"github.com/acksin/strum/io"
-	"github.com/acksin/strum/kernel"
-	"github.com/acksin/strum/memory"
-	"github.com/acksin/strum/network"
+	"github.com/opszero/opszero/stats/cloud"
+	"github.com/opszero/opszero/stats/container"
+	"github.com/opszero/opszero/stats/disk"
+	"github.com/opszero/opszero/stats/io"
+	"github.com/opszero/opszero/stats/kernel"
+	"github.com/opszero/opszero/stats/memory"
+	"github.com/opszero/opszero/stats/network"
 )
 
 // Stats contains both the system and process statistics.
@@ -69,8 +70,8 @@ func New(pids []int) (s *Stats) {
 	s = &Stats{}
 
 	s.System.Memory = memory.New()
+	s.System.Disk = disk.New()
 	s.System.Network = network.New()
-
 	s.System.Kernel = kernel.New()
 
 	s.Container = container.New()
