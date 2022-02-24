@@ -1,7 +1,5 @@
 # Nixtune
 
-~Note: Still Under Development~
-
 Nixtune recommends performance tuning for your Linux server.
 
 ## Usage
