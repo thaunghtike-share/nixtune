@@ -1,6 +1,4 @@
-# Nixtune
-
-~Note: Still Under Development~
+# Kubespot (Linux)
 
 Nixtune recommends performance tuning for your Linux server.
 
@@ -98,7 +96,7 @@ echo "sys.net.ipv4.tcp_max_syn_backlog=20480" | sudo tee -a /etc/sysctl.conf
 
 ## License
 
-Copyright (C) 2016-2018 Acksin, LLC <hi@opszero.com>
+Copyright (C) 2016-2022 opsZero, LLC <hi@opszero.com>
 
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
