@@ -1,4 +1,4 @@
-# Nixtune
+# Kubespot (Linux)
 
 Nixtune recommends performance tuning for your Linux server.
 
