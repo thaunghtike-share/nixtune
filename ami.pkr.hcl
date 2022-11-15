@@ -1,8 +1,38 @@
+data "amazon-ami" "ubuntu" {
+  filters = {
+    virtualization-type = "hvm"
+    name                = "ubuntu/images/*ubuntu-focal-20.04-amd64-server-*"
+    root-device-type    = "ebs"
+  }
+  owners      = ["099720109477"]
+  most_recent = true
+}
+
+data "amazon-ami" "debian" {
+  filters = {
+    virtualization-type = "hvm"
+    name                = "debian-11-amd64-*"
+    root-device-type    = "ebs"
+  }
+  owners      = ["136693071363"]
+  most_recent = true
+}
+
+data "amazon-ami" "redhat" {
+  filters = {
+    virtualization-type = "hvm"
+    name                = "RHEL-9.0.0_HVM-20221027-arm64-1-Hourly2-GP2"
+    root-device-type    = "ebs"
+  }
+  owners      = ["309956199498"]
+  most_recent = true
+}
+
 source "amazon-ebs" "ubuntu" {
   ami_name      = "ubuntu"
   instance_type = "t2.micro"
   region        = "us-east-1"
-  source_ami    = "${var.amis["ubuntu"]}"
+  source_ami    = data.amazon-ami.ubuntu.id
   ssh_username  = "ubuntu"
 }
 
@@ -10,7 +40,7 @@ source "amazon-ebs" "debian" {
   ami_name      = "debian"
   instance_type = "t2.micro"
   region        = "us-east-1"
-  source_ami    = "${var.amis["debian"]}"
+  source_ami    = data.amazon-ami.debian.id
   ssh_username  = "admin"
 }
 
@@ -18,7 +48,7 @@ source "amazon-ebs" "redhat" {
   ami_name      = "redhat"
   instance_type = "t2.micro"
   region        = "us-east-1"
-  source_ami    = "${var.amis["redhat"]}"
+  source_ami    = data.amazon-ami.redhat.id
   ssh_username  = "ec2-user"
 }
 
