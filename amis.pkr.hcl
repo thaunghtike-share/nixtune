@@ -21,8 +21,9 @@ data "amazon-ami" "debian" {
 data "amazon-ami" "redhat" {
   filters = {
     virtualization-type = "hvm"
-    name                = "RHEL-9.0.0_HVM-20221027-arm64-1-Hourly2-GP2"
+    name                = "RHEL-9.0.0_HVM-20221027-x86_64-1-Hourly2-GP2"
     root-device-type    = "ebs"
+    architecture        = "x86_64"
   }
   owners      = ["309956199498"]
   most_recent = true
