@@ -29,7 +29,7 @@ data "amazon-ami" "redhat" {
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "ubuntu"
+  ami_name      = "nixtune-ubuntu"
   instance_type = "t2.micro"
   region        = "us-east-1"
   source_ami    = data.amazon-ami.ubuntu.id
@@ -37,7 +37,7 @@ source "amazon-ebs" "ubuntu" {
 }
 
 source "amazon-ebs" "debian" {
-  ami_name      = "debian"
+  ami_name      = "nixtune-debian"
   instance_type = "t2.micro"
   region        = "us-east-1"
   source_ami    = data.amazon-ami.debian.id
@@ -45,7 +45,7 @@ source "amazon-ebs" "debian" {
 }
 
 source "amazon-ebs" "redhat" {
-  ami_name      = "redhat"
+  ami_name      = "nixtune-redhat"
   instance_type = "t2.micro"
   region        = "us-east-1"
   source_ami    = data.amazon-ami.redhat.id
